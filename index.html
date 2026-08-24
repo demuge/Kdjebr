@@ -33,7 +33,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -44,7 +43,6 @@ body {
 
 body {
     min-height: 100vh;
-
     background: var(--bg);
     color: var(--text);
 
@@ -63,7 +61,6 @@ body {
         color .4s ease;
 }
 
-
 /* =====================================================
    BACKGROUND
 ===================================================== */
@@ -71,18 +68,14 @@ body {
 .background {
     position: fixed;
     inset: 0;
-
     z-index: -10;
-
     overflow: hidden;
-
     pointer-events: none;
 }
 
 .grid {
     position: absolute;
     inset: 0;
-
     opacity: .035;
 
     background-image:
@@ -101,13 +94,9 @@ body {
 
 .orb {
     position: absolute;
-
     border-radius: 50%;
-
     background: var(--accent);
-
     filter: blur(95px);
-
     opacity: .20;
 
     transition:
@@ -118,7 +107,6 @@ body {
 .orb.one {
     width: 340px;
     height: 340px;
-
     left: -160px;
     top: -140px;
 
@@ -129,10 +117,8 @@ body {
 .orb.two {
     width: 300px;
     height: 300px;
-
     right: -140px;
     top: 32%;
-
     opacity: .13;
 
     animation:
@@ -142,10 +128,8 @@ body {
 .orb.three {
     width: 380px;
     height: 380px;
-
     left: 10%;
     bottom: -270px;
-
     opacity: .12;
 
     animation:
@@ -194,16 +178,13 @@ body {
     }
 }
 
-
 /* =====================================================
    APP
 ===================================================== */
 
 .app {
     width: min(94%, 480px);
-
     min-height: 100vh;
-
     margin: auto;
 
     padding:
@@ -212,25 +193,20 @@ body {
         calc(110px + env(safe-area-inset-bottom));
 }
 
-
 /* =====================================================
    HEADER
 ===================================================== */
 
 .header {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
     margin-bottom: 28px;
 }
 
 .logo {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
 }
 
@@ -258,25 +234,19 @@ body {
         rgba(255,255,255,.5);
 
     font-size: 14px;
-
     font-weight: 950;
 }
 
 .logo-text {
     font-size: 13px;
-
     font-weight: 950;
-
     letter-spacing: 2.5px;
-
     white-space: nowrap;
 }
 
 .online {
     display: flex;
-
     align-items: center;
-
     gap: 7px;
 
     padding: 7px 10px;
@@ -292,14 +262,12 @@ body {
     color: #707079;
 
     font-size: 8px;
-
     letter-spacing: 1px;
 }
 
 .online-dot {
     width: 6px;
     height: 6px;
-
     border-radius: 50%;
 
     background: var(--accent);
@@ -307,7 +275,6 @@ body {
     box-shadow:
         0 0 12px var(--accent);
 }
-
 
 /* =====================================================
    PAGE
@@ -326,17 +293,14 @@ body {
 }
 
 @keyframes pageIn {
-
     from {
         opacity: 0;
-
         transform:
             translateY(12px);
     }
 
     to {
         opacity: 1;
-
         transform:
             translateY(0);
     }
@@ -344,7 +308,6 @@ body {
 
 .no-animation * {
     animation: none !important;
-
     transition: none !important;
 }
 
@@ -352,9 +315,7 @@ body {
     color: var(--accent2);
 
     font-size: 8px;
-
     font-weight: 900;
-
     letter-spacing: 2.5px;
 
     margin-bottom: 8px;
@@ -362,11 +323,8 @@ body {
 
 .heading {
     font-size: 30px;
-
     line-height: 1;
-
     font-weight: 950;
-
     letter-spacing: -.8px;
 }
 
@@ -374,12 +332,10 @@ body {
     color: var(--muted);
 
     font-size: 11px;
-
     line-height: 1.6;
 
     margin-top: 9px;
 }
-
 
 /* =====================================================
    CARD
@@ -389,7 +345,6 @@ body {
     position: relative;
 
     margin-top: 16px;
-
     padding: 18px;
 
     border:
@@ -405,7 +360,6 @@ body {
         );
 
     backdrop-filter: blur(24px);
-
     -webkit-backdrop-filter: blur(24px);
 
     box-shadow:
@@ -446,7 +400,6 @@ body {
 }
 
 @keyframes shine {
-
     0%,
     60% {
         transform:
@@ -460,16 +413,13 @@ body {
     }
 }
 
-
 /* =====================================================
    TELEGRAM USER
 ===================================================== */
 
 .target {
     display: flex;
-
     align-items: center;
-
     gap: 13px;
 }
 
@@ -502,14 +452,12 @@ body {
         rgba(var(--accentRGB),.14);
 
     font-size: 18px;
-
     font-weight: 950;
 }
 
 .avatar img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
 }
 
@@ -519,34 +467,25 @@ body {
 
 .small-label {
     color: #62626a;
-
     font-size: 8px;
-
     letter-spacing: 2px;
-
     margin-bottom: 5px;
 }
 
 .target-name {
     font-size: 15px;
-
     font-weight: 850;
 
     overflow: hidden;
-
     white-space: nowrap;
-
     text-overflow: ellipsis;
 }
 
 .target-username {
     color: var(--accent2);
-
     font-size: 10px;
-
     margin-top: 4px;
 }
-
 
 /* =====================================================
    INPUT
@@ -554,21 +493,16 @@ body {
 
 .input-label {
     color: #62626a;
-
     font-size: 8px;
-
     letter-spacing: 2px;
-
     margin-bottom: 9px;
 }
 
 .input-wrap {
     display: flex;
-
     align-items: center;
 
     height: 53px;
-
     padding: 0 14px;
 
     border:
@@ -593,9 +527,7 @@ body {
 
 .prefix {
     color: var(--accent2);
-
     font-weight: 900;
-
     margin-right: 4px;
 }
 
@@ -606,11 +538,9 @@ input {
     outline: 0;
 
     background: transparent;
-
     color: #fff;
 
     font-family: inherit;
-
     font-size: 14px;
 }
 
@@ -618,21 +548,17 @@ input::placeholder {
     color: #55555c;
 }
 
-
 /* =====================================================
    MODES
 ===================================================== */
 
 .section-title {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
 
     color: #64646c;
-
     font-size: 8px;
-
     letter-spacing: 2px;
 
     margin-bottom: 11px;
@@ -644,16 +570,13 @@ input::placeholder {
 
 .modes {
     display: grid;
-
     grid-template-columns:
         repeat(3,1fr);
-
     gap: 8px;
 }
 
 .mode {
     min-height: 91px;
-
     padding: 12px 9px;
 
     border:
@@ -667,7 +590,6 @@ input::placeholder {
     color: #fff;
 
     text-align: left;
-
     cursor: pointer;
 
     transition: .25s;
@@ -695,10 +617,8 @@ input::placeholder {
 
 .mode-top {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
     margin-bottom: 15px;
 }
 
@@ -717,7 +637,6 @@ input::placeholder {
     color: #888;
 
     font-size: 8px;
-
     font-weight: 900;
 }
 
@@ -750,22 +669,16 @@ input::placeholder {
 
 .mode-name {
     display: block;
-
     font-size: 10px;
-
     font-weight: 900;
 }
 
 .mode-desc {
     display: block;
-
     color: #5d5d64;
-
     font-size: 8px;
-
     margin-top: 4px;
 }
-
 
 /* =====================================================
    ACTION
@@ -773,13 +686,10 @@ input::placeholder {
 
 .action {
     width: 100%;
-
     height: 58px;
-
     margin-top: 15px;
 
     border: 0;
-
     border-radius: 17px;
 
     color: #fff;
@@ -802,9 +712,7 @@ input::placeholder {
         rgba(255,255,255,.4);
 
     font-size: 11px;
-
     font-weight: 950;
-
     letter-spacing: 2px;
 
     cursor: pointer;
@@ -814,7 +722,6 @@ input::placeholder {
 }
 
 @keyframes actionFlow {
-
     to {
         background-position:
             220%;
@@ -824,7 +731,6 @@ input::placeholder {
 .action:active {
     transform: scale(.98);
 }
-
 
 /* =====================================================
    PROGRESS
@@ -840,40 +746,30 @@ input::placeholder {
 
 .progress-top {
     display: flex;
-
     justify-content: space-between;
-
     margin-bottom: 12px;
 }
 
 .progress-status {
     font-size: 10px;
-
     font-weight: 850;
 }
 
 .progress-percent {
     color: var(--accent2);
-
     font-size: 9px;
 }
 
 .progress-track {
     height: 7px;
-
     border-radius: 10px;
-
-    background:
-        rgba(0,0,0,.5);
-
+    background: rgba(0,0,0,.5);
     overflow: hidden;
 }
 
 .progress-bar {
     width: 0%;
-
     height: 100%;
-
     border-radius: inherit;
 
     background:
@@ -889,14 +785,12 @@ input::placeholder {
     transition: width .12s;
 }
 
-
 /* =====================================================
    PROFILE
 ===================================================== */
 
 .profile-center {
     text-align: center;
-
     padding: 6px 0 20px;
 }
 
@@ -929,38 +823,30 @@ input::placeholder {
         rgba(var(--accentRGB),.20);
 
     font-size: 30px;
-
     font-weight: 950;
 }
 
 .profile-avatar img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
 }
 
 .profile-name {
     font-size: 21px;
-
     font-weight: 950;
-
     margin-top: 14px;
 }
 
 .profile-username {
     color: var(--accent2);
-
     font-size: 11px;
-
     margin-top: 5px;
 }
 
 .detail {
     display: flex;
-
     justify-content: space-between;
-
     gap: 15px;
 
     padding: 14px 0;
@@ -980,16 +866,13 @@ input::placeholder {
     color: #62626a;
 }
 
-
 /* =====================================================
    ACTIVITY
 ===================================================== */
 
 .activity {
     display: flex;
-
     align-items: center;
-
     gap: 12px;
 
     padding: 13px 0;
@@ -1020,7 +903,6 @@ input::placeholder {
 
 .activity-main {
     flex: 1;
-
     min-width: 0;
 }
 
@@ -1030,9 +912,7 @@ input::placeholder {
     font-size: 10px;
 
     overflow: hidden;
-
     white-space: nowrap;
-
     text-overflow: ellipsis;
 }
 
@@ -1042,16 +922,13 @@ input::placeholder {
     color: #62626a;
 
     font-size: 8px;
-
     margin-top: 4px;
 }
 
 .activity-state {
     color: var(--accent2);
-
     font-size: 8px;
 }
-
 
 /* =====================================================
    SETTINGS
@@ -1059,17 +936,13 @@ input::placeholder {
 
 .setting-title {
     color: #62626a;
-
     font-size: 8px;
-
     letter-spacing: 2px;
-
     margin-bottom: 11px;
 }
 
 .setting-block {
     padding-bottom: 18px;
-
     margin-bottom: 18px;
 
     border-bottom:
@@ -1079,49 +952,36 @@ input::placeholder {
 
 .setting-block:last-child {
     border-bottom: 0;
-
     margin-bottom: 0;
-
     padding-bottom: 0;
 }
 
 .setting-row {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 15px;
 }
 
 .setting-name {
     font-size: 11px;
-
     font-weight: 850;
 }
 
 .setting-desc {
     color: #62626a;
-
     font-size: 8px;
-
     line-height: 1.5;
-
     margin-top: 4px;
 }
-
 
 /* LANGUAGE */
 
 .languages {
     display: grid;
-
     grid-template-columns:
         repeat(2,1fr);
-
     gap: 8px;
-
     margin-top: 11px;
 }
 
@@ -1139,7 +999,6 @@ input::placeholder {
     color: #fff;
 
     cursor: pointer;
-
     text-align: left;
 
     transition: .25s;
@@ -1159,27 +1018,21 @@ input::placeholder {
 
 .language-flag {
     font-size: 16px;
-
     margin-bottom: 7px;
 }
 
 .language-name {
     font-size: 9px;
-
     font-weight: 850;
 }
-
 
 /* THEMES */
 
 .themes {
     display: grid;
-
     grid-template-columns:
         repeat(2,1fr);
-
     gap: 9px;
-
     margin-top: 11px;
 }
 
@@ -1197,7 +1050,6 @@ input::placeholder {
     color: #fff;
 
     cursor: pointer;
-
     text-align: left;
 
     transition: .25s;
@@ -1290,10 +1142,8 @@ input::placeholder {
 
 .theme-name {
     font-size: 9px;
-
     font-weight: 850;
 }
-
 
 /* TOGGLE */
 
@@ -1306,14 +1156,11 @@ input::placeholder {
     flex: 0 0 auto;
 
     border: 0;
-
     border-radius: 30px;
 
-    background:
-        #29292f;
+    background: #29292f;
 
     cursor: pointer;
-
     transition: .25s;
 }
 
@@ -1336,20 +1183,17 @@ input::placeholder {
 }
 
 .toggle.active {
-    background:
-        var(--accent);
+    background: var(--accent);
 }
 
 .toggle.active::after {
     left: 23px;
-
     background: #fff;
 
     box-shadow:
         0 0 10px
         rgba(255,255,255,.4);
 }
-
 
 /* =====================================================
    NAV
@@ -1407,23 +1251,18 @@ input::placeholder {
     position: relative;
 
     border: 0;
-
     border-radius: 17px;
 
     background: transparent;
-
     color: #5e5e66;
 
     cursor: pointer;
-
     transition: .25s;
 }
 
 .nav-icon {
     display: block;
-
     font-size: 17px;
-
     margin-bottom: 4px;
 }
 
@@ -1467,6 +1306,264 @@ input::placeholder {
         0 0 10px var(--accent);
 }
 
+/* =====================================================
+   PREMIUM LOCK
+===================================================== */
+
+.premium-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(2,2,5,.72);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    overflow-y: auto;
+}
+
+.premium-overlay.hidden {
+    display: none;
+}
+
+.premium-box {
+    width: min(100%, 430px);
+
+    padding: 22px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 27px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.095),
+            rgba(255,255,255,.035)
+        );
+
+    box-shadow:
+        0 30px 90px
+        rgba(0,0,0,.7),
+
+        0 0 50px
+        rgba(var(--accentRGB),.08);
+
+    position: relative;
+
+    overflow: hidden;
+
+    animation:
+        premiumIn .4s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes premiumIn {
+    from {
+        opacity: 0;
+        transform: scale(.94) translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.premium-icon {
+    width: 64px;
+    height: 64px;
+
+    display: grid;
+    place-items: center;
+
+    margin: 0 auto 15px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--accent2),
+            var(--accent)
+        );
+
+    box-shadow:
+        0 0 35px
+        rgba(var(--accentRGB),.35);
+
+    font-size: 27px;
+}
+
+.premium-title {
+    text-align: center;
+
+    font-size: 24px;
+    font-weight: 950;
+}
+
+.premium-subtitle {
+    text-align: center;
+
+    color: #74747d;
+
+    font-size: 10px;
+    line-height: 1.6;
+
+    margin-top: 8px;
+}
+
+.plan-list {
+    display: grid;
+    gap: 9px;
+
+    margin-top: 19px;
+}
+
+.plan {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 14px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 17px;
+
+    background:
+        rgba(0,0,0,.23);
+
+    color: #fff;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition: .22s;
+}
+
+.plan:active {
+    transform: scale(.98);
+}
+
+.plan:hover {
+    border-color:
+        rgba(var(--accentRGB),.6);
+
+    background:
+        rgba(var(--accentRGB),.08);
+}
+
+.plan-icon {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    flex: 0 0 auto;
+
+    border-radius: 13px;
+
+    background:
+        rgba(var(--accentRGB),.12);
+
+    font-size: 19px;
+}
+
+.plan-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.plan-name {
+    font-size: 11px;
+    font-weight: 950;
+}
+
+.plan-desc {
+    color: #66666e;
+
+    font-size: 8px;
+
+    margin-top: 4px;
+}
+
+.plan-price {
+    color: var(--accent2);
+
+    font-size: 11px;
+    font-weight: 950;
+
+    white-space: nowrap;
+}
+
+.premium-note {
+    color: #55555c;
+
+    text-align: center;
+
+    font-size: 8px;
+    line-height: 1.5;
+
+    margin-top: 15px;
+}
+
+/* =====================================================
+   ACCESS STATUS
+===================================================== */
+
+.access-badge {
+    display: none;
+
+    margin-top: 16px;
+
+    padding: 12px 14px;
+
+    border:
+        1px solid
+        rgba(var(--accentRGB),.22);
+
+    border-radius: 15px;
+
+    background:
+        rgba(var(--accentRGB),.06);
+}
+
+.access-badge.show {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.access-badge-title {
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.access-badge-text {
+    color: var(--accent2);
+    font-size: 8px;
+}
 
 /* =====================================================
    MOBILE
@@ -1480,7 +1577,6 @@ input::placeholder {
 
     .logo-text {
         font-size: 11px;
-
         letter-spacing: 2px;
     }
 
@@ -1491,34 +1587,27 @@ input::placeholder {
     .mode {
         min-height: 84px;
     }
+
+    .premium-box {
+        padding: 18px;
+    }
 }
 
 </style>
 </head>
 
-
 <body>
-
 
 <div class="background">
 
     <div class="orb one"></div>
-
     <div class="orb two"></div>
-
     <div class="orb three"></div>
-
     <div class="grid"></div>
 
 </div>
 
-
 <div class="app">
-
-
-<!-- =================================================
-     HEADER
-================================================= -->
 
 <header class="header">
 
@@ -1534,7 +1623,6 @@ input::placeholder {
 
     </div>
 
-
     <div class="online">
 
         <div class="online-dot"></div>
@@ -1544,7 +1632,6 @@ input::placeholder {
     </div>
 
 </header>
-
 
 
 <!-- =================================================
@@ -1574,8 +1661,6 @@ input::placeholder {
         Выберите цель и параметры запуска.
     </div>
 
-
-    <!-- Telegram user -->
 
     <div class="card">
 
@@ -1618,8 +1703,6 @@ input::placeholder {
     </div>
 
 
-    <!-- Username -->
-
     <div class="card">
 
         <div
@@ -1649,8 +1732,6 @@ input::placeholder {
     </div>
 
 
-    <!-- Modes -->
-
     <div class="card">
 
         <div class="section-title">
@@ -1667,7 +1748,6 @@ input::placeholder {
 
 
         <div class="modes">
-
 
             <button
                 class="mode"
@@ -1698,7 +1778,6 @@ input::placeholder {
                 </span>
 
             </button>
-
 
 
             <button
@@ -1732,7 +1811,6 @@ input::placeholder {
             </button>
 
 
-
             <button
                 class="mode"
                 data-mode="strong"
@@ -1763,7 +1841,6 @@ input::placeholder {
 
             </button>
 
-
         </div>
 
     </div>
@@ -1776,6 +1853,29 @@ input::placeholder {
     >
         ЗАПУСТИТЬ
     </button>
+
+
+    <div
+        class="access-badge"
+        id="accessBadge"
+    >
+
+        <div>
+
+            <div class="access-badge-title">
+                👑 PREMIUM
+            </div>
+
+            <div
+                class="access-badge-text"
+                id="accessText"
+            >
+                Доступ активен
+            </div>
+
+        </div>
+
+    </div>
 
 
     <div
@@ -1813,7 +1913,6 @@ input::placeholder {
     </div>
 
 </section>
-
 
 
 <!-- =================================================
@@ -1921,10 +2020,22 @@ input::placeholder {
 
         </div>
 
+
+        <div class="detail">
+
+            <span>
+                ACCESS
+            </span>
+
+            <span id="profileAccess">
+                —
+            </span>
+
+        </div>
+
     </div>
 
 </section>
-
 
 
 <!-- =================================================
@@ -1989,7 +2100,6 @@ input::placeholder {
 </section>
 
 
-
 <!-- =================================================
      SETTINGS
 ================================================= -->
@@ -2020,9 +2130,6 @@ input::placeholder {
 
     <div class="card">
 
-
-        <!-- LANGUAGE -->
-
         <div class="setting-block">
 
             <div
@@ -2032,9 +2139,7 @@ input::placeholder {
                 ЯЗЫК
             </div>
 
-
             <div class="languages">
-
 
                 <button
                     class="language active"
@@ -2099,14 +2204,10 @@ input::placeholder {
 
                 </button>
 
-
             </div>
 
         </div>
 
-
-
-        <!-- THEME -->
 
         <div class="setting-block">
 
@@ -2117,9 +2218,7 @@ input::placeholder {
                 ТЕМА
             </div>
 
-
             <div class="themes">
-
 
                 <button
                     class="theme active"
@@ -2190,14 +2289,10 @@ input::placeholder {
 
                 </button>
 
-
             </div>
 
         </div>
 
-
-
-        <!-- VIBRATION -->
 
         <div class="setting-block">
 
@@ -2221,7 +2316,6 @@ input::placeholder {
 
                 </div>
 
-
                 <button
                     class="toggle active"
                     id="vibrationToggle"
@@ -2231,9 +2325,6 @@ input::placeholder {
 
         </div>
 
-
-
-        <!-- ANIMATIONS -->
 
         <div class="setting-block">
 
@@ -2257,7 +2348,6 @@ input::placeholder {
 
                 </div>
 
-
                 <button
                     class="toggle active"
                     id="animationToggle"
@@ -2267,7 +2357,6 @@ input::placeholder {
 
         </div>
 
-
     </div>
 
 </section>
@@ -2275,13 +2364,11 @@ input::placeholder {
 </div>
 
 
-
 <!-- =================================================
      NAVIGATION
 ================================================= -->
 
 <nav class="nav">
-
 
     <button
         class="nav-button active"
@@ -2358,9 +2445,131 @@ input::placeholder {
 
     </button>
 
-
 </nav>
 
+
+<!-- =================================================
+     PREMIUM OVERLAY
+================================================= -->
+
+<div
+    class="premium-overlay"
+    id="premiumOverlay"
+>
+
+    <div class="premium-box">
+
+        <div class="premium-icon">
+            👑
+        </div>
+
+        <div class="premium-title">
+            PREMIUM ACCESS
+        </div>
+
+        <div class="premium-subtitle">
+            Для использования SAVE SNOSER нужен
+            активный Premium-тариф.
+            Выбери подходящий вариант ниже.
+        </div>
+
+
+        <div class="plan-list">
+
+            <button
+                class="plan"
+                data-plan="plan_day"
+            >
+
+                <div class="plan-icon">
+                    ⭐
+                </div>
+
+                <div class="plan-info">
+
+                    <div class="plan-name">
+                        Premium на 1 день
+                    </div>
+
+                    <div class="plan-desc">
+                        Полный доступ на 24 часа
+                    </div>
+
+                </div>
+
+                <div class="plan-price">
+                    50 ⭐
+                </div>
+
+            </button>
+
+
+            <button
+                class="plan"
+                data-plan="plan_week"
+            >
+
+                <div class="plan-icon">
+                    🔥
+                </div>
+
+                <div class="plan-info">
+
+                    <div class="plan-name">
+                        Premium на 7 дней
+                    </div>
+
+                    <div class="plan-desc">
+                        Полный доступ на неделю
+                    </div>
+
+                </div>
+
+                <div class="plan-price">
+                    100 ⭐
+                </div>
+
+            </button>
+
+
+            <button
+                class="plan"
+                data-plan="plan_forever"
+            >
+
+                <div class="plan-icon">
+                    👑
+                </div>
+
+                <div class="plan-info">
+
+                    <div class="plan-name">
+                        Premium навсегда
+                    </div>
+
+                    <div class="plan-desc">
+                        Одноразовая покупка
+                    </div>
+
+                </div>
+
+                <div class="plan-price">
+                    200 ⭐
+                </div>
+
+            </button>
+
+        </div>
+
+
+        <div class="premium-note">
+            После нажатия откроется чат с ботом,
+            где можно выбрать тариф и оплатить его Stars.
+        </div>
+
+    </div>
+
+</div>
 
 
 <script>
@@ -2379,13 +2588,11 @@ const tg =
 if (tg) {
 
     tg.ready();
-
     tg.expand();
 
     try {
 
         tg.setHeaderColor("#050507");
-
         tg.setBackgroundColor("#050507");
 
         if (
@@ -2435,6 +2642,209 @@ function haptic() {
 
 
 /* =====================================================
+   PREMIUM ACCESS
+===================================================== */
+
+let premiumAccess = false;
+
+let premiumExpires = null;
+
+
+async function checkPremiumAccess() {
+
+    const overlay =
+        document.getElementById(
+            "premiumOverlay"
+        );
+
+
+    const badge =
+        document.getElementById(
+            "accessBadge"
+        );
+
+
+    const accessText =
+        document.getElementById(
+            "accessText"
+        );
+
+
+    const profileAccess =
+        document.getElementById(
+            "profileAccess"
+        );
+
+
+    if (!tg || !tg.initData) {
+
+        premiumAccess = false;
+
+        overlay.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/access",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        initData:
+                            tg.initData
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            data.ok &&
+            data.access
+        ) {
+
+            premiumAccess = true;
+
+            premiumExpires =
+                data.expires_at;
+
+
+            overlay.classList.add(
+                "hidden"
+            );
+
+
+            badge.classList.add(
+                "show"
+            );
+
+
+            if (
+                data.expires_at === 0
+            ) {
+
+                accessText.textContent =
+                    "Доступ навсегда";
+
+            } else {
+
+                accessText.textContent =
+                    "Premium активен";
+
+            }
+
+
+            profileAccess.textContent =
+                data.expires_text ||
+                "Активен";
+
+        } else {
+
+            premiumAccess = false;
+
+            overlay.classList.remove(
+                "hidden"
+            );
+
+
+            profileAccess.textContent =
+                "Не активен";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Premium check error:",
+            error
+        );
+
+        premiumAccess = false;
+
+        overlay.classList.remove(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   OPEN BOT
+===================================================== */
+
+document
+    .querySelectorAll(".plan")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                haptic();
+
+                const plan =
+                    button.dataset.plan;
+
+
+                /*
+                 * Бот показывает тарифы после /start.
+                 * Открываем его чат.
+                 */
+
+                const botUrl =
+                    "https://t.me/?start=" +
+                    encodeURIComponent(
+                        plan
+                    );
+
+
+                if (tg) {
+
+                    try {
+
+                        tg.openTelegramLink(
+                            botUrl
+                        );
+
+                    } catch (error) {
+
+                        window.location.href =
+                            botUrl;
+
+                    }
+
+                } else {
+
+                    window.location.href =
+                        botUrl;
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* =====================================================
    TELEGRAM PROFILE
 ===================================================== */
 
@@ -2449,9 +2859,7 @@ function loadTelegramUser() {
 
 
     if (!user) {
-
         return;
-
     }
 
 
@@ -2489,22 +2897,26 @@ function loadTelegramUser() {
 
     document
         .getElementById("targetName")
-        .textContent = fullName;
+        .textContent =
+            fullName;
 
 
     document
         .getElementById("targetUsername")
-        .textContent = username;
+        .textContent =
+            username;
 
 
     document
         .getElementById("profileName")
-        .textContent = fullName;
+        .textContent =
+            fullName;
 
 
     document
         .getElementById("profileUsername")
-        .textContent = username;
+        .textContent =
+            username;
 
 
     document
@@ -2584,14 +2996,12 @@ function setAvatar(
 
 
     image.src = url;
-
     image.alt = fallback;
 
 
     image.onerror = () => {
 
         element.innerHTML = "";
-
         element.textContent =
             fallback;
 
@@ -2819,7 +3229,6 @@ ru: {
 
 },
 
-
 en: {
 
     welcome:
@@ -2902,7 +3311,6 @@ en: {
 
 },
 
-
 de: {
 
     welcome:
@@ -2984,7 +3392,6 @@ de: {
         "BENUTZERNAME"
 
 },
-
 
 uk: {
 
@@ -3260,9 +3667,7 @@ let selectedMode =
 const modeLabels = {
 
     weak:"LOW",
-
     medium:"MEDIUM",
-
     strong:"HIGH"
 
 };
@@ -3317,7 +3722,7 @@ document
 
 
 /* =====================================================
-   VIBRATION SETTING
+   VIBRATION
 ===================================================== */
 
 const vibrationToggle =
@@ -3358,9 +3763,7 @@ vibrationToggle.addEventListener(
 
 
         if (vibrationEnabled) {
-
             haptic();
-
         }
 
     }
@@ -3368,7 +3771,7 @@ vibrationToggle.addEventListener(
 
 
 /* =====================================================
-   ANIMATION SETTING
+   ANIMATION
 ===================================================== */
 
 const animationToggle =
@@ -3419,7 +3822,6 @@ animationToggle.addEventListener(
 
         updateAnimationUI();
 
-
         haptic();
 
     }
@@ -3427,7 +3829,7 @@ animationToggle.addEventListener(
 
 
 /* =====================================================
-   LAUNCH DEMO
+   LAUNCH
 ===================================================== */
 
 const launchButton =
@@ -3441,6 +3843,21 @@ launchButton.addEventListener(
     () => {
 
         haptic();
+
+
+        if (!premiumAccess) {
+
+            document
+                .getElementById(
+                    "premiumOverlay"
+                )
+                .classList.remove(
+                    "hidden"
+                );
+
+            return;
+
+        }
 
 
         const username =
@@ -3564,9 +3981,7 @@ launchButton.addEventListener(
 
 
                     if (value >= 100) {
-
                         value = 100;
-
                     }
 
 
@@ -3684,6 +4099,8 @@ function addActivity(
 ===================================================== */
 
 loadTelegramUser();
+
+checkPremiumAccess();
 
 </script>
 
