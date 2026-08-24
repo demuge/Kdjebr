@@ -17,9 +17,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 PRICE_STARS = 10
 
-WEB_APP_URL = os.getenv(
-    "WEB_APP_URL",
-    "https://YOUR-APP.onrender.com"
+WEB_APP_URL = "https://kdjebr.onrender.com/"
 )
 
 PORT = int(os.getenv("PORT", "10000"))
