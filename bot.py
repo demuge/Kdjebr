@@ -22,7 +22,7 @@ from aiogram.types import (
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 PORT = int(os.getenv("PORT", "10000"))
 
-WEB_APP_URL = "https://kdjebr.onrender.com/"
+WEB_APP_URL = "https://kdjebr.onrender.com/app/"
 
 DB_FILE = "users.db"
 
