@@ -18,7 +18,6 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 PRICE_STARS = 10
 
 WEB_APP_URL = "https://kdjebr.onrender.com/"
-)
 
 PORT = int(os.getenv("PORT", "10000"))
 
@@ -84,7 +83,9 @@ async def successful_payment(message: Message):
             [
                 InlineKeyboardButton(
                     text="🚀 Открыть Mini App",
-                    web_app={"url": WEB_APP_URL}
+                    web_app={
+                        "url": WEB_APP_URL
+                    }
                 )
             ]
         ]
@@ -113,11 +114,16 @@ async def handle_webhook(request):
 
     except Exception as e:
         print("Webhook error:", e)
-        return web.Response(status=500, text="Error")
+        return web.Response(
+            status=500,
+            text="Error"
+        )
 
 
 async def health(request):
-    return web.Response(text="Bot is running")
+    return web.Response(
+        text="Bot is running"
+    )
 
 
 async def on_startup(app):
@@ -130,29 +136,33 @@ async def on_startup(app):
             "RENDER_EXTERNAL_URL не найден"
         )
 
-    webhook_url = render_url.rstrip("/") + "/telegram-webhook"
+    webhook_url = (
+        render_url.rstrip("/")
+        + "/telegram-webhook"
+    )
 
     await bot.set_webhook(
         url=webhook_url,
         drop_pending_updates=True
     )
 
-    print("Webhook установлен:")
-    print(webhook_url)
+    print(
+        "Webhook установлен:",
+        webhook_url
+    )
 
 
 async def on_cleanup(app):
     bot = app["bot"]
 
     await bot.delete_webhook()
-
     await bot.session.close()
 
 
 async def main():
     if not BOT_TOKEN:
         raise RuntimeError(
-            "BOT_TOKEN не задан в Environment Variables"
+            "BOT_TOKEN не задан"
         )
 
     bot = Bot(BOT_TOKEN)
@@ -161,12 +171,28 @@ async def main():
 
     app["bot"] = bot
 
-    app.router.add_get("/", health)
-    app.router.add_get("/health", health)
-    app.router.add_post("/telegram-webhook", handle_webhook)
+    app.router.add_get(
+        "/",
+        health
+    )
 
-    app.on_startup.append(on_startup)
-    app.on_cleanup.append(on_cleanup)
+    app.router.add_get(
+        "/health",
+        health
+    )
+
+    app.router.add_post(
+        "/telegram-webhook",
+        handle_webhook
+    )
+
+    app.on_startup.append(
+        on_startup
+    )
+
+    app.on_cleanup.append(
+        on_cleanup
+    )
 
     await web._run_app(
         app,
