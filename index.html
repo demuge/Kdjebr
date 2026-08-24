@@ -25,8 +25,6 @@
 
     --text: #ffffff;
     --muted: #74747d;
-
-    --animation: 1;
 }
 
 * {
@@ -36,8 +34,7 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html,
-body {
+html, body {
     min-height: 100%;
 }
 
@@ -45,7 +42,6 @@ body {
     min-height: 100vh;
     background: var(--bg);
     color: var(--text);
-
     font-family:
         Inter,
         -apple-system,
@@ -53,13 +49,14 @@ body {
         "Segoe UI",
         Arial,
         sans-serif;
-
     overflow-x: hidden;
-
-    transition:
-        background .7s ease,
-        color .4s ease;
 }
+
+button,
+input {
+    font-family: inherit;
+}
+
 
 /* =====================================================
    BACKGROUND
@@ -98,10 +95,6 @@ body {
     background: var(--accent);
     filter: blur(95px);
     opacity: .20;
-
-    transition:
-        background 1s ease,
-        opacity 1s ease;
 }
 
 .orb.one {
@@ -109,9 +102,7 @@ body {
     height: 340px;
     left: -160px;
     top: -140px;
-
-    animation:
-        floatOne 12s ease-in-out infinite alternate;
+    animation: floatOne 12s ease-in-out infinite alternate;
 }
 
 .orb.two {
@@ -120,9 +111,7 @@ body {
     right: -140px;
     top: 32%;
     opacity: .13;
-
-    animation:
-        floatTwo 15s ease-in-out infinite alternate;
+    animation: floatTwo 15s ease-in-out infinite alternate;
 }
 
 .orb.three {
@@ -131,52 +120,265 @@ body {
     left: 10%;
     bottom: -270px;
     opacity: .12;
-
-    animation:
-        floatThree 18s ease-in-out infinite alternate;
+    animation: floatThree 18s ease-in-out infinite alternate;
 }
 
 @keyframes floatOne {
     from {
-        transform:
-            translate(0,0)
-            scale(1);
+        transform: translate(0,0) scale(1);
     }
-
     to {
-        transform:
-            translate(100px,120px)
-            scale(1.25);
+        transform: translate(100px,120px) scale(1.25);
     }
 }
 
 @keyframes floatTwo {
     from {
-        transform:
-            translate(0,0)
-            scale(1);
+        transform: translate(0,0) scale(1);
     }
-
     to {
-        transform:
-            translate(-100px,70px)
-            scale(1.25);
+        transform: translate(-100px,70px) scale(1.25);
     }
 }
 
 @keyframes floatThree {
     from {
-        transform:
-            translate(0,0)
-            scale(1);
+        transform: translate(0,0) scale(1);
     }
-
     to {
-        transform:
-            translate(60px,-100px)
-            scale(1.2);
+        transform: translate(60px,-100px) scale(1.2);
     }
 }
+
+
+/* =====================================================
+   ACCESS SCREEN
+===================================================== */
+
+#accessScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        25px
+        20px
+        calc(25px + env(safe-area-inset-bottom));
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(255,43,154,.14),
+            transparent 45%
+        ),
+        rgba(5,5,7,.97);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+#accessScreen.show {
+    display: flex;
+}
+
+.access-box {
+    width: min(100%, 390px);
+    padding: 26px 20px 20px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 27px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.025)
+        );
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,.65),
+        0 0 60px rgba(255,43,154,.08),
+        inset 0 1px rgba(255,255,255,.08);
+
+    text-align: center;
+}
+
+.access-logo {
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 18px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--accent2),
+            var(--accent)
+        );
+
+    box-shadow:
+        0 0 40px
+        rgba(var(--accentRGB),.35),
+
+        inset 0 1px
+        rgba(255,255,255,.55);
+
+    font-size: 24px;
+    font-weight: 950;
+}
+
+.access-eyebrow {
+    color: var(--accent2);
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.access-title {
+    font-size: 27px;
+    font-weight: 950;
+    letter-spacing: -.7px;
+}
+
+.access-description {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.65;
+    margin-top: 10px;
+}
+
+.access-plans {
+    margin-top: 20px;
+    display: grid;
+    gap: 8px;
+}
+
+.access-plan {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 13px 15px;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    border-radius: 15px;
+
+    background: rgba(0,0,0,.22);
+
+    text-align: left;
+}
+
+.access-plan-left b {
+    display: block;
+    font-size: 11px;
+}
+
+.access-plan-left span {
+    display: block;
+    color: #66666f;
+    font-size: 8px;
+    margin-top: 3px;
+}
+
+.access-plan-price {
+    color: var(--accent2);
+    font-size: 11px;
+    font-weight: 900;
+}
+
+#openBotButton {
+    width: 100%;
+    height: 57px;
+
+    margin-top: 17px;
+
+    border: 0;
+    border-radius: 17px;
+
+    color: #fff;
+
+    background:
+        linear-gradient(
+            110deg,
+            var(--accent),
+            var(--accent2),
+            var(--accent)
+        );
+
+    background-size: 220% 100%;
+
+    box-shadow:
+        0 15px 40px
+        rgba(var(--accentRGB),.25),
+
+        inset 0 1px
+        rgba(255,255,255,.4);
+
+    font-size: 10px;
+    font-weight: 950;
+    letter-spacing: 1.5px;
+
+    cursor: pointer;
+
+    animation:
+        actionFlow 4s linear infinite;
+}
+
+#retryButton {
+    width: 100%;
+    height: 46px;
+
+    margin-top: 9px;
+
+    border:
+        1px solid rgba(255,255,255,.09);
+
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.035);
+
+    color: #888891;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.access-status {
+    color: #55555d;
+    font-size: 8px;
+    line-height: 1.5;
+    margin-top: 13px;
+}
+
+.access-error {
+    display: none;
+
+    margin-top: 10px;
+
+    color: #ff7070;
+    font-size: 8px;
+}
+
+.access-error.show {
+    display: block;
+}
+
 
 /* =====================================================
    APP
@@ -192,6 +394,7 @@ body {
         0
         calc(110px + env(safe-area-inset-bottom));
 }
+
 
 /* =====================================================
    HEADER
@@ -268,6 +471,7 @@ body {
 .online-dot {
     width: 6px;
     height: 6px;
+
     border-radius: 50%;
 
     background: var(--accent);
@@ -276,8 +480,9 @@ body {
         0 0 12px var(--accent);
 }
 
+
 /* =====================================================
-   PAGE
+   PAGES
 ===================================================== */
 
 .page {
@@ -295,20 +500,13 @@ body {
 @keyframes pageIn {
     from {
         opacity: 0;
-        transform:
-            translateY(12px);
+        transform: translateY(12px);
     }
 
     to {
         opacity: 1;
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
-}
-
-.no-animation * {
-    animation: none !important;
-    transition: none !important;
 }
 
 .eyebrow {
@@ -330,12 +528,11 @@ body {
 
 .description {
     color: var(--muted);
-
     font-size: 11px;
     line-height: 1.6;
-
     margin-top: 9px;
 }
+
 
 /* =====================================================
    CARD
@@ -363,58 +560,15 @@ body {
     -webkit-backdrop-filter: blur(24px);
 
     box-shadow:
-        0 25px 65px
-        rgba(0,0,0,.42),
-
-        inset 0 1px
-        rgba(255,255,255,.06);
+        0 25px 65px rgba(0,0,0,.42),
+        inset 0 1px rgba(255,255,255,.06);
 
     overflow: hidden;
 }
 
-.card::after {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    bottom: 0;
-
-    width: 45%;
-
-    background:
-        linear-gradient(
-            105deg,
-            transparent,
-            rgba(255,255,255,.05),
-            transparent
-        );
-
-    transform:
-        translateX(-180%);
-
-    animation:
-        shine 8s ease-in-out infinite;
-
-    pointer-events: none;
-}
-
-@keyframes shine {
-    0%,
-    60% {
-        transform:
-            translateX(-180%);
-    }
-
-    80%,
-    100% {
-        transform:
-            translateX(280%);
-    }
-}
 
 /* =====================================================
-   TELEGRAM USER
+   TARGET
 ===================================================== */
 
 .target {
@@ -433,7 +587,6 @@ body {
     place-items: center;
 
     border-radius: 18px;
-
     overflow: hidden;
 
     background:
@@ -444,8 +597,7 @@ body {
         );
 
     border:
-        1px solid
-        rgba(255,255,255,.14);
+        1px solid rgba(255,255,255,.14);
 
     box-shadow:
         0 0 30px
@@ -486,6 +638,7 @@ body {
     font-size: 10px;
     margin-top: 4px;
 }
+
 
 /* =====================================================
    INPUT
@@ -540,13 +693,13 @@ input {
     background: transparent;
     color: #fff;
 
-    font-family: inherit;
     font-size: 14px;
 }
 
 input::placeholder {
     color: #55555c;
 }
+
 
 /* =====================================================
    MODES
@@ -570,13 +723,13 @@ input::placeholder {
 
 .modes {
     display: grid;
-    grid-template-columns:
-        repeat(3,1fr);
+    grid-template-columns: repeat(3,1fr);
     gap: 8px;
 }
 
 .mode {
     min-height: 91px;
+
     padding: 12px 9px;
 
     border:
@@ -590,8 +743,8 @@ input::placeholder {
     color: #fff;
 
     text-align: left;
-    cursor: pointer;
 
+    cursor: pointer;
     transition: .25s;
 }
 
@@ -659,7 +812,6 @@ input::placeholder {
     background: var(--accent);
 
     font-size: 8px;
-
     opacity: 0;
 }
 
@@ -680,6 +832,7 @@ input::placeholder {
     margin-top: 4px;
 }
 
+
 /* =====================================================
    ACTION
 ===================================================== */
@@ -687,6 +840,7 @@ input::placeholder {
 .action {
     width: 100%;
     height: 58px;
+
     margin-top: 15px;
 
     border: 0;
@@ -723,14 +877,14 @@ input::placeholder {
 
 @keyframes actionFlow {
     to {
-        background-position:
-            220%;
+        background-position: 220%;
     }
 }
 
 .action:active {
     transform: scale(.98);
 }
+
 
 /* =====================================================
    PROGRESS
@@ -770,6 +924,7 @@ input::placeholder {
 .progress-bar {
     width: 0%;
     height: 100%;
+
     border-radius: inherit;
 
     background:
@@ -784,6 +939,7 @@ input::placeholder {
 
     transition: width .12s;
 }
+
 
 /* =====================================================
    PROFILE
@@ -866,6 +1022,7 @@ input::placeholder {
     color: #62626a;
 }
 
+
 /* =====================================================
    ACTIVITY
 ===================================================== */
@@ -908,7 +1065,6 @@ input::placeholder {
 
 .activity-main b {
     display: block;
-
     font-size: 10px;
 
     overflow: hidden;
@@ -920,7 +1076,6 @@ input::placeholder {
     display: block;
 
     color: #62626a;
-
     font-size: 8px;
     margin-top: 4px;
 }
@@ -929,6 +1084,7 @@ input::placeholder {
     color: var(--accent2);
     font-size: 8px;
 }
+
 
 /* =====================================================
    SETTINGS
@@ -975,12 +1131,14 @@ input::placeholder {
     margin-top: 4px;
 }
 
-/* LANGUAGE */
+
+/* =====================================================
+   LANGUAGES
+===================================================== */
 
 .languages {
     display: grid;
-    grid-template-columns:
-        repeat(2,1fr);
+    grid-template-columns: repeat(2,1fr);
     gap: 8px;
     margin-top: 11px;
 }
@@ -1000,7 +1158,6 @@ input::placeholder {
 
     cursor: pointer;
     text-align: left;
-
     transition: .25s;
 }
 
@@ -1026,12 +1183,14 @@ input::placeholder {
     font-weight: 850;
 }
 
-/* THEMES */
+
+/* =====================================================
+   THEMES
+===================================================== */
 
 .themes {
     display: grid;
-    grid-template-columns:
-        repeat(2,1fr);
+    grid-template-columns: repeat(2,1fr);
     gap: 9px;
     margin-top: 11px;
 }
@@ -1051,7 +1210,6 @@ input::placeholder {
 
     cursor: pointer;
     text-align: left;
-
     transition: .25s;
 }
 
@@ -1066,13 +1224,10 @@ input::placeholder {
 
 .preview {
     position: relative;
-
     height: 56px;
 
     overflow: hidden;
-
     border-radius: 11px;
-
     margin-bottom: 8px;
 }
 
@@ -1145,7 +1300,10 @@ input::placeholder {
     font-weight: 850;
 }
 
-/* TOGGLE */
+
+/* =====================================================
+   TOGGLE
+===================================================== */
 
 .toggle {
     position: relative;
@@ -1195,35 +1353,29 @@ input::placeholder {
         rgba(255,255,255,.4);
 }
 
+
 /* =====================================================
    NAV
 ===================================================== */
 
 .nav {
     position: fixed;
-
     z-index: 50;
 
     left: 50%;
-
     bottom:
         calc(
             10px +
             env(safe-area-inset-bottom)
         );
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
     width: min(92%,460px);
-
     height: 69px;
 
     display: grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
+    grid-template-columns: repeat(4,1fr);
     gap: 5px;
 
     padding: 7px;
@@ -1236,11 +1388,8 @@ input::placeholder {
     background:
         rgba(7,7,10,.80);
 
-    backdrop-filter:
-        blur(25px);
-
-    -webkit-backdrop-filter:
-        blur(25px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
 
     box-shadow:
         0 20px 60px
@@ -1306,264 +1455,6 @@ input::placeholder {
         0 0 10px var(--accent);
 }
 
-/* =====================================================
-   PREMIUM LOCK
-===================================================== */
-
-.premium-overlay {
-    position: fixed;
-    inset: 0;
-
-    z-index: 100;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    background:
-        rgba(2,2,5,.72);
-
-    backdrop-filter:
-        blur(18px);
-
-    -webkit-backdrop-filter:
-        blur(18px);
-
-    overflow-y: auto;
-}
-
-.premium-overlay.hidden {
-    display: none;
-}
-
-.premium-box {
-    width: min(100%, 430px);
-
-    padding: 22px;
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 27px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.095),
-            rgba(255,255,255,.035)
-        );
-
-    box-shadow:
-        0 30px 90px
-        rgba(0,0,0,.7),
-
-        0 0 50px
-        rgba(var(--accentRGB),.08);
-
-    position: relative;
-
-    overflow: hidden;
-
-    animation:
-        premiumIn .4s
-        cubic-bezier(.2,.8,.2,1);
-}
-
-@keyframes premiumIn {
-    from {
-        opacity: 0;
-        transform: scale(.94) translateY(15px);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-.premium-icon {
-    width: 64px;
-    height: 64px;
-
-    display: grid;
-    place-items: center;
-
-    margin: 0 auto 15px;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            var(--accent2),
-            var(--accent)
-        );
-
-    box-shadow:
-        0 0 35px
-        rgba(var(--accentRGB),.35);
-
-    font-size: 27px;
-}
-
-.premium-title {
-    text-align: center;
-
-    font-size: 24px;
-    font-weight: 950;
-}
-
-.premium-subtitle {
-    text-align: center;
-
-    color: #74747d;
-
-    font-size: 10px;
-    line-height: 1.6;
-
-    margin-top: 8px;
-}
-
-.plan-list {
-    display: grid;
-    gap: 9px;
-
-    margin-top: 19px;
-}
-
-.plan {
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-
-    gap: 13px;
-
-    padding: 14px;
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 17px;
-
-    background:
-        rgba(0,0,0,.23);
-
-    color: #fff;
-
-    cursor: pointer;
-
-    text-align: left;
-
-    transition: .22s;
-}
-
-.plan:active {
-    transform: scale(.98);
-}
-
-.plan:hover {
-    border-color:
-        rgba(var(--accentRGB),.6);
-
-    background:
-        rgba(var(--accentRGB),.08);
-}
-
-.plan-icon {
-    width: 42px;
-    height: 42px;
-
-    display: grid;
-    place-items: center;
-
-    flex: 0 0 auto;
-
-    border-radius: 13px;
-
-    background:
-        rgba(var(--accentRGB),.12);
-
-    font-size: 19px;
-}
-
-.plan-info {
-    flex: 1;
-    min-width: 0;
-}
-
-.plan-name {
-    font-size: 11px;
-    font-weight: 950;
-}
-
-.plan-desc {
-    color: #66666e;
-
-    font-size: 8px;
-
-    margin-top: 4px;
-}
-
-.plan-price {
-    color: var(--accent2);
-
-    font-size: 11px;
-    font-weight: 950;
-
-    white-space: nowrap;
-}
-
-.premium-note {
-    color: #55555c;
-
-    text-align: center;
-
-    font-size: 8px;
-    line-height: 1.5;
-
-    margin-top: 15px;
-}
-
-/* =====================================================
-   ACCESS STATUS
-===================================================== */
-
-.access-badge {
-    display: none;
-
-    margin-top: 16px;
-
-    padding: 12px 14px;
-
-    border:
-        1px solid
-        rgba(var(--accentRGB),.22);
-
-    border-radius: 15px;
-
-    background:
-        rgba(var(--accentRGB),.06);
-}
-
-.access-badge.show {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.access-badge-title {
-    font-size: 9px;
-    font-weight: 900;
-}
-
-.access-badge-text {
-    color: var(--accent2);
-    font-size: 8px;
-}
 
 /* =====================================================
    MOBILE
@@ -1587,16 +1478,119 @@ input::placeholder {
     .mode {
         min-height: 84px;
     }
-
-    .premium-box {
-        padding: 18px;
-    }
 }
 
 </style>
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     ACCESS SCREEN
+===================================================== -->
+
+<div id="accessScreen">
+
+    <div class="access-box">
+
+        <div class="access-logo">
+            S
+        </div>
+
+        <div class="access-eyebrow">
+            PREMIUM ACCESS
+        </div>
+
+        <div class="access-title">
+            Доступ закрыт
+        </div>
+
+        <div class="access-description">
+            Для использования SAVE SNOSER необходимо
+            активировать один из Premium-тарифов.
+        </div>
+
+
+        <div class="access-plans">
+
+            <div class="access-plan">
+
+                <div class="access-plan-left">
+                    <b>⭐ Premium Day</b>
+                    <span>Доступ на 24 часа</span>
+                </div>
+
+                <div class="access-plan-price">
+                    50 ⭐
+                </div>
+
+            </div>
+
+
+            <div class="access-plan">
+
+                <div class="access-plan-left">
+                    <b>⭐ Premium Week</b>
+                    <span>Доступ на 7 дней</span>
+                </div>
+
+                <div class="access-plan-price">
+                    100 ⭐
+                </div>
+
+            </div>
+
+
+            <div class="access-plan">
+
+                <div class="access-plan-left">
+                    <b>👑 Premium Forever</b>
+                    <span>Пожизненный доступ</span>
+                </div>
+
+                <div class="access-plan-price">
+                    200 ⭐
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button id="openBotButton">
+            ⭐ ОПЛАТИТЬ ТАРИФ В TELEGRAM
+        </button>
+
+
+        <button id="retryButton">
+            ПРОВЕРИТЬ ДОСТУП ЕЩЁ РАЗ
+        </button>
+
+
+        <div
+            class="access-status"
+            id="accessStatus"
+        >
+            Проверяем доступ...
+        </div>
+
+
+        <div
+            class="access-error"
+            id="accessError"
+        >
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     BACKGROUND
+===================================================== -->
 
 <div class="background">
 
@@ -1607,7 +1601,13 @@ input::placeholder {
 
 </div>
 
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
 <div class="app">
+
 
 <header class="header">
 
@@ -1623,6 +1623,7 @@ input::placeholder {
 
     </div>
 
+
     <div class="online">
 
         <div class="online-dot"></div>
@@ -1634,9 +1635,10 @@ input::placeholder {
 </header>
 
 
-<!-- =================================================
+
+<!-- =====================================================
      HOME
-================================================= -->
+===================================================== -->
 
 <section
     class="page active"
@@ -1856,29 +1858,6 @@ input::placeholder {
 
 
     <div
-        class="access-badge"
-        id="accessBadge"
-    >
-
-        <div>
-
-            <div class="access-badge-title">
-                👑 PREMIUM
-            </div>
-
-            <div
-                class="access-badge-text"
-                id="accessText"
-            >
-                Доступ активен
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div
         class="card progress"
         id="progressCard"
     >
@@ -1915,9 +1894,10 @@ input::placeholder {
 </section>
 
 
-<!-- =================================================
+
+<!-- =====================================================
      PROFILE
-================================================= -->
+===================================================== -->
 
 <section
     class="page"
@@ -2028,7 +2008,7 @@ input::placeholder {
             </span>
 
             <span id="profileAccess">
-                —
+                ACTIVE
             </span>
 
         </div>
@@ -2038,9 +2018,10 @@ input::placeholder {
 </section>
 
 
-<!-- =================================================
+
+<!-- =====================================================
      ACTIVITY
-================================================= -->
+===================================================== -->
 
 <section
     class="page"
@@ -2100,9 +2081,10 @@ input::placeholder {
 </section>
 
 
-<!-- =================================================
+
+<!-- =====================================================
      SETTINGS
-================================================= -->
+===================================================== -->
 
 <section
     class="page"
@@ -2130,6 +2112,7 @@ input::placeholder {
 
     <div class="card">
 
+
         <div class="setting-block">
 
             <div
@@ -2138,6 +2121,7 @@ input::placeholder {
             >
                 ЯЗЫК
             </div>
+
 
             <div class="languages">
 
@@ -2209,6 +2193,7 @@ input::placeholder {
         </div>
 
 
+
         <div class="setting-block">
 
             <div
@@ -2217,6 +2202,7 @@ input::placeholder {
             >
                 ТЕМА
             </div>
+
 
             <div class="themes">
 
@@ -2294,6 +2280,7 @@ input::placeholder {
         </div>
 
 
+
         <div class="setting-block">
 
             <div class="setting-row">
@@ -2316,6 +2303,7 @@ input::placeholder {
 
                 </div>
 
+
                 <button
                     class="toggle active"
                     id="vibrationToggle"
@@ -2324,6 +2312,7 @@ input::placeholder {
             </div>
 
         </div>
+
 
 
         <div class="setting-block">
@@ -2348,6 +2337,7 @@ input::placeholder {
 
                 </div>
 
+
                 <button
                     class="toggle active"
                     id="animationToggle"
@@ -2357,6 +2347,7 @@ input::placeholder {
 
         </div>
 
+
     </div>
 
 </section>
@@ -2364,9 +2355,10 @@ input::placeholder {
 </div>
 
 
-<!-- =================================================
+
+<!-- =====================================================
      NAVIGATION
-================================================= -->
+===================================================== -->
 
 <nav class="nav">
 
@@ -2448,129 +2440,6 @@ input::placeholder {
 </nav>
 
 
-<!-- =================================================
-     PREMIUM OVERLAY
-================================================= -->
-
-<div
-    class="premium-overlay"
-    id="premiumOverlay"
->
-
-    <div class="premium-box">
-
-        <div class="premium-icon">
-            👑
-        </div>
-
-        <div class="premium-title">
-            PREMIUM ACCESS
-        </div>
-
-        <div class="premium-subtitle">
-            Для использования SAVE SNOSER нужен
-            активный Premium-тариф.
-            Выбери подходящий вариант ниже.
-        </div>
-
-
-        <div class="plan-list">
-
-            <button
-                class="plan"
-                data-plan="plan_day"
-            >
-
-                <div class="plan-icon">
-                    ⭐
-                </div>
-
-                <div class="plan-info">
-
-                    <div class="plan-name">
-                        Premium на 1 день
-                    </div>
-
-                    <div class="plan-desc">
-                        Полный доступ на 24 часа
-                    </div>
-
-                </div>
-
-                <div class="plan-price">
-                    50 ⭐
-                </div>
-
-            </button>
-
-
-            <button
-                class="plan"
-                data-plan="plan_week"
-            >
-
-                <div class="plan-icon">
-                    🔥
-                </div>
-
-                <div class="plan-info">
-
-                    <div class="plan-name">
-                        Premium на 7 дней
-                    </div>
-
-                    <div class="plan-desc">
-                        Полный доступ на неделю
-                    </div>
-
-                </div>
-
-                <div class="plan-price">
-                    100 ⭐
-                </div>
-
-            </button>
-
-
-            <button
-                class="plan"
-                data-plan="plan_forever"
-            >
-
-                <div class="plan-icon">
-                    👑
-                </div>
-
-                <div class="plan-info">
-
-                    <div class="plan-name">
-                        Premium навсегда
-                    </div>
-
-                    <div class="plan-desc">
-                        Одноразовая покупка
-                    </div>
-
-                </div>
-
-                <div class="plan-price">
-                    200 ⭐
-                </div>
-
-            </button>
-
-        </div>
-
-
-        <div class="premium-note">
-            После нажатия откроется чат с ботом,
-            где можно выбрать тариф и оплатить его Stars.
-        </div>
-
-    </div>
-
-</div>
-
 
 <script>
 
@@ -2583,6 +2452,25 @@ const tg =
     window.Telegram.WebApp
         ? window.Telegram.WebApp
         : null;
+
+
+/*
+    ТВОЙ БОТ
+*/
+
+const BOT_USERNAME =
+    "savesnoser_bot";
+
+
+/*
+    API твоего bot.py
+
+    Если index.html открыт с того же Render-домена,
+    /api/access автоматически попадёт в bot.py.
+*/
+
+const ACCESS_API =
+    "/api/access";
 
 
 if (tg) {
@@ -2626,9 +2514,7 @@ function haptic() {
         !tg ||
         !tg.HapticFeedback
     ) {
-
         return;
-
     }
 
     try {
@@ -2642,210 +2528,7 @@ function haptic() {
 
 
 /* =====================================================
-   PREMIUM ACCESS
-===================================================== */
-
-let premiumAccess = false;
-
-let premiumExpires = null;
-
-
-async function checkPremiumAccess() {
-
-    const overlay =
-        document.getElementById(
-            "premiumOverlay"
-        );
-
-
-    const badge =
-        document.getElementById(
-            "accessBadge"
-        );
-
-
-    const accessText =
-        document.getElementById(
-            "accessText"
-        );
-
-
-    const profileAccess =
-        document.getElementById(
-            "profileAccess"
-        );
-
-
-    if (!tg || !tg.initData) {
-
-        premiumAccess = false;
-
-        overlay.classList.remove(
-            "hidden"
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-                "/api/access",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        initData:
-                            tg.initData
-                    })
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            data.ok &&
-            data.access
-        ) {
-
-            premiumAccess = true;
-
-            premiumExpires =
-                data.expires_at;
-
-
-            overlay.classList.add(
-                "hidden"
-            );
-
-
-            badge.classList.add(
-                "show"
-            );
-
-
-            if (
-                data.expires_at === 0
-            ) {
-
-                accessText.textContent =
-                    "Доступ навсегда";
-
-            } else {
-
-                accessText.textContent =
-                    "Premium активен";
-
-            }
-
-
-            profileAccess.textContent =
-                data.expires_text ||
-                "Активен";
-
-        } else {
-
-            premiumAccess = false;
-
-            overlay.classList.remove(
-                "hidden"
-            );
-
-
-            profileAccess.textContent =
-                "Не активен";
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Premium check error:",
-            error
-        );
-
-        premiumAccess = false;
-
-        overlay.classList.remove(
-            "hidden"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   OPEN BOT
-===================================================== */
-
-document
-    .querySelectorAll(".plan")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                haptic();
-
-                const plan =
-                    button.dataset.plan;
-
-
-                /*
-                 * Бот показывает тарифы после /start.
-                 * Открываем его чат.
-                 */
-
-                const botUrl =
-                    "https://t.me/?start=" +
-                    encodeURIComponent(
-                        plan
-                    );
-
-
-                if (tg) {
-
-                    try {
-
-                        tg.openTelegramLink(
-                            botUrl
-                        );
-
-                    } catch (error) {
-
-                        window.location.href =
-                            botUrl;
-
-                    }
-
-                } else {
-
-                    window.location.href =
-                        botUrl;
-
-                }
-
-            }
-        );
-
-    });
-
-
-/* =====================================================
-   TELEGRAM PROFILE
+   TELEGRAM USER
 ===================================================== */
 
 function loadTelegramUser() {
@@ -2897,26 +2580,22 @@ function loadTelegramUser() {
 
     document
         .getElementById("targetName")
-        .textContent =
-            fullName;
+        .textContent = fullName;
 
 
     document
         .getElementById("targetUsername")
-        .textContent =
-            username;
+        .textContent = username;
 
 
     document
         .getElementById("profileName")
-        .textContent =
-            fullName;
+        .textContent = fullName;
 
 
     document
         .getElementById("profileUsername")
-        .textContent =
-            username;
+        .textContent = username;
 
 
     document
@@ -3002,8 +2681,7 @@ function setAvatar(
     image.onerror = () => {
 
         element.innerHTML = "";
-        element.textContent =
-            fallback;
+        element.textContent = fallback;
 
     };
 
@@ -3011,6 +2689,373 @@ function setAvatar(
     element.appendChild(image);
 
 }
+
+
+/* =====================================================
+   PREMIUM ACCESS
+===================================================== */
+
+let premiumAccess = false;
+
+let premiumExpiration = null;
+
+
+function showAccessScreen(
+    message = ""
+) {
+
+    const screen =
+        document.getElementById(
+            "accessScreen"
+        );
+
+
+    screen.classList.add("show");
+
+
+    document
+        .getElementById(
+            "accessStatus"
+        )
+        .textContent =
+            message ||
+            "Для продолжения активируйте Premium.";
+
+}
+
+
+function hideAccessScreen() {
+
+    document
+        .getElementById(
+            "accessScreen"
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+function showAccessError(
+    message
+) {
+
+    const error =
+        document.getElementById(
+            "accessError"
+        );
+
+    error.textContent =
+        message;
+
+    error.classList.add(
+        "show"
+    );
+
+}
+
+
+function clearAccessError() {
+
+    document
+        .getElementById(
+            "accessError"
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+/*
+    Открываем именно Telegram,
+    а не Chrome.
+
+    Внутри Telegram это откроет чат
+    с @savesnoser_bot.
+*/
+
+function openBot() {
+
+    haptic();
+
+
+    const telegramUrl =
+        "https://t.me/" +
+        BOT_USERNAME;
+
+
+    try {
+
+        if (
+            tg &&
+            typeof tg.openTelegramLink ===
+            "function"
+        ) {
+
+            tg.openTelegramLink(
+                telegramUrl
+            );
+
+            return;
+
+        }
+
+    } catch (error) {}
+
+
+    /*
+        Запасной вариант.
+    */
+
+    window.location.href =
+        telegramUrl;
+
+}
+
+
+/* =====================================================
+   CHECK ACCESS
+===================================================== */
+
+async function checkPremiumAccess() {
+
+    clearAccessError();
+
+
+    const status =
+        document.getElementById(
+            "accessStatus"
+        );
+
+
+    status.textContent =
+        "Проверяем Premium-доступ...";
+
+
+    /*
+        Если приложение открыто
+        не внутри Telegram,
+        initData отсутствует.
+    */
+
+    if (
+        !tg ||
+        !tg.initData
+    ) {
+
+        premiumAccess = false;
+
+        showAccessScreen(
+            "Открой Mini App через Telegram."
+        );
+
+        showAccessError(
+            "Mini App должен быть открыт из Telegram."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                ACCESS_API,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        initData:
+                            tg.initData
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        /*
+            Авторизация Telegram
+            не прошла.
+        */
+
+        if (
+            response.status === 401 ||
+            !data.ok
+        ) {
+
+            premiumAccess = false;
+
+            showAccessScreen(
+                data.message ||
+                "Не удалось подтвердить Telegram."
+            );
+
+            showAccessError(
+                data.message ||
+                "Ошибка авторизации."
+            );
+
+            return;
+
+        }
+
+
+        /*
+            Тариф не куплен
+            или закончился.
+        */
+
+        if (!data.access) {
+
+            premiumAccess = false;
+
+            showAccessScreen(
+                data.message ||
+                "Premium-доступ не активирован."
+            );
+
+            return;
+
+        }
+
+
+        /*
+            ВСЁ ОК.
+        */
+
+        premiumAccess = true;
+
+        premiumExpiration =
+            data.expires_at;
+
+
+        hideAccessScreen();
+
+
+        updateProfileAccess(
+            data
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Access check error:",
+            error
+        );
+
+
+        premiumAccess = false;
+
+        showAccessScreen(
+            "Не удалось проверить доступ."
+        );
+
+        showAccessError(
+            "Проверь соединение и попробуй ещё раз."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PROFILE ACCESS
+===================================================== */
+
+function updateProfileAccess(
+    data
+) {
+
+    const element =
+        document.getElementById(
+            "profileAccess"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    if (
+        data.expires_at === 0
+    ) {
+
+        element.textContent =
+            "FOREVER";
+
+        return;
+
+    }
+
+
+    if (
+        data.expires_at
+    ) {
+
+        const date =
+            new Date(
+                data.expires_at * 1000
+            );
+
+
+        element.textContent =
+            date.toLocaleDateString(
+                "ru-RU"
+            );
+
+    } else {
+
+        element.textContent =
+            "ACTIVE";
+
+    }
+
+}
+
+
+/* =====================================================
+   ACCESS BUTTONS
+===================================================== */
+
+document
+    .getElementById(
+        "openBotButton"
+    )
+    .addEventListener(
+        "click",
+        openBot
+    );
+
+
+document
+    .getElementById(
+        "retryButton"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            haptic();
+
+            checkPremiumAccess();
+
+        }
+    );
 
 
 /* =====================================================
@@ -3058,7 +3103,9 @@ function setTheme(name) {
         themes[name];
 
 
-    if (!theme) return;
+    if (!theme) {
+        return;
+    }
 
 
     document.documentElement
@@ -3229,6 +3276,7 @@ ru: {
 
 },
 
+
 en: {
 
     welcome:
@@ -3311,6 +3359,7 @@ en: {
 
 },
 
+
 de: {
 
     welcome:
@@ -3392,6 +3441,7 @@ de: {
         "BENUTZERNAME"
 
 },
+
 
 uk: {
 
@@ -3491,8 +3541,8 @@ function applyLanguage(lang) {
         translations.ru;
 
 
-    document.documentElement
-        .lang = lang;
+    document.documentElement.lang =
+        lang;
 
 
     document
@@ -3524,9 +3574,7 @@ function applyLanguage(lang) {
         .forEach(element => {
 
             const key =
-                element
-                    .dataset
-                    .i18nPlaceholder;
+                element.dataset.i18nPlaceholder;
 
 
             if (
@@ -3559,7 +3607,8 @@ function applyLanguage(lang) {
     );
 
 
-    currentLanguage = lang;
+    currentLanguage =
+        lang;
 
 }
 
@@ -3771,7 +3820,7 @@ vibrationToggle.addEventListener(
 
 
 /* =====================================================
-   ANIMATION
+   ANIMATIONS
 ===================================================== */
 
 const animationToggle =
@@ -3842,22 +3891,25 @@ launchButton.addEventListener(
     "click",
     () => {
 
-        haptic();
-
+        /*
+            Дополнительная защита.
+            Даже если кто-то каким-то образом
+            нажмёт кнопку до проверки,
+            запуск без Premium невозможен.
+        */
 
         if (!premiumAccess) {
 
-            document
-                .getElementById(
-                    "premiumOverlay"
-                )
-                .classList.remove(
-                    "hidden"
-                );
+            showAccessScreen(
+                "Для запуска необходим Premium."
+            );
 
             return;
 
         }
+
+
+        haptic();
 
 
         const username =
@@ -4044,9 +4096,7 @@ launchButton.addEventListener(
    ACTIVITY
 ===================================================== */
 
-function addActivity(
-    username
-) {
+function addActivity(username) {
 
     const list =
         document.getElementById(
@@ -4099,6 +4149,14 @@ function addActivity(
 ===================================================== */
 
 loadTelegramUser();
+
+
+/*
+    Самое важное:
+    сначала проверяем Premium,
+    и только после этого пользователь
+    получает доступ к приложению.
+*/
 
 checkPremiumAccess();
 
