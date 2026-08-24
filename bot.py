@@ -1,6 +1,7 @@
 import os
 import asyncio
 
+from aiohttp import web
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import CommandStart
 from aiogram.types import (
@@ -9,15 +10,19 @@ from aiogram.types import (
     PreCheckoutQuery,
     InlineKeyboardMarkup,
     InlineKeyboardButton,
+    Update,
 )
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# Сколько Stars стоит доступ
 PRICE_STARS = 10
 
-# СЮДА ПОТОМ ПОСТАВИМ ССЫЛКУ НА ТВОЙ MINI APP
-WEB_APP_URL = os.getenv("WEB_APP_URL", "https://YOUR-APP.onrender.com")
+WEB_APP_URL = os.getenv(
+    "WEB_APP_URL",
+    "https://YOUR-APP.onrender.com"
+)
+
+PORT = int(os.getenv("PORT", "10000"))
 
 dp = Dispatcher()
 
@@ -37,7 +42,8 @@ async def start(message: Message):
 
     await message.answer(
         "🔒 Доступ к Mini App закрыт.\n\n"
-        f"Чтобы получить доступ, оплати {PRICE_STARS} Stars.",
+        f"Стоимость доступа: {PRICE_STARS} ⭐ Stars.\n\n"
+        "Оплати доступ, после чего появится кнопка для открытия Mini App.",
         reply_markup=keyboard
     )
 
@@ -88,18 +94,87 @@ async def successful_payment(message: Message):
 
     await message.answer(
         "✅ Оплата прошла успешно!\n\n"
-        "Теперь тебе доступен Mini App:",
+        "Доступ к Mini App получен.",
         reply_markup=keyboard
     )
 
 
+async def handle_webhook(request):
+    try:
+        data = await request.json()
+        update = Update.model_validate(data)
+
+        bot = request.app["bot"]
+
+        await dp.feed_update(
+            bot,
+            update
+        )
+
+        return web.Response(text="OK")
+
+    except Exception as e:
+        print("Webhook error:", e)
+        return web.Response(status=500, text="Error")
+
+
+async def health(request):
+    return web.Response(text="Bot is running")
+
+
+async def on_startup(app):
+    bot = app["bot"]
+
+    render_url = os.getenv("RENDER_EXTERNAL_URL")
+
+    if not render_url:
+        raise RuntimeError(
+            "RENDER_EXTERNAL_URL не найден"
+        )
+
+    webhook_url = render_url.rstrip("/") + "/telegram-webhook"
+
+    await bot.set_webhook(
+        url=webhook_url,
+        drop_pending_updates=True
+    )
+
+    print("Webhook установлен:")
+    print(webhook_url)
+
+
+async def on_cleanup(app):
+    bot = app["bot"]
+
+    await bot.delete_webhook()
+
+    await bot.session.close()
+
+
 async def main():
     if not BOT_TOKEN:
-        raise RuntimeError("BOT_TOKEN не задан в Environment Variables")
+        raise RuntimeError(
+            "BOT_TOKEN не задан в Environment Variables"
+        )
 
     bot = Bot(BOT_TOKEN)
 
-    await dp.start_polling(bot)
+    app = web.Application()
+
+    app["bot"] = bot
+
+    app.router.add_get("/", health)
+    app.router.add_get("/health", health)
+    app.router.add_post("/telegram-webhook", handle_webhook)
+
+    app.on_startup.append(on_startup)
+    app.on_cleanup.append(on_cleanup)
+
+    await web._run_app(
+        app,
+        host="0.0.0.0",
+        port=PORT
+    )
 
 
 if __name__ == "__main__":
