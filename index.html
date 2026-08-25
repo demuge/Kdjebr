@@ -25,7 +25,7 @@
     --panel:rgba(255,255,255,.045);
     --border:rgba(255,255,255,.09);
 
-    --text:#ffffff;
+    --text:#fff;
     --muted:#74747d;
 }
 
@@ -62,6 +62,11 @@ body {
         color .4s ease;
 }
 
+button,
+input {
+    font-family:inherit;
+}
+
 .background {
     position:fixed;
     inset:0;
@@ -92,6 +97,7 @@ body {
 
 .orb {
     position:absolute;
+
     border-radius:50%;
 
     background:var(--accent);
@@ -108,6 +114,7 @@ body {
 .orb.one {
     width:340px;
     height:340px;
+
     left:-160px;
     top:-140px;
 
@@ -426,6 +433,7 @@ body {
 .profile-avatar img {
     width:100%;
     height:100%;
+
     object-fit:cover;
 }
 
@@ -523,8 +531,6 @@ input {
     background:transparent;
 
     color:#fff;
-
-    font-family:inherit;
 
     font-size:14px;
 }
@@ -880,6 +886,7 @@ input::placeholder {
 
 .activity-main {
     flex:1;
+
     min-width:0;
 }
 
@@ -940,6 +947,7 @@ input::placeholder {
 
 .setting-name {
     font-size:11px;
+
     font-weight:850;
 }
 
@@ -1001,12 +1009,14 @@ input::placeholder {
 
 .language-flag {
     font-size:16px;
+
     margin-bottom:7px;
 }
 
 .language-name,
 .theme-name {
     font-size:9px;
+
     font-weight:850;
 }
 
@@ -1016,6 +1026,7 @@ input::placeholder {
 
 .theme {
     padding:10px;
+
     border-radius:16px;
 }
 
@@ -1325,6 +1336,7 @@ input::placeholder {
         rgba(var(--accentRGB),.35);
 
     font-size:27px;
+
     font-weight:950;
 }
 
@@ -1385,6 +1397,7 @@ input::placeholder {
 
     .logo-text {
         font-size:11px;
+
         letter-spacing:2px;
     }
 
@@ -1403,11 +1416,6 @@ input::placeholder {
 </head>
 
 <body>
-
-
-<!-- =====================================================
-     ACCESS SCREEN
-===================================================== -->
 
 <div id="accessScreen">
 
@@ -1450,13 +1458,13 @@ input::placeholder {
     <div class="orb one"></div>
     <div class="orb two"></div>
     <div class="orb three"></div>
+
     <div class="grid"></div>
 
 </div>
 
 
 <div class="app">
-
 
 <header class="header">
 
@@ -1483,8 +1491,6 @@ input::placeholder {
 </header>
 
 
-<!-- HOME -->
-
 <section
     class="page active"
     id="page-home"
@@ -1494,17 +1500,11 @@ input::placeholder {
         CONTROL PANEL
     </div>
 
-    <div
-        class="heading"
-        data-i18n="welcome"
-    >
+    <div class="heading">
         Добро пожаловать
     </div>
 
-    <div
-        class="description"
-        data-i18n="homeDescription"
-    >
+    <div class="description">
         Выберите цель и параметры запуска.
     </div>
 
@@ -1720,8 +1720,6 @@ input::placeholder {
 </section>
 
 
-<!-- PROFILE -->
-
 <section
     class="page"
     id="page-profile"
@@ -1816,8 +1814,6 @@ input::placeholder {
 </section>
 
 
-<!-- ACTIVITY -->
-
 <section
     class="page"
     id="page-activity"
@@ -1870,8 +1866,6 @@ input::placeholder {
 </section>
 
 
-<!-- SETTINGS -->
-
 <section
     class="page"
     id="page-settings"
@@ -1906,6 +1900,7 @@ input::placeholder {
                     class="language active"
                     data-language="ru"
                 >
+
                     <div class="language-flag">
                         🇷🇺
                     </div>
@@ -1913,6 +1908,7 @@ input::placeholder {
                     <div class="language-name">
                         Русский
                     </div>
+
                 </button>
 
 
@@ -1920,6 +1916,7 @@ input::placeholder {
                     class="language"
                     data-language="en"
                 >
+
                     <div class="language-flag">
                         🇬🇧
                     </div>
@@ -1927,6 +1924,7 @@ input::placeholder {
                     <div class="language-name">
                         English
                     </div>
+
                 </button>
 
 
@@ -1934,6 +1932,7 @@ input::placeholder {
                     class="language"
                     data-language="de"
                 >
+
                     <div class="language-flag">
                         🇩🇪
                     </div>
@@ -1941,6 +1940,7 @@ input::placeholder {
                     <div class="language-name">
                         Deutsch
                     </div>
+
                 </button>
 
 
@@ -1948,6 +1948,7 @@ input::placeholder {
                     class="language"
                     data-language="uk"
                 >
+
                     <div class="language-flag">
                         🇺🇦
                     </div>
@@ -1955,6 +1956,7 @@ input::placeholder {
                     <div class="language-name">
                         Українська
                     </div>
+
                 </button>
 
             </div>
@@ -2103,8 +2105,6 @@ input::placeholder {
 </div>
 
 
-<!-- NAV -->
-
 <nav class="nav">
 
     <button
@@ -2194,28 +2194,29 @@ if (tg) {
 
     try {
 
-        tg.setHeaderColor(
-            "#050507"
-        );
+        tg.setHeaderColor("#050507");
 
-        tg.setBackgroundColor(
-            "#050507"
-        );
+        tg.setBackgroundColor("#050507");
 
         if (
             typeof tg.setBottomBarColor ===
             "function"
         ) {
 
-            tg.setBottomBarColor(
-                "#050507"
-            );
+            tg.setBottomBarColor("#050507");
 
         }
 
     } catch (e) {}
 
 }
+
+
+/* =====================================================
+   OWNER
+===================================================== */
+
+const OWNER_ID = 8958072114;
 
 
 /* =====================================================
@@ -2249,7 +2250,35 @@ function openBot() {
 }
 
 
+function getTelegramUser() {
+
+    if (
+        !tg ||
+        !tg.initDataUnsafe ||
+        !tg.initDataUnsafe.user
+    ) {
+
+        return null;
+
+    }
+
+    return tg.initDataUnsafe.user;
+
+}
+
+
 async function checkAccess() {
+
+    /*
+       =====================================================
+       ВАЖНО:
+
+       OWNER проверяется ПЕРЕД запросом /api/access.
+
+       Поэтому владелец с ID 8958072114
+       никогда не попадёт на Premium Screen.
+       =====================================================
+    */
 
     if (!tg) {
 
@@ -2258,6 +2287,25 @@ async function checkAccess() {
         );
 
         return false;
+
+    }
+
+
+    const user =
+        getTelegramUser();
+
+
+    if (
+        user &&
+        Number(user.id) === OWNER_ID
+    ) {
+
+        console.log(
+            "SAVE SNOSER | OWNER ACCESS:",
+            user.id
+        );
+
+        return true;
 
     }
 
@@ -2276,6 +2324,14 @@ async function checkAccess() {
 
     }
 
+
+    /*
+       =====================================================
+       Обычные пользователи:
+
+       Проверяем Premium через backend.
+       =====================================================
+    */
 
     try {
 
@@ -2327,9 +2383,11 @@ async function checkAccess() {
             error
         );
 
+
         showAccessScreen(
             "Не удалось проверить доступ. Попробуйте открыть Mini App ещё раз."
         );
+
 
         return false;
 
@@ -2338,9 +2396,7 @@ async function checkAccess() {
 }
 
 
-function showAccessScreen(
-    message
-) {
+function showAccessScreen(message) {
 
     const screen =
         document.getElementById(
@@ -2381,15 +2437,15 @@ function haptic() {
         !tg ||
         !tg.HapticFeedback
     ) {
+
         return;
+
     }
 
     try {
 
         tg.HapticFeedback
-            .impactOccurred(
-                "light"
-            );
+            .impactOccurred("light");
 
     } catch (e) {}
 
@@ -2403,15 +2459,13 @@ function haptic() {
 function loadTelegramUser() {
 
     const user =
-        tg &&
-        tg.initDataUnsafe &&
-        tg.initDataUnsafe.user
-            ? tg.initDataUnsafe.user
-            : null;
+        getTelegramUser();
 
 
     if (!user) {
+
         return;
+
     }
 
 
@@ -2548,9 +2602,7 @@ function setAvatar(
 
 
     const image =
-        document.createElement(
-            "img"
-        );
+        document.createElement("img");
 
 
     image.src = url;
@@ -2619,29 +2671,29 @@ function setTheme(name) {
     const theme =
         themes[name];
 
+
     if (!theme) {
+
         return;
+
     }
 
 
-    document.documentElement
-        .style
+    document.documentElement.style
         .setProperty(
             "--accent",
             theme.accent
         );
 
 
-    document.documentElement
-        .style
+    document.documentElement.style
         .setProperty(
             "--accent2",
             theme.accent2
         );
 
 
-    document.documentElement
-        .style
+    document.documentElement.style
         .setProperty(
             "--accentRGB",
             theme.rgb
@@ -2655,9 +2707,7 @@ function setTheme(name) {
 
 
     document
-        .querySelectorAll(
-            ".theme"
-        )
+        .querySelectorAll(".theme")
         .forEach(button => {
 
             button.classList.toggle(
@@ -2671,9 +2721,7 @@ function setTheme(name) {
 
 
 document
-    .querySelectorAll(
-        ".theme"
-    )
+    .querySelectorAll(".theme")
     .forEach(button => {
 
         button.addEventListener(
@@ -2703,9 +2751,7 @@ if (
     themes[savedTheme]
 ) {
 
-    setTheme(
-        savedTheme
-    );
+    setTheme(savedTheme);
 
 }
 
@@ -2715,9 +2761,7 @@ if (
 ===================================================== */
 
 document
-    .querySelectorAll(
-        ".nav-button"
-    )
+    .querySelectorAll(".nav-button")
     .forEach(button => {
 
         button.addEventListener(
@@ -2728,9 +2772,7 @@ document
 
 
                 document
-                    .querySelectorAll(
-                        ".nav-button"
-                    )
+                    .querySelectorAll(".nav-button")
                     .forEach(item => {
 
                         item.classList.remove(
@@ -2746,9 +2788,7 @@ document
 
 
                 document
-                    .querySelectorAll(
-                        ".page"
-                    )
+                    .querySelectorAll(".page")
                     .forEach(page => {
 
                         page.classList.remove(
@@ -2797,9 +2837,7 @@ const modeLabels = {
 
 
 document
-    .querySelectorAll(
-        ".mode"
-    )
+    .querySelectorAll(".mode")
     .forEach(button => {
 
         button.addEventListener(
@@ -2810,9 +2848,7 @@ document
 
 
                 document
-                    .querySelectorAll(
-                        ".mode"
-                    )
+                    .querySelectorAll(".mode")
                     .forEach(item => {
 
                         item.classList.remove(
@@ -2885,7 +2921,9 @@ vibrationToggle.addEventListener(
 
 
         if (vibrationEnabled) {
+
             haptic();
+
         }
 
     }
@@ -3058,7 +3096,9 @@ launchButton.addEventListener(
 
 
                     if (value >= 100) {
+
                         value = 100;
+
                     }
 
 
@@ -3115,9 +3155,7 @@ launchButton.addEventListener(
    ACTIVITY
 ===================================================== */
 
-function addActivity(
-    username
-) {
+function addActivity(username) {
 
     const list =
         document.getElementById(
@@ -3144,10 +3182,7 @@ function addActivity(
         <div class="activity-main">
 
             <b>
-                @${username.replace(
-                    /^@/,
-                    ""
-                )}
+                @${username.replace(/^@/, "")}
             </b>
 
             <span>
@@ -3163,9 +3198,7 @@ function addActivity(
     `;
 
 
-    list.prepend(
-        item
-    );
+    list.prepend(item);
 
 }
 
@@ -3175,9 +3208,7 @@ function addActivity(
 ===================================================== */
 
 document
-    .querySelectorAll(
-        ".language"
-    )
+    .querySelectorAll(".language")
     .forEach(button => {
 
         button.addEventListener(
@@ -3188,9 +3219,7 @@ document
 
 
                 document
-                    .querySelectorAll(
-                        ".language"
-                    )
+                    .querySelectorAll(".language")
                     .forEach(item => {
 
                         item.classList.remove(
@@ -3235,9 +3264,11 @@ document.getElementById(
 (async function() {
 
     /*
-       Сначала проверяем доступ.
-       Если ты OWNER_ID 8958072114 —
-       бот автоматически разрешит вход.
+       OWNER:
+       8958072114
+
+       Для OWNER проверка Premium
+       полностью обходится.
     */
 
     const allowed =
@@ -3245,7 +3276,9 @@ document.getElementById(
 
 
     if (!allowed) {
+
         return;
+
     }
 
 
