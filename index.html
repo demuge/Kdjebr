@@ -55,11 +55,10 @@ body {
         sans-serif;
 
     overflow-x:hidden;
-}
 
-button,
-input {
-    font-family:inherit;
+    transition:
+        background .7s ease,
+        color .4s ease;
 }
 
 .background {
@@ -93,9 +92,16 @@ input {
 .orb {
     position:absolute;
     border-radius:50%;
+
     background:var(--accent);
+
     filter:blur(95px);
+
     opacity:.20;
+
+    transition:
+        background 1s ease,
+        opacity 1s ease;
 }
 
 .orb.one {
@@ -111,6 +117,7 @@ input {
 .orb.two {
     width:300px;
     height:300px;
+
     right:-140px;
     top:32%;
 
@@ -123,6 +130,7 @@ input {
 .orb.three {
     width:380px;
     height:380px;
+
     left:10%;
     bottom:-270px;
 
@@ -145,7 +153,6 @@ input {
             translate(100px,120px)
             scale(1.25);
     }
-
 }
 
 @keyframes floatTwo {
@@ -161,7 +168,6 @@ input {
             translate(-100px,70px)
             scale(1.25);
     }
-
 }
 
 @keyframes floatThree {
@@ -177,12 +183,13 @@ input {
             translate(60px,-100px)
             scale(1.2);
     }
-
 }
 
 .app {
     width:min(94%,480px);
+
     min-height:100vh;
+
     margin:auto;
 
     padding:
@@ -193,14 +200,18 @@ input {
 
 .header {
     display:flex;
+
     align-items:center;
     justify-content:space-between;
+
     margin-bottom:28px;
 }
 
 .logo {
     display:flex;
+
     align-items:center;
+
     gap:10px;
 }
 
@@ -233,14 +244,19 @@ input {
 
 .logo-text {
     font-size:13px;
+
     font-weight:950;
+
     letter-spacing:2.5px;
+
     white-space:nowrap;
 }
 
 .online {
     display:flex;
+
     align-items:center;
+
     gap:7px;
 
     padding:7px 10px;
@@ -256,6 +272,7 @@ input {
     color:#707079;
 
     font-size:8px;
+
     letter-spacing:1px;
 }
 
@@ -294,14 +311,15 @@ input {
         opacity:1;
         transform:translateY(0);
     }
-
 }
 
 .eyebrow {
     color:var(--accent2);
 
     font-size:8px;
+
     font-weight:900;
+
     letter-spacing:2.5px;
 
     margin-bottom:8px;
@@ -309,8 +327,11 @@ input {
 
 .heading {
     font-size:30px;
+
     line-height:1;
+
     font-weight:950;
+
     letter-spacing:-.8px;
 }
 
@@ -318,6 +339,7 @@ input {
     color:var(--muted);
 
     font-size:11px;
+
     line-height:1.6;
 
     margin-top:9px;
@@ -327,6 +349,7 @@ input {
     position:relative;
 
     margin-top:16px;
+
     padding:18px;
 
     border:
@@ -356,7 +379,9 @@ input {
 
 .target {
     display:flex;
+
     align-items:center;
+
     gap:13px;
 }
 
@@ -411,6 +436,7 @@ input {
     color:#62626a;
 
     font-size:8px;
+
     letter-spacing:2px;
 
     margin-bottom:5px;
@@ -418,10 +444,13 @@ input {
 
 .target-name {
     font-size:15px;
+
     font-weight:850;
 
     overflow:hidden;
+
     white-space:nowrap;
+
     text-overflow:ellipsis;
 }
 
@@ -439,6 +468,7 @@ input {
     color:#62626a;
 
     font-size:8px;
+
     letter-spacing:2px;
 }
 
@@ -448,9 +478,11 @@ input {
 
 .input-wrap {
     display:flex;
+
     align-items:center;
 
     height:53px;
+
     padding:0 14px;
 
     border:
@@ -475,7 +507,9 @@ input {
 
 .prefix {
     color:var(--accent2);
+
     font-weight:900;
+
     margin-right:4px;
 }
 
@@ -489,6 +523,8 @@ input {
 
     color:#fff;
 
+    font-family:inherit;
+
     font-size:14px;
 }
 
@@ -498,6 +534,7 @@ input::placeholder {
 
 .section-title {
     display:flex;
+
     align-items:center;
     justify-content:space-between;
 
@@ -510,7 +547,10 @@ input::placeholder {
 
 .modes {
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:8px;
 }
 
@@ -558,6 +598,7 @@ input::placeholder {
 
 .mode-top {
     display:flex;
+
     align-items:center;
     justify-content:space-between;
 
@@ -579,6 +620,7 @@ input::placeholder {
     color:#888;
 
     font-size:8px;
+
     font-weight:900;
 }
 
@@ -613,6 +655,7 @@ input::placeholder {
     display:block;
 
     font-size:10px;
+
     font-weight:900;
 }
 
@@ -628,11 +671,13 @@ input::placeholder {
 
 .action {
     width:100%;
+
     height:58px;
 
     margin-top:15px;
 
     border:0;
+
     border-radius:17px;
 
     color:#fff;
@@ -655,7 +700,9 @@ input::placeholder {
         rgba(255,255,255,.4);
 
     font-size:11px;
+
     font-weight:950;
+
     letter-spacing:2px;
 
     cursor:pointer;
@@ -669,7 +716,6 @@ input::placeholder {
     to {
         background-position:220%;
     }
-
 }
 
 .action:active {
@@ -686,6 +732,7 @@ input::placeholder {
 
 .progress-top {
     display:flex;
+
     justify-content:space-between;
 
     margin-bottom:12px;
@@ -714,6 +761,7 @@ input::placeholder {
 
 .progress-bar {
     width:0%;
+
     height:100%;
 
     border-radius:inherit;
@@ -733,6 +781,7 @@ input::placeholder {
 
 .profile-center {
     text-align:center;
+
     padding:6px 0 20px;
 }
 
@@ -757,6 +806,7 @@ input::placeholder {
 
 .profile-name {
     font-size:21px;
+
     font-weight:950;
 
     margin-top:14px;
@@ -838,7 +888,9 @@ input::placeholder {
     font-size:10px;
 
     overflow:hidden;
+
     white-space:nowrap;
+
     text-overflow:ellipsis;
 }
 
@@ -854,11 +906,13 @@ input::placeholder {
 
 .activity-state {
     color:var(--accent2);
+
     font-size:8px;
 }
 
 .setting-block {
     padding-bottom:18px;
+
     margin-bottom:18px;
 
     border-bottom:
@@ -868,7 +922,9 @@ input::placeholder {
 
 .setting-block:last-child {
     border-bottom:0;
+
     margin-bottom:0;
+
     padding-bottom:0;
 }
 
@@ -890,6 +946,7 @@ input::placeholder {
     color:#62626a;
 
     font-size:8px;
+
     line-height:1.5;
 
     margin-top:4px;
@@ -899,7 +956,8 @@ input::placeholder {
 .themes {
     display:grid;
 
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+        repeat(2,1fr);
 
     gap:8px;
 
@@ -949,6 +1007,10 @@ input::placeholder {
 .theme-name {
     font-size:9px;
     font-weight:850;
+}
+
+.themes {
+    gap:9px;
 }
 
 .theme {
@@ -1041,6 +1103,7 @@ input::placeholder {
     flex:0 0 auto;
 
     border:0;
+
     border-radius:30px;
 
     background:#29292f;
@@ -1104,7 +1167,8 @@ input::placeholder {
 
     display:grid;
 
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:
+        repeat(4,1fr);
 
     gap:5px;
 
@@ -1130,6 +1194,7 @@ input::placeholder {
     position:relative;
 
     border:0;
+
     border-radius:17px;
 
     background:transparent;
@@ -1194,7 +1259,9 @@ input::placeholder {
     transition:none !important;
 }
 
-/* ACCESS */
+/* =====================================================
+   ACCESS SCREEN
+===================================================== */
 
 #accessScreen {
     position:fixed;
@@ -1266,6 +1333,7 @@ input::placeholder {
 
 .access-title {
     font-size:25px;
+
     font-weight:950;
 
     margin-bottom:10px;
@@ -1275,36 +1343,10 @@ input::placeholder {
     color:#74747d;
 
     font-size:11px;
+
     line-height:1.6;
 
-    margin-bottom:22px;
-}
-
-.access-button {
-    width:100%;
-    height:56px;
-
-    border:0;
-    border-radius:17px;
-
-    background:
-        linear-gradient(
-            110deg,
-            var(--accent),
-            var(--accent2)
-        );
-
-    color:#fff;
-
-    font-size:11px;
-    font-weight:950;
-    letter-spacing:1.5px;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 15px 40px
-        rgba(var(--accentRGB),.25);
+    margin-bottom:0;
 }
 
 @media(max-width:360px) {
@@ -1334,6 +1376,11 @@ input::placeholder {
 
 <body>
 
+
+<!-- =====================================================
+     ACCESS SCREEN
+===================================================== -->
+
 <div id="accessScreen">
 
     <div class="access-box">
@@ -1353,15 +1400,10 @@ input::placeholder {
             class="access-description"
             id="accessDescription"
         >
-            Проверяем доступ...
+            Для использования SAVE SNOSER
+            необходимо активировать Premium
+            через Telegram-бота.
         </div>
-
-        <button
-            class="access-button"
-            id="accessButton"
-        >
-            ОТКРЫТЬ БОТА
-        </button>
 
     </div>
 
@@ -1373,13 +1415,13 @@ input::placeholder {
     <div class="orb one"></div>
     <div class="orb two"></div>
     <div class="orb three"></div>
-
     <div class="grid"></div>
 
 </div>
 
 
 <div class="app">
+
 
 <header class="header">
 
@@ -1405,6 +1447,8 @@ input::placeholder {
 
 </header>
 
+
+<!-- HOME -->
 
 <section
     class="page active"
@@ -1641,6 +1685,8 @@ input::placeholder {
 </section>
 
 
+<!-- PROFILE -->
+
 <section
     class="page"
     id="page-profile"
@@ -1688,32 +1734,54 @@ input::placeholder {
 
 
         <div class="detail">
+
             <span>ID</span>
-            <span id="profileId">—</span>
+
+            <span id="profileId">
+                —
+            </span>
+
         </div>
 
 
         <div class="detail">
+
             <span>USERNAME</span>
-            <span id="profileUsernameDetail">—</span>
+
+            <span id="profileUsernameDetail">
+                —
+            </span>
+
         </div>
 
 
         <div class="detail">
+
             <span>LANGUAGE</span>
-            <span id="profileLanguage">—</span>
+
+            <span id="profileLanguage">
+                —
+            </span>
+
         </div>
 
 
         <div class="detail">
+
             <span>PREMIUM</span>
-            <span id="profilePremium">—</span>
+
+            <span id="profilePremium">
+                —
+            </span>
+
         </div>
 
     </div>
 
 </section>
 
+
+<!-- ACTIVITY -->
 
 <section
     class="page"
@@ -1767,6 +1835,8 @@ input::placeholder {
 </section>
 
 
+<!-- SETTINGS -->
+
 <section
     class="page"
     id="page-settings"
@@ -1787,11 +1857,13 @@ input::placeholder {
 
     <div class="card">
 
+
         <div class="setting-block">
 
             <div class="setting-title">
                 ЯЗЫК
             </div>
+
 
             <div class="languages">
 
@@ -1861,16 +1933,20 @@ input::placeholder {
                 ТЕМА
             </div>
 
+
             <div class="themes">
 
                 <button
                     class="theme active"
                     data-theme="pink"
                 >
+
                     <div class="preview pink"></div>
+
                     <div class="theme-name">
                         Pink
                     </div>
+
                 </button>
 
 
@@ -1878,10 +1954,13 @@ input::placeholder {
                     class="theme"
                     data-theme="purple"
                 >
+
                     <div class="preview purple"></div>
+
                     <div class="theme-name">
                         Purple
                     </div>
+
                 </button>
 
 
@@ -1889,10 +1968,13 @@ input::placeholder {
                     class="theme"
                     data-theme="red"
                 >
+
                     <div class="preview red"></div>
+
                     <div class="theme-name">
                         Red
                     </div>
+
                 </button>
 
 
@@ -1900,10 +1982,13 @@ input::placeholder {
                     class="theme"
                     data-theme="green"
                 >
+
                     <div class="preview green"></div>
+
                     <div class="theme-name">
                         Green
                     </div>
+
                 </button>
 
 
@@ -1911,10 +1996,13 @@ input::placeholder {
                     class="theme"
                     data-theme="blue"
                 >
+
                     <div class="preview blue"></div>
+
                     <div class="theme-name">
                         Blue
                     </div>
+
                 </button>
 
             </div>
@@ -1979,6 +2067,8 @@ input::placeholder {
 
 </div>
 
+
+<!-- NAV -->
 
 <nav class="nav">
 
@@ -2061,22 +2151,38 @@ const tg =
         : null;
 
 
+/* =====================================================
+   RENDER API
+===================================================== */
+
+const API_URL =
+    "https://kdjebr.onrender.com";
+
+
 if (tg) {
 
     tg.ready();
+
     tg.expand();
 
     try {
 
-        tg.setHeaderColor("#050507");
-        tg.setBackgroundColor("#050507");
+        tg.setHeaderColor(
+            "#050507"
+        );
+
+        tg.setBackgroundColor(
+            "#050507"
+        );
 
         if (
             typeof tg.setBottomBarColor ===
             "function"
         ) {
 
-            tg.setBottomBarColor("#050507");
+            tg.setBottomBarColor(
+                "#050507"
+            );
 
         }
 
@@ -2086,43 +2192,8 @@ if (tg) {
 
 
 /* =====================================================
-   BOT
-===================================================== */
-
-const BOT_USERNAME =
-    "savesnoser_bot";
-
-
-function openBot() {
-
-    const url =
-        "https://t.me/" +
-        BOT_USERNAME;
-
-
-    if (
-        tg &&
-        typeof tg.openTelegramLink ===
-        "function"
-    ) {
-
-        tg.openTelegramLink(url);
-
-    } else {
-
-        window.location.href = url;
-
-    }
-
-}
-
-
-/* =====================================================
    ACCESS
 ===================================================== */
-
-let userAccess = false;
-
 
 async function checkAccess() {
 
@@ -2136,26 +2207,24 @@ async function checkAccess() {
 
     }
 
-
     const initData =
         tg.initData;
-
 
     if (!initData) {
 
         showAccessScreen(
-            "Telegram не передал данные пользователя."
+            "Не удалось получить данные Telegram."
         );
 
         return false;
 
     }
 
-
     try {
 
         const response =
             await fetch(
+                API_URL +
                 "/api/access",
                 {
                     method:"POST",
@@ -2166,55 +2235,29 @@ async function checkAccess() {
                     },
 
                     body:JSON.stringify({
-
                         initData:
                             initData
-
                     })
                 }
             );
 
-
-        let data = null;
-
-
-        try {
-
-            data =
-                await response.json();
-
-        } catch (e) {
-
-            data = null;
-
-        }
-
+        const data =
+            await response.json();
 
         if (
             response.ok &&
-            data &&
-            data.ok === true &&
-            data.access === true
+            data.ok &&
+            data.access
         ) {
-
-            userAccess = true;
 
             return true;
 
         }
 
-
         showAccessScreen(
-
-            data &&
-            data.message
-
-                ? data.message
-
-                : "У этого Telegram-аккаунта нет Premium-доступа."
-
+            data.message ||
+            "Для доступа необходимо активировать Premium."
         );
-
 
         return false;
 
@@ -2225,11 +2268,9 @@ async function checkAccess() {
             error
         );
 
-
         showAccessScreen(
-            "Ошибка соединения с сервером. Попробуйте открыть Mini App ещё раз."
+            "Не удалось связаться с сервером проверки доступа."
         );
-
 
         return false;
 
@@ -2247,16 +2288,13 @@ function showAccessScreen(
             "accessScreen"
         );
 
-
     const description =
         document.getElementById(
             "accessDescription"
         );
 
-
     description.textContent =
         message;
-
 
     screen.style.display =
         "flex";
@@ -2281,16 +2319,15 @@ function haptic() {
         !tg ||
         !tg.HapticFeedback
     ) {
-
         return;
-
     }
-
 
     try {
 
         tg.HapticFeedback
-            .impactOccurred("light");
+            .impactOccurred(
+                "light"
+            );
 
     } catch (e) {}
 
@@ -2303,60 +2340,41 @@ function haptic() {
 
 function loadTelegramUser() {
 
-    if (!tg) {
-        return;
-    }
-
-
     const user =
+        tg &&
         tg.initDataUnsafe &&
         tg.initDataUnsafe.user
             ? tg.initDataUnsafe.user
             : null;
 
-
     if (!user) {
-
-        console.warn(
-            "Telegram user not found"
-        );
-
         return;
-
     }
-
 
     const first =
         user.first_name || "";
 
-
     const last =
         user.last_name || "";
-
 
     const fullName =
         (
             first +
             " " +
             last
-        )
-        .trim()
-        ||
-        "Пользователь";
-
+        ).trim()
+        || "Пользователь";
 
     const username =
         user.username
             ? "@" + user.username
             : "@username";
 
-
     const initials =
         (
             (first[0] || "") +
             (last[0] || "")
-        )
-        .toUpperCase()
+        ).toUpperCase()
         ||
         first
             .substring(0,2)
@@ -2364,38 +2382,30 @@ function loadTelegramUser() {
         ||
         "U";
 
-
     document.getElementById(
         "targetName"
     ).textContent =
         fullName;
-
 
     document.getElementById(
         "targetUsername"
     ).textContent =
         username;
 
-
     document.getElementById(
         "profileName"
     ).textContent =
         fullName;
-
 
     document.getElementById(
         "profileUsername"
     ).textContent =
         username;
 
-
     document.getElementById(
         "profileId"
     ).textContent =
-        user.id
-            ? String(user.id)
-            : "—";
-
+        user.id || "—";
 
     document.getElementById(
         "profileUsernameDetail"
@@ -2404,12 +2414,10 @@ function loadTelegramUser() {
             ? "@" + user.username
             : "—";
 
-
     document.getElementById(
         "profileLanguage"
     ).textContent =
         user.language_code || "—";
-
 
     document.getElementById(
         "profilePremium"
@@ -2418,7 +2426,6 @@ function loadTelegramUser() {
             ? "YES"
             : "NO";
 
-
     if (user.photo_url) {
 
         setAvatar(
@@ -2426,7 +2433,6 @@ function loadTelegramUser() {
             user.photo_url,
             initials
         );
-
 
         setAvatar(
             "profileAvatar",
@@ -2440,7 +2446,6 @@ function loadTelegramUser() {
             "targetAvatar"
         ).textContent =
             initials;
-
 
         document.getElementById(
             "profileAvatar"
@@ -2461,25 +2466,25 @@ function setAvatar(
     const element =
         document.getElementById(id);
 
-
     element.innerHTML = "";
 
-
     const image =
-        document.createElement("img");
-
+        document.createElement(
+            "img"
+        );
 
     image.src = url;
-    image.alt = fallback;
 
+    image.alt = fallback;
 
     image.onerror = () => {
 
         element.innerHTML = "";
-        element.textContent = fallback;
+
+        element.textContent =
+            fallback;
 
     };
-
 
     element.appendChild(
         image
@@ -2532,11 +2537,9 @@ function setTheme(name) {
     const theme =
         themes[name];
 
-
     if (!theme) {
         return;
     }
-
 
     document.documentElement
         .style
@@ -2545,14 +2548,12 @@ function setTheme(name) {
             theme.accent
         );
 
-
     document.documentElement
         .style
         .setProperty(
             "--accent2",
             theme.accent2
         );
-
 
     document.documentElement
         .style
@@ -2561,15 +2562,15 @@ function setTheme(name) {
             theme.rgb
         );
 
-
     localStorage.setItem(
         "save-theme",
         name
     );
 
-
     document
-        .querySelectorAll(".theme")
+        .querySelectorAll(
+            ".theme"
+        )
         .forEach(button => {
 
             button.classList.toggle(
@@ -2583,7 +2584,9 @@ function setTheme(name) {
 
 
 document
-    .querySelectorAll(".theme")
+    .querySelectorAll(
+        ".theme"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -2613,7 +2616,9 @@ if (
     themes[savedTheme]
 ) {
 
-    setTheme(savedTheme);
+    setTheme(
+        savedTheme
+    );
 
 }
 
@@ -2623,7 +2628,9 @@ if (
 ===================================================== */
 
 document
-    .querySelectorAll(".nav-button")
+    .querySelectorAll(
+        ".nav-button"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -2632,9 +2639,10 @@ document
 
                 haptic();
 
-
                 document
-                    .querySelectorAll(".nav-button")
+                    .querySelectorAll(
+                        ".nav-button"
+                    )
                     .forEach(item => {
 
                         item.classList.remove(
@@ -2643,14 +2651,14 @@ document
 
                     });
 
-
                 button.classList.add(
                     "active"
                 );
 
-
                 document
-                    .querySelectorAll(".page")
+                    .querySelectorAll(
+                        ".page"
+                    )
                     .forEach(page => {
 
                         page.classList.remove(
@@ -2659,13 +2667,11 @@ document
 
                     });
 
-
                 const page =
                     document.getElementById(
                         "page-" +
                         button.dataset.page
                     );
-
 
                 if (page) {
 
@@ -2699,7 +2705,9 @@ const modeLabels = {
 
 
 document
-    .querySelectorAll(".mode")
+    .querySelectorAll(
+        ".mode"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -2708,9 +2716,10 @@ document
 
                 haptic();
 
-
                 document
-                    .querySelectorAll(".mode")
+                    .querySelectorAll(
+                        ".mode"
+                    )
                     .forEach(item => {
 
                         item.classList.remove(
@@ -2719,15 +2728,12 @@ document
 
                     });
 
-
                 button.classList.add(
                     "active"
                 );
 
-
                 selectedMode =
                     button.dataset.mode;
-
 
                 document.getElementById(
                     "modeLabel"
@@ -2772,15 +2778,12 @@ vibrationToggle.addEventListener(
         vibrationEnabled =
             !vibrationEnabled;
 
-
         localStorage.setItem(
             "save-vibration",
             vibrationEnabled
         );
 
-
         updateVibrationUI();
-
 
         if (vibrationEnabled) {
             haptic();
@@ -2813,7 +2816,6 @@ function updateAnimationUI() {
         animationsEnabled
     );
 
-
     document.body.classList.toggle(
         "no-animation",
         !animationsEnabled
@@ -2832,12 +2834,10 @@ animationToggle.addEventListener(
         animationsEnabled =
             !animationsEnabled;
 
-
         localStorage.setItem(
             "save-animations",
             animationsEnabled
         );
-
 
         updateAnimationUI();
 
@@ -2863,25 +2863,12 @@ launchButton.addEventListener(
 
         haptic();
 
-
-        if (!userAccess) {
-
-            showAccessScreen(
-                "У этого аккаунта нет доступа."
-            );
-
-            return;
-
-        }
-
-
         const username =
             document.getElementById(
                 "usernameInput"
             )
             .value
             .trim();
-
 
         if (!username) {
 
@@ -2890,10 +2877,8 @@ launchButton.addEventListener(
                     ".input-wrap"
                 );
 
-
             input.style.borderColor =
                 "var(--accent)";
-
 
             setTimeout(
                 () => {
@@ -2905,43 +2890,35 @@ launchButton.addEventListener(
                 700
             );
 
-
             return;
 
         }
-
 
         const progress =
             document.getElementById(
                 "progressCard"
             );
 
-
         const bar =
             document.getElementById(
                 "progressBar"
             );
-
 
         const percent =
             document.getElementById(
                 "progressPercent"
             );
 
-
         const status =
             document.getElementById(
                 "progressStatus"
             );
 
-
         progress.classList.add(
             "show"
         );
 
-
         let value = 0;
-
 
         const messages = [
 
@@ -2957,7 +2934,6 @@ launchButton.addEventListener(
 
         ];
 
-
         const timer =
             setInterval(
                 () => {
@@ -2965,20 +2941,16 @@ launchButton.addEventListener(
                     value +=
                         Math.random() * 4 + 1;
 
-
                     if (value >= 100) {
                         value = 100;
                     }
 
-
                     bar.style.width =
                         value + "%";
-
 
                     percent.textContent =
                         Math.floor(value) +
                         "%";
-
 
                     const index =
                         Math.min(
@@ -2988,20 +2960,20 @@ launchButton.addEventListener(
                             )
                         );
 
-
                     status.textContent =
                         messages[index];
 
+                    if (
+                        value >= 100
+                    ) {
 
-                    if (value >= 100) {
-
-                        clearInterval(timer);
-
+                        clearInterval(
+                            timer
+                        );
 
                         addActivity(
                             username
                         );
-
 
                         status.textContent =
                             "Демо завершено";
@@ -3020,30 +2992,22 @@ launchButton.addEventListener(
    ACTIVITY
 ===================================================== */
 
-function addActivity(username) {
+function addActivity(
+    username
+) {
 
     const list =
         document.getElementById(
             "activityList"
         );
 
-
     const item =
         document.createElement(
             "div"
         );
 
-
     item.className =
         "activity";
-
-
-    const cleanUsername =
-        username.replace(
-            /^@/,
-            ""
-        );
-
 
     item.innerHTML = `
 
@@ -3054,13 +3018,14 @@ function addActivity(username) {
         <div class="activity-main">
 
             <b>
-                @${escapeHTML(cleanUsername)}
+                @${username.replace(
+                    /^@/,
+                    ""
+                )}
             </b>
 
             <span>
-                ${escapeHTML(
-                    selectedMode.toUpperCase()
-                )}
+                ${selectedMode.toUpperCase()}
             </span>
 
         </div>
@@ -3071,40 +3036,9 @@ function addActivity(username) {
 
     `;
 
-
-    list.prepend(item);
-
-}
-
-
-function escapeHTML(value) {
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    list.prepend(
+        item
+    );
 
 }
 
@@ -3114,7 +3048,9 @@ function escapeHTML(value) {
 ===================================================== */
 
 document
-    .querySelectorAll(".language")
+    .querySelectorAll(
+        ".language"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -3123,9 +3059,10 @@ document
 
                 haptic();
 
-
                 document
-                    .querySelectorAll(".language")
+                    .querySelectorAll(
+                        ".language"
+                    )
                     .forEach(item => {
 
                         item.classList.remove(
@@ -3133,7 +3070,6 @@ document
                         );
 
                     });
-
 
                 button.classList.add(
                     "active"
@@ -3146,37 +3082,28 @@ document
 
 
 /* =====================================================
-   ACCESS BUTTON
-===================================================== */
-
-document.getElementById(
-    "accessButton"
-).addEventListener(
-    "click",
-    () => {
-
-        haptic();
-
-        openBot();
-
-    }
-);
-
-
-/* =====================================================
    START
 ===================================================== */
 
 (async function() {
 
+    /*
+       ДОСТУП ПРОВЕРЯЕТ RENDER.
+
+       Бесплатно:
+       8958072114
+       8140798671
+
+       Остальные:
+       только после оплаты.
+    */
+
     const allowed =
         await checkAccess();
-
 
     if (!allowed) {
         return;
     }
-
 
     loadTelegramUser();
 
