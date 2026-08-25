@@ -61,6 +61,37 @@ body {
         color .4s ease;
 }
 
+/* =====================================================
+   ДО ПРОВЕРКИ ДОСТУПА ИНТЕРФЕЙС ПОЛНОСТЬЮ СКРЫТ
+===================================================== */
+
+body.checking-access .app,
+body.checking-access .nav {
+    visibility:hidden;
+    opacity:0;
+    pointer-events:none;
+}
+
+body.app-ready .app,
+body.app-ready .nav {
+    visibility:visible;
+    opacity:1;
+    pointer-events:auto;
+}
+
+body.access-denied {
+    overflow:hidden;
+}
+
+body.access-denied .app,
+body.access-denied .nav {
+    display:none !important;
+}
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
 .background {
     position:fixed;
     inset:0;
@@ -92,11 +123,8 @@ body {
 .orb {
     position:absolute;
     border-radius:50%;
-
     background:var(--accent);
-
     filter:blur(95px);
-
     opacity:.20;
 
     transition:
@@ -117,10 +145,8 @@ body {
 .orb.two {
     width:300px;
     height:300px;
-
     right:-140px;
     top:32%;
-
     opacity:.13;
 
     animation:
@@ -130,10 +156,8 @@ body {
 .orb.three {
     width:380px;
     height:380px;
-
     left:10%;
     bottom:-270px;
-
     opacity:.12;
 
     animation:
@@ -141,7 +165,6 @@ body {
 }
 
 @keyframes floatOne {
-
     from {
         transform:
             translate(0,0)
@@ -156,7 +179,6 @@ body {
 }
 
 @keyframes floatTwo {
-
     from {
         transform:
             translate(0,0)
@@ -171,7 +193,6 @@ body {
 }
 
 @keyframes floatThree {
-
     from {
         transform:
             translate(0,0)
@@ -185,33 +206,34 @@ body {
     }
 }
 
+/* =====================================================
+   APP
+===================================================== */
+
 .app {
     width:min(94%,480px);
-
     min-height:100vh;
-
     margin:auto;
 
     padding:
         calc(17px + env(safe-area-inset-top))
         0
         calc(110px + env(safe-area-inset-bottom));
+
+    opacity:1;
+    transition:opacity .15s ease;
 }
 
 .header {
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     margin-bottom:28px;
 }
 
 .logo {
     display:flex;
-
     align-items:center;
-
     gap:10px;
 }
 
@@ -244,19 +266,14 @@ body {
 
 .logo-text {
     font-size:13px;
-
     font-weight:950;
-
     letter-spacing:2.5px;
-
     white-space:nowrap;
 }
 
 .online {
     display:flex;
-
     align-items:center;
-
     gap:7px;
 
     padding:7px 10px;
@@ -272,7 +289,6 @@ body {
     color:#707079;
 
     font-size:8px;
-
     letter-spacing:1px;
 }
 
@@ -288,6 +304,10 @@ body {
         0 0 12px var(--accent);
 }
 
+/* =====================================================
+   PAGES
+===================================================== */
+
 .page {
     display:none;
 
@@ -301,7 +321,6 @@ body {
 }
 
 @keyframes pageIn {
-
     from {
         opacity:0;
         transform:translateY(12px);
@@ -315,41 +334,29 @@ body {
 
 .eyebrow {
     color:var(--accent2);
-
     font-size:8px;
-
     font-weight:900;
-
     letter-spacing:2.5px;
-
     margin-bottom:8px;
 }
 
 .heading {
     font-size:30px;
-
     line-height:1;
-
     font-weight:950;
-
     letter-spacing:-.8px;
 }
 
 .description {
     color:var(--muted);
-
     font-size:11px;
-
     line-height:1.6;
-
     margin-top:9px;
 }
 
 .card {
     position:relative;
-
     margin-top:16px;
-
     padding:18px;
 
     border:
@@ -377,11 +384,13 @@ body {
     overflow:hidden;
 }
 
+/* =====================================================
+   TARGET
+===================================================== */
+
 .target {
     display:flex;
-
     align-items:center;
-
     gap:13px;
 }
 
@@ -389,7 +398,6 @@ body {
 .profile-avatar {
     display:grid;
     place-items:center;
-
     overflow:hidden;
 
     background:
@@ -405,7 +413,6 @@ body {
 .avatar {
     width:59px;
     height:59px;
-
     flex:0 0 auto;
 
     border-radius:18px;
@@ -434,41 +441,35 @@ body {
 
 .small-label {
     color:#62626a;
-
     font-size:8px;
-
     letter-spacing:2px;
-
     margin-bottom:5px;
 }
 
 .target-name {
     font-size:15px;
-
     font-weight:850;
 
     overflow:hidden;
-
     white-space:nowrap;
-
     text-overflow:ellipsis;
 }
 
 .target-username {
     color:var(--accent2);
-
     font-size:10px;
-
     margin-top:4px;
 }
+
+/* =====================================================
+   INPUT
+===================================================== */
 
 .input-label,
 .section-title,
 .setting-title {
     color:#62626a;
-
     font-size:8px;
-
     letter-spacing:2px;
 }
 
@@ -478,11 +479,9 @@ body {
 
 .input-wrap {
     display:flex;
-
     align-items:center;
 
     height:53px;
-
     padding:0 14px;
 
     border:
@@ -507,9 +506,7 @@ body {
 
 .prefix {
     color:var(--accent2);
-
     font-weight:900;
-
     margin-right:4px;
 }
 
@@ -520,11 +517,9 @@ input {
     outline:0;
 
     background:transparent;
-
     color:#fff;
 
     font-family:inherit;
-
     font-size:14px;
 }
 
@@ -532,12 +527,14 @@ input::placeholder {
     color:#55555c;
 }
 
+/* =====================================================
+   MODES
+===================================================== */
+
 .section-title {
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     margin-bottom:11px;
 }
 
@@ -547,16 +544,12 @@ input::placeholder {
 
 .modes {
     display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
+    grid-template-columns:repeat(3,1fr);
     gap:8px;
 }
 
 .mode {
     min-height:91px;
-
     padding:12px 9px;
 
     border:
@@ -568,11 +561,9 @@ input::placeholder {
         rgba(0,0,0,.20);
 
     color:#fff;
-
     text-align:left;
 
     cursor:pointer;
-
     transition:.25s;
 }
 
@@ -598,10 +589,8 @@ input::placeholder {
 
 .mode-top {
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     margin-bottom:15px;
 }
 
@@ -620,7 +609,6 @@ input::placeholder {
     color:#888;
 
     font-size:8px;
-
     font-weight:900;
 }
 
@@ -643,7 +631,6 @@ input::placeholder {
     background:var(--accent);
 
     font-size:8px;
-
     opacity:0;
 }
 
@@ -653,31 +640,27 @@ input::placeholder {
 
 .mode-name {
     display:block;
-
     font-size:10px;
-
     font-weight:900;
 }
 
 .mode-desc {
     display:block;
-
     color:#5d5d64;
-
     font-size:8px;
-
     margin-top:4px;
 }
 
+/* =====================================================
+   ACTION
+===================================================== */
+
 .action {
     width:100%;
-
     height:58px;
-
     margin-top:15px;
 
     border:0;
-
     border-radius:17px;
 
     color:#fff;
@@ -700,9 +683,7 @@ input::placeholder {
         rgba(255,255,255,.4);
 
     font-size:11px;
-
     font-weight:950;
-
     letter-spacing:2px;
 
     cursor:pointer;
@@ -712,7 +693,6 @@ input::placeholder {
 }
 
 @keyframes actionFlow {
-
     to {
         background-position:220%;
     }
@@ -721,6 +701,10 @@ input::placeholder {
 .action:active {
     transform:scale(.98);
 }
+
+/* =====================================================
+   PROGRESS
+===================================================== */
 
 .progress {
     display:none;
@@ -732,9 +716,7 @@ input::placeholder {
 
 .progress-top {
     display:flex;
-
     justify-content:space-between;
-
     margin-bottom:12px;
 }
 
@@ -750,20 +732,14 @@ input::placeholder {
 
 .progress-track {
     height:7px;
-
     border-radius:10px;
-
-    background:
-        rgba(0,0,0,.5);
-
+    background:rgba(0,0,0,.5);
     overflow:hidden;
 }
 
 .progress-bar {
     width:0%;
-
     height:100%;
-
     border-radius:inherit;
 
     background:
@@ -779,9 +755,12 @@ input::placeholder {
     transition:width .12s;
 }
 
+/* =====================================================
+   PROFILE
+===================================================== */
+
 .profile-center {
     text-align:center;
-
     padding:6px 0 20px;
 }
 
@@ -806,25 +785,19 @@ input::placeholder {
 
 .profile-name {
     font-size:21px;
-
     font-weight:950;
-
     margin-top:14px;
 }
 
 .profile-username {
     color:var(--accent2);
-
     font-size:11px;
-
     margin-top:5px;
 }
 
 .detail {
     display:flex;
-
     justify-content:space-between;
-
     gap:15px;
 
     padding:14px 0;
@@ -844,11 +817,13 @@ input::placeholder {
     color:#62626a;
 }
 
+/* =====================================================
+   ACTIVITY
+===================================================== */
+
 .activity {
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
     padding:13px 0;
@@ -884,35 +859,31 @@ input::placeholder {
 
 .activity-main b {
     display:block;
-
     font-size:10px;
 
     overflow:hidden;
-
     white-space:nowrap;
-
     text-overflow:ellipsis;
 }
 
 .activity-main span {
     display:block;
-
     color:#62626a;
-
     font-size:8px;
-
     margin-top:4px;
 }
 
 .activity-state {
     color:var(--accent2);
-
     font-size:8px;
 }
 
+/* =====================================================
+   SETTINGS
+===================================================== */
+
 .setting-block {
     padding-bottom:18px;
-
     margin-bottom:18px;
 
     border-bottom:
@@ -922,18 +893,14 @@ input::placeholder {
 
 .setting-block:last-child {
     border-bottom:0;
-
     margin-bottom:0;
-
     padding-bottom:0;
 }
 
 .setting-row {
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     gap:15px;
 }
 
@@ -944,23 +911,16 @@ input::placeholder {
 
 .setting-desc {
     color:#62626a;
-
     font-size:8px;
-
     line-height:1.5;
-
     margin-top:4px;
 }
 
 .languages,
 .themes {
     display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
+    grid-template-columns:repeat(2,1fr);
     gap:8px;
-
     margin-top:11px;
 }
 
@@ -979,9 +939,7 @@ input::placeholder {
     color:#fff;
 
     cursor:pointer;
-
     text-align:left;
-
     transition:.25s;
 }
 
@@ -1020,13 +978,9 @@ input::placeholder {
 
 .preview {
     position:relative;
-
     height:56px;
-
     overflow:hidden;
-
     border-radius:11px;
-
     margin-bottom:8px;
 }
 
@@ -1103,13 +1057,11 @@ input::placeholder {
     flex:0 0 auto;
 
     border:0;
-
     border-radius:30px;
 
     background:#29292f;
 
     cursor:pointer;
-
     transition:.25s;
 }
 
@@ -1145,9 +1097,12 @@ input::placeholder {
         rgba(255,255,255,.4);
 }
 
+/* =====================================================
+   NAV
+===================================================== */
+
 .nav {
     position:fixed;
-
     z-index:50;
 
     left:50%;
@@ -1162,7 +1117,6 @@ input::placeholder {
         translateX(-50%);
 
     width:min(92%,460px);
-
     height:69px;
 
     display:grid;
@@ -1171,7 +1125,6 @@ input::placeholder {
         repeat(4,1fr);
 
     gap:5px;
-
     padding:7px;
 
     border:
@@ -1188,29 +1141,27 @@ input::placeholder {
     box-shadow:
         0 20px 60px
         rgba(0,0,0,.55);
+
+    opacity:1;
+    transition:opacity .15s ease;
 }
 
 .nav-button {
     position:relative;
 
     border:0;
-
     border-radius:17px;
 
     background:transparent;
-
     color:#5e5e66;
 
     cursor:pointer;
-
     transition:.25s;
 }
 
 .nav-icon {
     display:block;
-
     font-size:17px;
-
     margin-bottom:4px;
 }
 
@@ -1259,96 +1210,6 @@ input::placeholder {
     transition:none !important;
 }
 
-/* =====================================================
-   ACCESS SCREEN
-===================================================== */
-
-#accessScreen {
-    position:fixed;
-
-    inset:0;
-
-    z-index:999;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    padding:25px;
-
-    background:#050507;
-}
-
-.access-box {
-    width:min(100%,420px);
-
-    padding:30px 22px;
-
-    text-align:center;
-
-    border:
-        1px solid
-        rgba(255,255,255,.09);
-
-    border-radius:25px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.07),
-            rgba(255,255,255,.025)
-        );
-
-    box-shadow:
-        0 25px 70px
-        rgba(0,0,0,.55);
-}
-
-.access-logo {
-    width:70px;
-    height:70px;
-
-    display:grid;
-    place-items:center;
-
-    margin:0 auto 20px;
-
-    border-radius:20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            var(--accent2),
-            var(--accent)
-        );
-
-    box-shadow:
-        0 0 40px
-        rgba(var(--accentRGB),.35);
-
-    font-size:27px;
-    font-weight:950;
-}
-
-.access-title {
-    font-size:25px;
-
-    font-weight:950;
-
-    margin-bottom:10px;
-}
-
-.access-description {
-    color:#74747d;
-
-    font-size:11px;
-
-    line-height:1.6;
-
-    margin-bottom:0;
-}
-
 @media(max-width:360px) {
 
     .app {
@@ -1374,40 +1235,8 @@ input::placeholder {
 
 </head>
 
-<body>
 
-
-<!-- =====================================================
-     ACCESS SCREEN
-===================================================== -->
-
-<div id="accessScreen">
-
-    <div class="access-box">
-
-        <div class="access-logo">
-            S
-        </div>
-
-        <div
-            class="access-title"
-            id="accessTitle"
-        >
-            Premium Access
-        </div>
-
-        <div
-            class="access-description"
-            id="accessDescription"
-        >
-            Для использования SAVE SNOSER
-            необходимо активировать Premium
-            через Telegram-бота.
-        </div>
-
-    </div>
-
-</div>
+<body class="checking-access">
 
 
 <div class="background">
@@ -1421,7 +1250,6 @@ input::placeholder {
 
 
 <div class="app">
-
 
 <header class="header">
 
@@ -1459,17 +1287,11 @@ input::placeholder {
         CONTROL PANEL
     </div>
 
-    <div
-        class="heading"
-        data-i18n="welcome"
-    >
+    <div class="heading">
         Добро пожаловать
     </div>
 
-    <div
-        class="description"
-        data-i18n="homeDescription"
-    >
+    <div class="description">
         Выберите цель и параметры запуска.
     </div>
 
@@ -2152,8 +1974,23 @@ const tg =
 
 
 /* =====================================================
-   RENDER API
+   ВАЖНО: API НА RENDER
 ===================================================== */
+
+/*
+   Раньше здесь было:
+
+       fetch("/api/access")
+
+   Это НЕПРАВИЛЬНО для GitHub Pages.
+
+   GitHub пытался найти:
+       https://demuge.github.io/api/access
+
+   А твой API находится на Render.
+
+   Поэтому теперь запрос идёт прямо сюда:
+*/
 
 const API_URL =
     "https://kdjebr.onrender.com";
@@ -2192,117 +2029,6 @@ if (tg) {
 
 
 /* =====================================================
-   ACCESS
-===================================================== */
-
-async function checkAccess() {
-
-    if (!tg) {
-
-        showAccessScreen(
-            "Открой SAVE SNOSER через Telegram."
-        );
-
-        return false;
-
-    }
-
-    const initData =
-        tg.initData;
-
-    if (!initData) {
-
-        showAccessScreen(
-            "Не удалось получить данные Telegram."
-        );
-
-        return false;
-
-    }
-
-    try {
-
-        const response =
-            await fetch(
-                API_URL +
-                "/api/access",
-                {
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:JSON.stringify({
-                        initData:
-                            initData
-                    })
-                }
-            );
-
-        const data =
-            await response.json();
-
-        if (
-            response.ok &&
-            data.ok &&
-            data.access
-        ) {
-
-            return true;
-
-        }
-
-        showAccessScreen(
-            data.message ||
-            "Для доступа необходимо активировать Premium."
-        );
-
-        return false;
-
-    } catch (error) {
-
-        console.error(
-            "Access error:",
-            error
-        );
-
-        showAccessScreen(
-            "Не удалось связаться с сервером проверки доступа."
-        );
-
-        return false;
-
-    }
-
-}
-
-
-function showAccessScreen(
-    message
-) {
-
-    const screen =
-        document.getElementById(
-            "accessScreen"
-        );
-
-    const description =
-        document.getElementById(
-            "accessDescription"
-        );
-
-    description.textContent =
-        message;
-
-    screen.style.display =
-        "flex";
-
-}
-
-
-/* =====================================================
    HAPTIC
 ===================================================== */
 
@@ -2335,6 +2061,148 @@ function haptic() {
 
 
 /* =====================================================
+   ACCESS
+===================================================== */
+
+/*
+   НИКАКОЙ PREMIUM-ПЛАШКИ НЕТ.
+
+   Если человек не имеет доступа:
+   - интерфейс не показывается;
+   - Mini App закрывается.
+
+   Если это один из двух OWNER ID:
+   - доступ сразу;
+   - интерфейс появляется.
+*/
+
+async function checkAccess() {
+
+    if (!tg) {
+
+        document.body.className =
+            "access-denied";
+
+        return false;
+
+    }
+
+
+    const initData =
+        tg.initData;
+
+
+    if (!initData) {
+
+        document.body.className =
+            "access-denied";
+
+        try {
+
+            tg.close();
+
+        } catch (e) {}
+
+        return false;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL +
+                "/api/access",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        initData:initData
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "SAVE SNOSER ACCESS:",
+            data
+        );
+
+
+        if (
+            response.ok &&
+            data.ok === true &&
+            data.access === true
+        ) {
+
+            document.body.className =
+                "app-ready";
+
+            return true;
+
+        }
+
+
+        /*
+           Пользователь не оплатил.
+           Никакой плашки не показываем.
+        */
+
+        document.body.className =
+            "access-denied";
+
+
+        try {
+
+            tg.close();
+
+        } catch (e) {}
+
+
+        return false;
+
+    } catch (error) {
+
+        console.error(
+            "Access error:",
+            error
+        );
+
+
+        /*
+           При ошибке API тоже ничего
+           не показываем.
+        */
+
+        document.body.className =
+            "access-denied";
+
+
+        try {
+
+            tg.close();
+
+        } catch (e) {}
+
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================================
    TELEGRAM USER
 ===================================================== */
 
@@ -2347,15 +2215,19 @@ function loadTelegramUser() {
             ? tg.initDataUnsafe.user
             : null;
 
+
     if (!user) {
         return;
     }
 
+
     const first =
         user.first_name || "";
 
+
     const last =
         user.last_name || "";
+
 
     const fullName =
         (
@@ -2365,10 +2237,12 @@ function loadTelegramUser() {
         ).trim()
         || "Пользователь";
 
+
     const username =
         user.username
             ? "@" + user.username
             : "@username";
+
 
     const initials =
         (
@@ -2382,30 +2256,36 @@ function loadTelegramUser() {
         ||
         "U";
 
+
     document.getElementById(
         "targetName"
     ).textContent =
         fullName;
+
 
     document.getElementById(
         "targetUsername"
     ).textContent =
         username;
 
+
     document.getElementById(
         "profileName"
     ).textContent =
         fullName;
+
 
     document.getElementById(
         "profileUsername"
     ).textContent =
         username;
 
+
     document.getElementById(
         "profileId"
     ).textContent =
         user.id || "—";
+
 
     document.getElementById(
         "profileUsernameDetail"
@@ -2414,10 +2294,12 @@ function loadTelegramUser() {
             ? "@" + user.username
             : "—";
 
+
     document.getElementById(
         "profileLanguage"
     ).textContent =
         user.language_code || "—";
+
 
     document.getElementById(
         "profilePremium"
@@ -2425,6 +2307,7 @@ function loadTelegramUser() {
         user.is_premium
             ? "YES"
             : "NO";
+
 
     if (user.photo_url) {
 
@@ -2466,16 +2349,20 @@ function setAvatar(
     const element =
         document.getElementById(id);
 
+
     element.innerHTML = "";
+
 
     const image =
         document.createElement(
             "img"
         );
 
+
     image.src = url;
 
     image.alt = fallback;
+
 
     image.onerror = () => {
 
@@ -2485,6 +2372,7 @@ function setAvatar(
             fallback;
 
     };
+
 
     element.appendChild(
         image
@@ -2541,12 +2429,14 @@ function setTheme(name) {
         return;
     }
 
+
     document.documentElement
         .style
         .setProperty(
             "--accent",
             theme.accent
         );
+
 
     document.documentElement
         .style
@@ -2555,6 +2445,7 @@ function setTheme(name) {
             theme.accent2
         );
 
+
     document.documentElement
         .style
         .setProperty(
@@ -2562,10 +2453,12 @@ function setTheme(name) {
             theme.rgb
         );
 
+
     localStorage.setItem(
         "save-theme",
         name
     );
+
 
     document
         .querySelectorAll(
@@ -2639,6 +2532,7 @@ document
 
                 haptic();
 
+
                 document
                     .querySelectorAll(
                         ".nav-button"
@@ -2651,9 +2545,11 @@ document
 
                     });
 
+
                 button.classList.add(
                     "active"
                 );
+
 
                 document
                     .querySelectorAll(
@@ -2667,11 +2563,13 @@ document
 
                     });
 
+
                 const page =
                     document.getElementById(
                         "page-" +
                         button.dataset.page
                     );
+
 
                 if (page) {
 
@@ -2716,6 +2614,7 @@ document
 
                 haptic();
 
+
                 document
                     .querySelectorAll(
                         ".mode"
@@ -2728,12 +2627,15 @@ document
 
                     });
 
+
                 button.classList.add(
                     "active"
                 );
 
+
                 selectedMode =
                     button.dataset.mode;
+
 
                 document.getElementById(
                     "modeLabel"
@@ -2778,12 +2680,15 @@ vibrationToggle.addEventListener(
         vibrationEnabled =
             !vibrationEnabled;
 
+
         localStorage.setItem(
             "save-vibration",
             vibrationEnabled
         );
 
+
         updateVibrationUI();
+
 
         if (vibrationEnabled) {
             haptic();
@@ -2816,6 +2721,7 @@ function updateAnimationUI() {
         animationsEnabled
     );
 
+
     document.body.classList.toggle(
         "no-animation",
         !animationsEnabled
@@ -2834,10 +2740,12 @@ animationToggle.addEventListener(
         animationsEnabled =
             !animationsEnabled;
 
+
         localStorage.setItem(
             "save-animations",
             animationsEnabled
         );
+
 
         updateAnimationUI();
 
@@ -2863,12 +2771,14 @@ launchButton.addEventListener(
 
         haptic();
 
+
         const username =
             document.getElementById(
                 "usernameInput"
             )
             .value
             .trim();
+
 
         if (!username) {
 
@@ -2877,8 +2787,10 @@ launchButton.addEventListener(
                     ".input-wrap"
                 );
 
+
             input.style.borderColor =
                 "var(--accent)";
+
 
             setTimeout(
                 () => {
@@ -2890,35 +2802,43 @@ launchButton.addEventListener(
                 700
             );
 
+
             return;
 
         }
+
 
         const progress =
             document.getElementById(
                 "progressCard"
             );
 
+
         const bar =
             document.getElementById(
                 "progressBar"
             );
+
 
         const percent =
             document.getElementById(
                 "progressPercent"
             );
 
+
         const status =
             document.getElementById(
                 "progressStatus"
             );
 
+
         progress.classList.add(
             "show"
         );
 
+
         let value = 0;
+
 
         const messages = [
 
@@ -2934,6 +2854,7 @@ launchButton.addEventListener(
 
         ];
 
+
         const timer =
             setInterval(
                 () => {
@@ -2941,16 +2862,20 @@ launchButton.addEventListener(
                     value +=
                         Math.random() * 4 + 1;
 
+
                     if (value >= 100) {
                         value = 100;
                     }
 
+
                     bar.style.width =
                         value + "%";
+
 
                     percent.textContent =
                         Math.floor(value) +
                         "%";
+
 
                     const index =
                         Math.min(
@@ -2960,8 +2885,10 @@ launchButton.addEventListener(
                             )
                         );
 
+
                     status.textContent =
                         messages[index];
+
 
                     if (
                         value >= 100
@@ -2971,9 +2898,11 @@ launchButton.addEventListener(
                             timer
                         );
 
+
                         addActivity(
                             username
                         );
+
 
                         status.textContent =
                             "Демо завершено";
@@ -3001,13 +2930,16 @@ function addActivity(
             "activityList"
         );
 
+
     const item =
         document.createElement(
             "div"
         );
 
+
     item.className =
         "activity";
+
 
     item.innerHTML = `
 
@@ -3036,6 +2968,7 @@ function addActivity(
 
     `;
 
+
     list.prepend(
         item
     );
@@ -3059,6 +2992,7 @@ document
 
                 haptic();
 
+
                 document
                     .querySelectorAll(
                         ".language"
@@ -3070,6 +3004,7 @@ document
                         );
 
                     });
+
 
                 button.classList.add(
                     "active"
@@ -3088,22 +3023,27 @@ document
 (async function() {
 
     /*
-       ДОСТУП ПРОВЕРЯЕТ RENDER.
+       Самое важное:
 
-       Бесплатно:
-       8958072114
-       8140798671
-
-       Остальные:
-       только после оплаты.
+       1. GitHub Pages сначала НЕ показывает интерфейс.
+       2. Отправляет tg.initData на Render.
+       3. Render проверяет подпись Telegram.
+       4. Render разрешает:
+          8958072114
+          8140798671
+          или пользователя с действующим Premium.
+       5. Только после этого появляется интерфейс.
+       6. Никакой accessScreen/Premium-плашки больше нет.
     */
 
     const allowed =
         await checkAccess();
 
+
     if (!allowed) {
         return;
     }
+
 
     loadTelegramUser();
 
