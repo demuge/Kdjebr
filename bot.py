@@ -22,19 +22,18 @@ from aiogram.types import (
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 PORT = int(os.getenv("PORT", "10000"))
 
-# ВАЖНО: index.html находится в /app/
+# ВАЖНО:
+# index.html раздаётся через /app/
 WEB_APP_URL = "https://kdjebr.onrender.com/app/"
-
-BOT_USERNAME = "savesnoser_bot"
 
 DB_FILE = "users.db"
 
 dp = Dispatcher()
 
 
-# =========================================================
+# ============================================================
 # DATABASE
-# =========================================================
+# ============================================================
 
 def db_connect():
     return sqlite3.connect(DB_FILE)
@@ -114,7 +113,6 @@ def get_user(user_id):
 
 
 def has_access(user_id):
-
     user = get_user(user_id)
 
     if not user:
@@ -129,17 +127,15 @@ def has_access(user_id):
     return expires_at > int(time.time())
 
 
-# =========================================================
+# ============================================================
 # TELEGRAM WEB APP AUTH
-# =========================================================
+# ============================================================
 
 def validate_init_data(init_data):
-
     if not init_data:
         return None
 
     try:
-
         data = dict(
             parse_qsl(
                 init_data,
@@ -147,10 +143,7 @@ def validate_init_data(init_data):
             )
         )
 
-        received_hash = data.pop(
-            "hash",
-            None
-        )
+        received_hash = data.pop("hash", None)
 
         if not received_hash:
             return None
@@ -179,20 +172,15 @@ def validate_init_data(init_data):
             return None
 
         auth_date = int(
-            data.get(
-                "auth_date",
-                "0"
-            )
+            data.get("auth_date", "0")
         )
 
+        # Не принимаем очень старые initData
         if int(time.time()) - auth_date > 86400:
             return None
 
         user_data = json.loads(
-            data.get(
-                "user",
-                "{}"
-            )
+            data.get("user", "{}")
         )
 
         if not user_data.get("id"):
@@ -201,78 +189,59 @@ def validate_init_data(init_data):
         return user_data
 
     except Exception as e:
-
         print(
             "InitData validation error:",
             e
         )
-
         return None
 
 
-# =========================================================
+# ============================================================
+# PLANS
+# ============================================================
+
+PLANS = {
+    "plan_day": {
+        "name": "Premium — 1 день",
+        "description": "Доступ к Mini App на 24 часа.",
+        "price": 50,
+        "duration": 86400,
+    },
+
+    "plan_week": {
+        "name": "Premium — 7 дней",
+        "description": "Доступ к Mini App на 7 дней.",
+        "price": 100,
+        "duration": 604800,
+    },
+
+    "plan_forever": {
+        "name": "Premium — навсегда",
+        "description": "Пожизненный доступ к Mini App.",
+        "price": 200,
+        "duration": 0,
+    }
+}
+
+
+# ============================================================
 # START
-# =========================================================
+# ============================================================
 
 @dp.message(CommandStart())
 async def start(message: Message):
-
-    user_id = message.from_user.id
-
-    if has_access(user_id):
-
-        user = get_user(user_id)
-
-        if user and user[3] == 0:
-
-            access_text = "♾️ Доступ: НАВСЕГДА"
-
-        else:
-
-            access_text = (
-                "⏳ Доступ уже активирован."
-            )
-
-        keyboard = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [
-                    InlineKeyboardButton(
-                        text="🚀 Открыть Premium Mini App",
-                        web_app={
-                            "url": WEB_APP_URL
-                        }
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="💎 Тарифы",
-                        callback_data="show_plans"
-                    )
-                ]
-            ]
-        )
-
-        await message.answer(
-            "👑 <b>SAVE SNOSER PREMIUM</b>\n\n"
-            "У тебя уже есть доступ к Mini App.\n\n"
-            f"{access_text}",
-            reply_markup=keyboard,
-            parse_mode="HTML"
-        )
-
-        return
 
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="⭐ 50 — 1 ДЕНЬ",
+                    text="⭐ 50 — 1 день",
                     callback_data="plan_day"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="⭐ 100 — 7 ДНЕЙ",
+                    text="⭐ 100 — 7 дней",
                     callback_data="plan_week"
                 )
             ],
@@ -286,101 +255,25 @@ async def start(message: Message):
     )
 
     await message.answer(
-        "🖤 <b>SAVE SNOSER</b>\n\n"
-        "👑 <b>PREMIUM ACCESS</b>\n\n"
-        "Чтобы открыть Premium Mini App, "
-        "сначала выбери тариф.\n\n"
+        "✨ <b>SAVE SNOSER PREMIUM</b>\n\n"
+        "Для доступа к Premium Mini App выбери тариф.\n\n"
         "⭐ <b>50 Stars</b> — 1 день\n"
         "⭐ <b>100 Stars</b> — 7 дней\n"
         "👑 <b>200 Stars</b> — навсегда\n\n"
-        "Выбери тариф ниже:",
+        "После оплаты появится кнопка для открытия Mini App.",
         reply_markup=keyboard,
         parse_mode="HTML"
     )
 
 
-# =========================================================
-# SHOW PLANS
-# =========================================================
-
-@dp.callback_query(F.data == "show_plans")
-async def show_plans(callback):
-
-    await callback.answer()
-
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="⭐ 50 — 1 ДЕНЬ",
-                    callback_data="plan_day"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="⭐ 100 — 7 ДНЕЙ",
-                    callback_data="plan_week"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="👑 200 — НАВСЕГДА",
-                    callback_data="plan_forever"
-                )
-            ]
-        ]
-    )
-
-    await callback.message.answer(
-        "💎 <b>PREMIUM ТАРИФЫ</b>\n\n"
-        "⭐ <b>50 Stars</b> — 1 день\n"
-        "⭐ <b>100 Stars</b> — 7 дней\n"
-        "👑 <b>200 Stars</b> — навсегда\n\n"
-        "Выбери тариф:",
-        reply_markup=keyboard,
-        parse_mode="HTML"
-    )
-
-
-# =========================================================
-# PLANS
-# =========================================================
-
-PLANS = {
-
-    "plan_day": {
-        "name": "Premium — 1 день",
-        "description": "Доступ к SAVE SNOSER Mini App на 24 часа.",
-        "price": 50,
-        "duration": 86400,
-    },
-
-    "plan_week": {
-        "name": "Premium — 7 дней",
-        "description": "Доступ к SAVE SNOSER Mini App на 7 дней.",
-        "price": 100,
-        "duration": 604800,
-    },
-
-    "plan_forever": {
-        "name": "Premium — навсегда",
-        "description": "Пожизненный доступ к SAVE SNOSER Mini App.",
-        "price": 200,
-        "duration": 0,
-    }
-
-}
-
-
-# =========================================================
+# ============================================================
 # SEND INVOICE
-# =========================================================
+# ============================================================
 
 async def send_invoice(
     callback,
     plan_id
 ):
-
     plan = PLANS[plan_id]
 
     prices = [
@@ -390,18 +283,21 @@ async def send_invoice(
         )
     ]
 
-    payload = (
-        f"save_snoser_premium:{plan_id}"
-    )
+    payload = f"premium:{plan_id}"
 
     await callback.message.answer_invoice(
         title=plan["name"],
         description=plan["description"],
         payload=payload,
         currency="XTR",
-        prices=prices
+        prices=prices,
+        provider_token=""
     )
 
+
+# ============================================================
+# SELECT PLAN
+# ============================================================
 
 @dp.callback_query(
     F.data.in_(PLANS.keys())
@@ -418,9 +314,9 @@ async def select_plan(callback):
     )
 
 
-# =========================================================
+# ============================================================
 # PRE CHECKOUT
-# =========================================================
+# ============================================================
 
 @dp.pre_checkout_query()
 async def pre_checkout(
@@ -432,9 +328,9 @@ async def pre_checkout(
     )
 
 
-# =========================================================
+# ============================================================
 # SUCCESSFUL PAYMENT
-# =========================================================
+# ============================================================
 
 @dp.message(F.successful_payment)
 async def successful_payment(
@@ -445,12 +341,13 @@ async def successful_payment(
 
     payload = payment.invoice_payload
 
-    prefix = "save_snoser_premium:"
-
-    if not payload.startswith(prefix):
+    if not payload.startswith("premium:"):
         return
 
-    plan_id = payload[len(prefix):]
+    plan_id = payload.split(
+        "premium:",
+        1
+    )[1]
 
     if plan_id not in PLANS:
         return
@@ -473,17 +370,21 @@ async def successful_payment(
     if old_user:
         old_expiration = old_user[3]
 
+    # Навсегда
     if plan["duration"] == 0:
 
         expires_at = 0
 
     else:
 
+        # Если старый тариф ещё активен,
+        # продлеваем его.
         if (
             old_expiration
             and old_expiration > now
         ):
             start_time = old_expiration
+
         else:
             start_time = now
 
@@ -506,11 +407,11 @@ async def successful_payment(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="🚀 ОТКРЫТЬ PREMIUM MINI APP",
+                    text="🚀 Открыть Premium Mini App",
                     web_app={
                         "url": WEB_APP_URL
                     }
-                ]
+                )
             ]
         ]
     )
@@ -518,23 +419,23 @@ async def successful_payment(
     if plan["duration"] == 0:
 
         access_text = (
-            "♾️ <b>Доступ: НАВСЕГДА</b>"
+            "♾️ Доступ: <b>НАВСЕГДА</b>"
         )
 
     elif plan["duration"] == 86400:
 
         access_text = (
-            "⏳ <b>Доступ: 1 день</b>"
+            "⏳ Доступ активен: <b>1 день</b>"
         )
 
     else:
 
         access_text = (
-            "⏳ <b>Доступ: 7 дней</b>"
+            "⏳ Доступ активен: <b>7 дней</b>"
         )
 
     await message.answer(
-        "🎉 <b>ОПЛАТА ПРОШЛА УСПЕШНО!</b>\n\n"
+        "🎉 <b>Оплата прошла успешно!</b>\n\n"
         f"👑 Тариф: <b>{plan['name']}</b>\n"
         f"{access_text}\n\n"
         "Теперь тебе доступен Premium Mini App:",
@@ -543,9 +444,9 @@ async def successful_payment(
     )
 
 
-# =========================================================
+# ============================================================
 # WEBHOOK
-# =========================================================
+# ============================================================
 
 async def handle_webhook(request):
 
@@ -553,7 +454,9 @@ async def handle_webhook(request):
 
         data = await request.json()
 
-        update = Update.model_validate(data)
+        update = Update.model_validate(
+            data
+        )
 
         bot = request.app["bot"]
 
@@ -579,9 +482,9 @@ async def handle_webhook(request):
         )
 
 
-# =========================================================
-# ACCESS API
-# =========================================================
+# ============================================================
+# MINI APP ACCESS
+# ============================================================
 
 async def check_access(request):
 
@@ -603,29 +506,13 @@ async def check_access(request):
                 {
                     "ok": False,
                     "access": False,
-                    "message": (
-                        "Недействительная "
-                        "авторизация Telegram."
-                    )
+                    "message":
+                        "Недействительная авторизация Telegram."
                 },
                 status=401
             )
 
         user_id = user["id"]
-
-        db_user = get_user(user_id)
-
-        if not db_user:
-
-            return web.json_response(
-                {
-                    "ok": True,
-                    "access": False,
-                    "message": (
-                        "Premium доступ не оплачен."
-                    )
-                }
-            )
 
         if not has_access(user_id):
 
@@ -633,11 +520,14 @@ async def check_access(request):
                 {
                     "ok": True,
                     "access": False,
-                    "message": (
-                        "Срок Premium закончился."
-                    )
+                    "message":
+                        "Доступ не оплачен или срок действия закончился."
                 }
             )
+
+        db_user = get_user(
+            user_id
+        )
 
         expires_at = db_user[3]
 
@@ -655,7 +545,6 @@ async def check_access(request):
             {
                 "ok": True,
                 "access": True,
-                "plan": db_user[2],
                 "expires_at": expires_at,
                 "expires_text": expires_text
             }
@@ -672,17 +561,16 @@ async def check_access(request):
             {
                 "ok": False,
                 "access": False,
-                "message": (
+                "message":
                     "Ошибка проверки доступа."
-                )
             },
             status=500
         )
 
 
-# =========================================================
+# ============================================================
 # HEALTH
-# =========================================================
+# ============================================================
 
 async def health(request):
 
@@ -691,9 +579,9 @@ async def health(request):
     )
 
 
-# =========================================================
+# ============================================================
 # STARTUP
-# =========================================================
+# ============================================================
 
 async def on_startup(app):
 
@@ -724,11 +612,10 @@ async def on_startup(app):
         webhook_url
     )
 
-    print(
-        "Mini App:",
-        WEB_APP_URL
-    )
 
+# ============================================================
+# CLEANUP
+# ============================================================
 
 async def on_cleanup(app):
 
@@ -742,28 +629,29 @@ async def on_cleanup(app):
     await bot.session.close()
 
 
-# =========================================================
+# ============================================================
 # MAIN
-# =========================================================
+# ============================================================
 
 async def main():
 
     if not BOT_TOKEN:
 
         raise RuntimeError(
-            "BOT_TOKEN не задан"
+            "BOT_TOKEN не задан в Environment Variables"
         )
 
     init_db()
 
     bot = Bot(
-        BOT_TOKEN
+        token=BOT_TOKEN
     )
 
     app = web.Application()
 
     app["bot"] = bot
 
+    # Health
     app.router.add_get(
         "/",
         health
@@ -774,16 +662,19 @@ async def main():
         health
     )
 
+    # Telegram webhook
     app.router.add_post(
         "/telegram-webhook",
         handle_webhook
     )
 
+    # Mini App access API
     app.router.add_post(
         "/api/access",
         check_access
     )
 
+    # Mini App
     app.router.add_static(
         "/app/",
         ".",
@@ -807,4 +698,6 @@ async def main():
 
 if __name__ == "__main__":
 
-    asyncio.run(main()) 
+    asyncio.run(
+        main()
+    )
