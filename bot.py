@@ -17,18 +17,19 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     InlineKeyboardButton,
     Update,
+    WebAppInfo,
 )
 
 # =========================================================
-# CONFIG
+# SETTINGS
 # =========================================================
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 PORT = int(os.getenv("PORT", "10000"))
 
-WEB_APP_URL = "https://kdjebr.onrender.com/app/"
+WEB_APP_URL = "https://kdjebr.onrender.com/"
 
-# ТВОЙ TELEGRAM ID
+# Твой Telegram ID — владелец
 OWNER_ID = 8958072114
 
 DB_FILE = "users.db"
@@ -107,8 +108,7 @@ def get_user(user_id):
             telegram_id,
             username,
             plan,
-            expires_at,
-            payment_id
+            expires_at
         FROM users
         WHERE telegram_id = ?
     """, (user_id,)).fetchone()
@@ -124,8 +124,8 @@ def get_user(user_id):
 
 def has_access(user_id):
 
-    # ВЛАДЕЛЕЦ ИМЕЕТ ДОСТУП ВСЕГДА
-    if int(user_id) == OWNER_ID:
+    # Владелец имеет вечный доступ
+    if user_id == OWNER_ID:
         return True
 
     user = get_user(user_id)
@@ -143,12 +143,15 @@ def has_access(user_id):
 
 
 # =========================================================
-# TELEGRAM INIT DATA
+# TELEGRAM WEB APP AUTH
 # =========================================================
 
 def validate_init_data(init_data):
 
     if not init_data:
+        return None
+
+    if not BOT_TOKEN:
         return None
 
     try:
@@ -170,8 +173,7 @@ def validate_init_data(init_data):
 
         data_check_string = "\n".join(
             f"{key}={value}"
-            for key, value
-            in sorted(data.items())
+            for key, value in sorted(data.items())
         )
 
         secret_key = hmac.new(
@@ -199,7 +201,7 @@ def validate_init_data(init_data):
             )
         )
 
-        # initData действительно должен быть свежим
+        # initData не старше 24 часов
         if int(time.time()) - auth_date > 86400:
             return None
 
@@ -235,33 +237,103 @@ PLANS = {
         "name": "Premium — 1 день",
         "description": "Доступ к Mini App на 24 часа.",
         "price": 50,
-        "duration": 86400
+        "duration": 86400,
     },
 
     "plan_week": {
         "name": "Premium — 7 дней",
         "description": "Доступ к Mini App на 7 дней.",
         "price": 100,
-        "duration": 604800
+        "duration": 604800,
     },
 
     "plan_forever": {
         "name": "Premium — навсегда",
         "description": "Пожизненный доступ к Mini App.",
         "price": 200,
-        "duration": 0
+        "duration": 0,
     }
-
 }
 
 
 # =========================================================
-# MAIN MENU
+# MINI APP BUTTON
 # =========================================================
 
-def get_main_keyboard():
+def mini_app_keyboard():
 
     return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🚀 Открыть SAVE SNOSER",
+                    web_app=WebAppInfo(
+                        url=WEB_APP_URL
+                    )
+                )
+            ]
+        ]
+    )
+
+
+# =========================================================
+# /START
+# =========================================================
+
+@dp.message(CommandStart())
+async def start(message: Message):
+
+    user_id = message.from_user.id
+
+    # -----------------------------------------------------
+    # OWNER
+    # -----------------------------------------------------
+
+    if user_id == OWNER_ID:
+
+        await message.answer(
+            "👑 <b>SAVE SNOSER</b>\n\n"
+            "Ты являешься владельцем бота.\n\n"
+            "♾️ <b>Доступ: НАВСЕГДА</b>\n"
+            "💳 Оплата для тебя не требуется.\n\n"
+            "Нажми кнопку ниже, чтобы открыть Mini App.",
+            reply_markup=mini_app_keyboard(),
+            parse_mode="HTML"
+        )
+
+        return
+
+    # -----------------------------------------------------
+    # EXISTING ACCESS
+    # -----------------------------------------------------
+
+    if has_access(user_id):
+
+        user = get_user(user_id)
+
+        if user and user[3] == 0:
+
+            access_text = "♾️ <b>Доступ: НАВСЕГДА</b>"
+
+        else:
+
+            access_text = "✅ <b>Доступ активен</b>"
+
+        await message.answer(
+            "👑 <b>SAVE SNOSER</b>\n\n"
+            f"{access_text}\n\n"
+            "Нажми кнопку ниже, чтобы открыть Mini App.",
+            reply_markup=mini_app_keyboard(),
+            parse_mode="HTML"
+        )
+
+        return
+
+    # -----------------------------------------------------
+    # NO ACCESS
+    # -----------------------------------------------------
+
+    keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
 
             [
@@ -288,112 +360,14 @@ def get_main_keyboard():
         ]
     )
 
-
-def get_open_app_keyboard():
-
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-
-            [
-                InlineKeyboardButton(
-                    text="🚀 Открыть SAVE SNOSER",
-                    web_app={
-                        "url": WEB_APP_URL
-                    }
-                )
-            ]
-
-        ]
-    )
-
-
-# =========================================================
-# START
-# =========================================================
-
-@dp.message(CommandStart())
-async def start(message: Message):
-
-    user_id = message.from_user.id
-
-    username = (
-        message.from_user.username
-        or ""
-    )
-
-    # =====================================================
-    # OWNER
-    # =====================================================
-
-    if user_id == OWNER_ID:
-
-        await message.answer(
-            "👑 <b>SAVE SNOSER</b>\n\n"
-            "Ты являешься владельцем бота.\n\n"
-            "♾️ <b>Доступ: НАВСЕГДА</b>\n"
-            "💳 Оплата для тебя не требуется.\n\n"
-            "Нажми кнопку ниже, чтобы открыть Mini App.",
-            reply_markup=get_open_app_keyboard(),
-            parse_mode="HTML"
-        )
-
-        return
-
-    # =====================================================
-    # NORMAL USER WITH ACCESS
-    # =====================================================
-
-    if has_access(user_id):
-
-        user = get_user(user_id)
-
-        if user and user[3] == 0:
-
-            access_text = "♾️ Доступ: НАВСЕГДА"
-
-        elif user:
-
-            remaining = max(
-                0,
-                user[3] - int(time.time())
-            )
-
-            days = remaining // 86400
-            hours = (remaining % 86400) // 3600
-
-            access_text = (
-                f"⏳ Осталось: "
-                f"{days} дн. {hours} ч."
-            )
-
-        else:
-
-            access_text = "♾️ Доступ активен"
-
-        await message.answer(
-            "👑 <b>SAVE SNOSER</b>\n\n"
-            "Твой доступ уже активен.\n\n"
-            f"{access_text}\n\n"
-            "Открывай Mini App:",
-            reply_markup=get_open_app_keyboard(),
-            parse_mode="HTML"
-        )
-
-        return
-
-    # =====================================================
-    # NO ACCESS
-    # =====================================================
-
     await message.answer(
-        "👑 <b>SAVE SNOSER</b>\n\n"
-        "Для доступа к Mini App необходимо "
-        "активировать Premium.\n\n"
+        "✨ <b>SAVE SNOSER</b>\n\n"
+        "Для доступа к Mini App необходимо выбрать тариф.\n\n"
         "⭐ <b>50 Stars</b> — 1 день\n"
         "⭐ <b>100 Stars</b> — 7 дней\n"
         "👑 <b>200 Stars</b> — навсегда\n\n"
-        "Выбери тариф:",
-        reply_markup=get_main_keyboard(),
+        "Выбери подходящий тариф:",
+        reply_markup=keyboard,
         parse_mode="HTML"
     )
 
@@ -416,28 +390,20 @@ async def send_invoice(
         )
     ]
 
-    payload = (
-        f"premium:{plan_id}"
-    )
+    payload = f"premium:{plan_id}"
 
     await callback.message.answer_invoice(
-
         title=plan["name"],
-
         description=plan["description"],
-
         payload=payload,
-
         currency="XTR",
-
         prices=prices,
-
         provider_token=""
     )
 
 
 # =========================================================
-# PLAN BUTTONS
+# SELECT PLAN
 # =========================================================
 
 @dp.callback_query(
@@ -461,32 +427,26 @@ async def select_plan(callback):
 
 @dp.pre_checkout_query()
 async def pre_checkout(
-    query: PreCheckoutQuery
+    pre_checkout_query: PreCheckoutQuery
 ):
 
-    await query.answer(
+    await pre_checkout_query.answer(
         ok=True
     )
 
 
 # =========================================================
-# PAYMENT SUCCESS
+# SUCCESSFUL PAYMENT
 # =========================================================
 
-@dp.message(
-    F.successful_payment
-)
+@dp.message(F.successful_payment)
 async def successful_payment(
     message: Message
 ):
 
-    payment = (
-        message.successful_payment
-    )
+    payment = message.successful_payment
 
-    payload = (
-        payment.invoice_payload
-    )
+    payload = payment.invoice_payload
 
     if not payload.startswith(
         "premium:"
@@ -512,31 +472,35 @@ async def successful_payment(
 
     now = int(time.time())
 
-    old_user = get_user(
-        user_id
-    )
+    old_user = get_user(user_id)
 
     old_expiration = 0
 
     if old_user:
         old_expiration = old_user[3]
 
-    # Навсегда
+    # -----------------------------------------------------
+    # FOREVER
+    # -----------------------------------------------------
+
     if plan["duration"] == 0:
 
         expires_at = 0
+
+    # -----------------------------------------------------
+    # TEMPORARY
+    # -----------------------------------------------------
 
     else:
 
         start_time = now
 
-        # Если старый доступ ещё действует —
-        # добавляем новый срок к нему
+        # Если старый тариф ещё действует,
+        # продлеваем его.
         if (
             old_expiration
             and old_expiration > now
         ):
-
             start_time = old_expiration
 
         expires_at = (
@@ -545,26 +509,39 @@ async def successful_payment(
         )
 
     save_access(
-
         user_id=user_id,
-
         username=username,
-
         plan=plan_id,
-
         expires_at=expires_at,
-
         payment_id=(
-            payment
-            .telegram_payment_charge_id
+            payment.telegram_payment_charge_id
         )
     )
 
+    if plan["duration"] == 0:
+
+        access_text = (
+            "♾️ <b>Доступ: НАВСЕГДА</b>"
+        )
+
+    elif plan["duration"] == 86400:
+
+        access_text = (
+            "⏳ <b>Доступ: 1 день</b>"
+        )
+
+    else:
+
+        access_text = (
+            "⏳ <b>Доступ: 7 дней</b>"
+        )
+
     await message.answer(
         "🎉 <b>Оплата прошла успешно!</b>\n\n"
-        f"👑 Тариф: <b>{plan['name']}</b>\n\n"
-        "Теперь тебе доступен SAVE SNOSER:",
-        reply_markup=get_open_app_keyboard(),
+        f"👑 Тариф: <b>{plan['name']}</b>\n"
+        f"{access_text}\n\n"
+        "Теперь ты можешь открыть Mini App:",
+        reply_markup=mini_app_keyboard(),
         parse_mode="HTML"
     )
 
@@ -608,7 +585,7 @@ async def handle_webhook(request):
 
 
 # =========================================================
-# MINI APP ACCESS
+# MINI APP ACCESS API
 # =========================================================
 
 async def check_access(request):
@@ -641,9 +618,9 @@ async def check_access(request):
             user["id"]
         )
 
-        # =================================================
+        # -------------------------------------------------
         # OWNER
-        # =================================================
+        # -------------------------------------------------
 
         if user_id == OWNER_ID:
 
@@ -657,13 +634,11 @@ async def check_access(request):
                 }
             )
 
-        # =================================================
+        # -------------------------------------------------
         # NORMAL USER
-        # =================================================
+        # -------------------------------------------------
 
-        if not has_access(
-            user_id
-        ):
+        if not has_access(user_id):
 
             return web.json_response(
                 {
@@ -720,13 +695,26 @@ async def check_access(request):
 
 
 # =========================================================
+# INDEX.HTML
+# =========================================================
+
+async def index_page(request):
+
+    # Открываем именно index.html,
+    # а не показываем список файлов Render.
+    return web.FileResponse(
+        "index.html"
+    )
+
+
+# =========================================================
 # HEALTH
 # =========================================================
 
 async def health(request):
 
     return web.Response(
-        text="SAVE SNOSER Premium Bot is running"
+        text="Premium Bot is running"
     )
 
 
@@ -763,6 +751,16 @@ async def on_startup(app):
         webhook_url
     )
 
+    print(
+        "Mini App:",
+        WEB_APP_URL
+    )
+
+    print(
+        "Owner ID:",
+        OWNER_ID
+    )
+
 
 # =========================================================
 # CLEANUP
@@ -773,9 +771,15 @@ async def on_cleanup(app):
     bot = app["bot"]
 
     try:
+
         await bot.delete_webhook()
-    except Exception:
-        pass
+
+    except Exception as e:
+
+        print(
+            "Webhook delete error:",
+            e
+        )
 
     await bot.session.close()
 
@@ -795,17 +799,21 @@ async def main():
     init_db()
 
     bot = Bot(
-        BOT_TOKEN
+        token=BOT_TOKEN
     )
 
     app = web.Application()
 
     app["bot"] = bot
 
-    # Health
+    # -----------------------------------------------------
+    # IMPORTANT:
+    # "/" теперь открывает index.html
+    # -----------------------------------------------------
+
     app.router.add_get(
         "/",
-        health
+        index_page
     )
 
     app.router.add_get(
@@ -813,23 +821,24 @@ async def main():
         health
     )
 
-    # Telegram webhook
     app.router.add_post(
         "/telegram-webhook",
         handle_webhook
     )
 
-    # Mini App access
     app.router.add_post(
         "/api/access",
         check_access
     )
 
-    # Static Mini App
+    # -----------------------------------------------------
+    # Static files
+    # -----------------------------------------------------
+
     app.router.add_static(
         "/app/",
         ".",
-        show_index=True
+        show_index=False
     )
 
     app.on_startup.append(
@@ -846,6 +855,10 @@ async def main():
         port=PORT
     )
 
+
+# =========================================================
+# RUN
+# =========================================================
 
 if __name__ == "__main__":
 
