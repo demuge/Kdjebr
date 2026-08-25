@@ -25,7 +25,7 @@
     --panel:rgba(255,255,255,.045);
     --border:rgba(255,255,255,.09);
 
-    --text:#fff;
+    --text:#ffffff;
     --muted:#74747d;
 }
 
@@ -43,7 +43,6 @@ body {
 
 body {
     min-height:100vh;
-
     background:var(--bg);
     color:var(--text);
 
@@ -62,11 +61,6 @@ body {
         color .4s ease;
 }
 
-button,
-input {
-    font-family:inherit;
-}
-
 .background {
     position:fixed;
     inset:0;
@@ -78,7 +72,6 @@ input {
 .grid {
     position:absolute;
     inset:0;
-
     opacity:.035;
 
     background-image:
@@ -97,13 +90,9 @@ input {
 
 .orb {
     position:absolute;
-
     border-radius:50%;
-
     background:var(--accent);
-
     filter:blur(95px);
-
     opacity:.20;
 
     transition:
@@ -114,90 +103,59 @@ input {
 .orb.one {
     width:340px;
     height:340px;
-
     left:-160px;
     top:-140px;
-
-    animation:
-        floatOne 12s ease-in-out infinite alternate;
+    animation:floatOne 12s ease-in-out infinite alternate;
 }
 
 .orb.two {
     width:300px;
     height:300px;
-
     right:-140px;
     top:32%;
-
     opacity:.13;
-
-    animation:
-        floatTwo 15s ease-in-out infinite alternate;
+    animation:floatTwo 15s ease-in-out infinite alternate;
 }
 
 .orb.three {
     width:380px;
     height:380px;
-
     left:10%;
     bottom:-270px;
-
     opacity:.12;
-
-    animation:
-        floatThree 18s ease-in-out infinite alternate;
+    animation:floatThree 18s ease-in-out infinite alternate;
 }
 
 @keyframes floatOne {
-
     from {
-        transform:
-            translate(0,0)
-            scale(1);
+        transform:translate(0,0) scale(1);
     }
-
     to {
-        transform:
-            translate(100px,120px)
-            scale(1.25);
+        transform:translate(100px,120px) scale(1.25);
     }
 }
 
 @keyframes floatTwo {
-
     from {
-        transform:
-            translate(0,0)
-            scale(1);
+        transform:translate(0,0) scale(1);
     }
-
     to {
-        transform:
-            translate(-100px,70px)
-            scale(1.25);
+        transform:translate(-100px,70px) scale(1.25);
     }
 }
 
 @keyframes floatThree {
-
     from {
-        transform:
-            translate(0,0)
-            scale(1);
+        transform:translate(0,0) scale(1);
     }
-
     to {
-        transform:
-            translate(60px,-100px)
-            scale(1.2);
+        transform:translate(60px,-100px) scale(1.2);
     }
 }
 
 .app {
     width:min(94%,480px);
-
     min-height:100vh;
-
     margin:auto;
 
     padding:
@@ -208,18 +166,14 @@ input {
 
 .header {
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     margin-bottom:28px;
 }
 
 .logo {
     display:flex;
-
     align-items:center;
-
     gap:10px;
 }
 
@@ -252,35 +206,26 @@ input {
 
 .logo-text {
     font-size:13px;
-
     font-weight:950;
-
     letter-spacing:2.5px;
-
     white-space:nowrap;
 }
 
 .online {
     display:flex;
-
     align-items:center;
-
     gap:7px;
 
     padding:7px 10px;
 
-    border:
-        1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:100px;
 
-    background:
-        rgba(255,255,255,.035);
+    background:rgba(255,255,255,.035);
 
     color:#707079;
 
     font-size:8px;
-
     letter-spacing:1px;
 }
 
@@ -309,7 +254,6 @@ input {
 }
 
 @keyframes pageIn {
-
     from {
         opacity:0;
         transform:translateY(12px);
@@ -325,9 +269,7 @@ input {
     color:var(--accent2);
 
     font-size:8px;
-
     font-weight:900;
-
     letter-spacing:2.5px;
 
     margin-bottom:8px;
@@ -335,11 +277,8 @@ input {
 
 .heading {
     font-size:30px;
-
     line-height:1;
-
     font-weight:950;
-
     letter-spacing:-.8px;
 }
 
@@ -347,7 +286,6 @@ input {
     color:var(--muted);
 
     font-size:11px;
-
     line-height:1.6;
 
     margin-top:9px;
@@ -357,12 +295,9 @@ input {
     position:relative;
 
     margin-top:16px;
-
     padding:18px;
 
-    border:
-        1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:23px;
 
     background:
@@ -387,9 +322,7 @@ input {
 
 .target {
     display:flex;
-
     align-items:center;
-
     gap:13px;
 }
 
@@ -413,7 +346,6 @@ input {
 .avatar {
     width:59px;
     height:59px;
-
     flex:0 0 auto;
 
     border-radius:18px;
@@ -433,7 +365,6 @@ input {
 .profile-avatar img {
     width:100%;
     height:100%;
-
     object-fit:cover;
 }
 
@@ -445,7 +376,6 @@ input {
     color:#62626a;
 
     font-size:8px;
-
     letter-spacing:2px;
 
     margin-bottom:5px;
@@ -453,21 +383,16 @@ input {
 
 .target-name {
     font-size:15px;
-
     font-weight:850;
 
     overflow:hidden;
-
     white-space:nowrap;
-
     text-overflow:ellipsis;
 }
 
 .target-username {
     color:var(--accent2);
-
     font-size:10px;
-
     margin-top:4px;
 }
 
@@ -475,9 +400,7 @@ input {
 .section-title,
 .setting-title {
     color:#62626a;
-
     font-size:8px;
-
     letter-spacing:2px;
 }
 
@@ -487,20 +410,16 @@ input {
 
 .input-wrap {
     display:flex;
-
     align-items:center;
 
     height:53px;
 
     padding:0 14px;
 
-    border:
-        1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:15px;
 
-    background:
-        rgba(0,0,0,.25);
+    background:rgba(0,0,0,.25);
 
     transition:.3s;
 }
@@ -516,9 +435,7 @@ input {
 
 .prefix {
     color:var(--accent2);
-
     font-weight:900;
-
     margin-right:4px;
 }
 
@@ -529,9 +446,9 @@ input {
     outline:0;
 
     background:transparent;
-
     color:#fff;
 
+    font-family:inherit;
     font-size:14px;
 }
 
@@ -541,10 +458,8 @@ input::placeholder {
 
 .section-title {
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     margin-bottom:11px;
 }
 
@@ -554,10 +469,7 @@ input::placeholder {
 
 .modes {
     display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
+    grid-template-columns:repeat(3,1fr);
     gap:8px;
 }
 
@@ -566,20 +478,15 @@ input::placeholder {
 
     padding:12px 9px;
 
-    border:
-        1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:17px;
 
-    background:
-        rgba(0,0,0,.20);
-
+    background:rgba(0,0,0,.20);
     color:#fff;
 
     text-align:left;
 
     cursor:pointer;
-
     transition:.25s;
 }
 
@@ -605,10 +512,8 @@ input::placeholder {
 
 .mode-top {
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     margin-bottom:15px;
 }
 
@@ -627,7 +532,6 @@ input::placeholder {
     color:#888;
 
     font-size:8px;
-
     font-weight:900;
 }
 
@@ -660,9 +564,7 @@ input::placeholder {
 
 .mode-name {
     display:block;
-
     font-size:10px;
-
     font-weight:900;
 }
 
@@ -672,19 +574,16 @@ input::placeholder {
     color:#5d5d64;
 
     font-size:8px;
-
     margin-top:4px;
 }
 
 .action {
     width:100%;
-
     height:58px;
 
     margin-top:15px;
 
     border:0;
-
     border-radius:17px;
 
     color:#fff;
@@ -707,9 +606,7 @@ input::placeholder {
         rgba(255,255,255,.4);
 
     font-size:11px;
-
     font-weight:950;
-
     letter-spacing:2px;
 
     cursor:pointer;
@@ -719,7 +616,6 @@ input::placeholder {
 }
 
 @keyframes actionFlow {
-
     to {
         background-position:220%;
     }
@@ -739,9 +635,7 @@ input::placeholder {
 
 .progress-top {
     display:flex;
-
     justify-content:space-between;
-
     margin-bottom:12px;
 }
 
@@ -760,15 +654,13 @@ input::placeholder {
 
     border-radius:10px;
 
-    background:
-        rgba(0,0,0,.5);
+    background:rgba(0,0,0,.5);
 
     overflow:hidden;
 }
 
 .progress-bar {
     width:0%;
-
     height:100%;
 
     border-radius:inherit;
@@ -788,7 +680,6 @@ input::placeholder {
 
 .profile-center {
     text-align:center;
-
     padding:6px 0 20px;
 }
 
@@ -813,25 +704,19 @@ input::placeholder {
 
 .profile-name {
     font-size:21px;
-
     font-weight:950;
-
     margin-top:14px;
 }
 
 .profile-username {
     color:var(--accent2);
-
     font-size:11px;
-
     margin-top:5px;
 }
 
 .detail {
     display:flex;
-
     justify-content:space-between;
-
     gap:15px;
 
     padding:14px 0;
@@ -853,9 +738,7 @@ input::placeholder {
 
 .activity {
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
     padding:13px 0;
@@ -886,7 +769,6 @@ input::placeholder {
 
 .activity-main {
     flex:1;
-
     min-width:0;
 }
 
@@ -896,9 +778,7 @@ input::placeholder {
     font-size:10px;
 
     overflow:hidden;
-
     white-space:nowrap;
-
     text-overflow:ellipsis;
 }
 
@@ -908,19 +788,16 @@ input::placeholder {
     color:#62626a;
 
     font-size:8px;
-
     margin-top:4px;
 }
 
 .activity-state {
     color:var(--accent2);
-
     font-size:8px;
 }
 
 .setting-block {
     padding-bottom:18px;
-
     margin-bottom:18px;
 
     border-bottom:
@@ -930,46 +807,34 @@ input::placeholder {
 
 .setting-block:last-child {
     border-bottom:0;
-
     margin-bottom:0;
-
     padding-bottom:0;
 }
 
 .setting-row {
     display:flex;
-
     align-items:center;
     justify-content:space-between;
-
     gap:15px;
 }
 
 .setting-name {
     font-size:11px;
-
     font-weight:850;
 }
 
 .setting-desc {
     color:#62626a;
-
     font-size:8px;
-
     line-height:1.5;
-
     margin-top:4px;
 }
 
 .languages,
 .themes {
     display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
+    grid-template-columns:repeat(2,1fr);
     gap:8px;
-
     margin-top:11px;
 }
 
@@ -977,18 +842,13 @@ input::placeholder {
 .theme {
     padding:12px;
 
-    border:
-        1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:14px;
 
-    background:
-        rgba(0,0,0,.20);
-
+    background:rgba(0,0,0,.20);
     color:#fff;
 
     cursor:pointer;
-
     text-align:left;
 
     transition:.25s;
@@ -1009,14 +869,12 @@ input::placeholder {
 
 .language-flag {
     font-size:16px;
-
     margin-bottom:7px;
 }
 
 .language-name,
 .theme-name {
     font-size:9px;
-
     font-weight:850;
 }
 
@@ -1026,7 +884,6 @@ input::placeholder {
 
 .theme {
     padding:10px;
-
     border-radius:16px;
 }
 
@@ -1115,13 +972,11 @@ input::placeholder {
     flex:0 0 auto;
 
     border:0;
-
     border-radius:30px;
 
     background:#29292f;
 
     cursor:pointer;
-
     transition:.25s;
 }
 
@@ -1149,7 +1004,6 @@ input::placeholder {
 
 .toggle.active::after {
     left:23px;
-
     background:#fff;
 
     box-shadow:
@@ -1174,21 +1028,15 @@ input::placeholder {
         translateX(-50%);
 
     width:min(92%,460px);
-
     height:69px;
 
     display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
+    grid-template-columns:repeat(4,1fr);
     gap:5px;
 
     padding:7px;
 
-    border:
-        1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:23px;
 
     background:
@@ -1206,7 +1054,6 @@ input::placeholder {
     position:relative;
 
     border:0;
-
     border-radius:17px;
 
     background:transparent;
@@ -1214,15 +1061,12 @@ input::placeholder {
     color:#5e5e66;
 
     cursor:pointer;
-
     transition:.25s;
 }
 
 .nav-icon {
     display:block;
-
     font-size:17px;
-
     margin-bottom:4px;
 }
 
@@ -1273,9 +1117,7 @@ input::placeholder {
 
 #accessScreen {
     position:fixed;
-
     inset:0;
-
     z-index:999;
 
     display:none;
@@ -1336,35 +1178,27 @@ input::placeholder {
         rgba(var(--accentRGB),.35);
 
     font-size:27px;
-
     font-weight:950;
 }
 
 .access-title {
     font-size:25px;
-
     font-weight:950;
-
     margin-bottom:10px;
 }
 
 .access-description {
     color:#74747d;
-
     font-size:11px;
-
     line-height:1.6;
-
     margin-bottom:22px;
 }
 
 .access-button {
     width:100%;
-
     height:56px;
 
     border:0;
-
     border-radius:17px;
 
     background:
@@ -1377,9 +1211,7 @@ input::placeholder {
     color:#fff;
 
     font-size:11px;
-
     font-weight:950;
-
     letter-spacing:1.5px;
 
     cursor:pointer;
@@ -1397,7 +1229,6 @@ input::placeholder {
 
     .logo-text {
         font-size:11px;
-
         letter-spacing:2px;
     }
 
@@ -1416,6 +1247,7 @@ input::placeholder {
 </head>
 
 <body>
+
 
 <div id="accessScreen">
 
@@ -1458,13 +1290,13 @@ input::placeholder {
     <div class="orb one"></div>
     <div class="orb two"></div>
     <div class="orb three"></div>
-
     <div class="grid"></div>
 
 </div>
 
 
 <div class="app">
+
 
 <header class="header">
 
@@ -1500,11 +1332,17 @@ input::placeholder {
         CONTROL PANEL
     </div>
 
-    <div class="heading">
+    <div
+        class="heading"
+        data-i18n="welcome"
+    >
         Добро пожаловать
     </div>
 
-    <div class="description">
+    <div
+        class="description"
+        data-i18n="homeDescription"
+    >
         Выберите цель и параметры запуска.
     </div>
 
@@ -1767,46 +1605,23 @@ input::placeholder {
 
 
         <div class="detail">
-
             <span>ID</span>
-
-            <span id="profileId">
-                —
-            </span>
-
+            <span id="profileId">—</span>
         </div>
 
-
         <div class="detail">
-
             <span>USERNAME</span>
-
-            <span id="profileUsernameDetail">
-                —
-            </span>
-
+            <span id="profileUsernameDetail">—</span>
         </div>
 
-
         <div class="detail">
-
             <span>LANGUAGE</span>
-
-            <span id="profileLanguage">
-                —
-            </span>
-
+            <span id="profileLanguage">—</span>
         </div>
 
-
         <div class="detail">
-
             <span>PREMIUM</span>
-
-            <span id="profilePremium">
-                —
-            </span>
-
+            <span id="profilePremium">—</span>
         </div>
 
     </div>
@@ -1900,7 +1715,6 @@ input::placeholder {
                     class="language active"
                     data-language="ru"
                 >
-
                     <div class="language-flag">
                         🇷🇺
                     </div>
@@ -1908,7 +1722,6 @@ input::placeholder {
                     <div class="language-name">
                         Русский
                     </div>
-
                 </button>
 
 
@@ -1916,7 +1729,6 @@ input::placeholder {
                     class="language"
                     data-language="en"
                 >
-
                     <div class="language-flag">
                         🇬🇧
                     </div>
@@ -1924,7 +1736,6 @@ input::placeholder {
                     <div class="language-name">
                         English
                     </div>
-
                 </button>
 
 
@@ -1932,7 +1743,6 @@ input::placeholder {
                     class="language"
                     data-language="de"
                 >
-
                     <div class="language-flag">
                         🇩🇪
                     </div>
@@ -1940,7 +1750,6 @@ input::placeholder {
                     <div class="language-name">
                         Deutsch
                     </div>
-
                 </button>
 
 
@@ -1948,7 +1757,6 @@ input::placeholder {
                     class="language"
                     data-language="uk"
                 >
-
                     <div class="language-flag">
                         🇺🇦
                     </div>
@@ -1956,7 +1764,6 @@ input::placeholder {
                     <div class="language-name">
                         Українська
                     </div>
-
                 </button>
 
             </div>
@@ -2175,16 +1982,26 @@ input::placeholder {
 
 <script>
 
-/* =====================================================
-   TELEGRAM
-===================================================== */
-
 const tg =
     window.Telegram &&
     window.Telegram.WebApp
         ? window.Telegram.WebApp
         : null;
 
+
+/* =====================================================
+   RENDER BACKEND
+   ЕСЛИ ТВОЙ RENDER URL ДРУГОЙ —
+   МЕНЯЙ ТОЛЬКО ЭТУ СТРОКУ
+===================================================== */
+
+const API_URL =
+    "https://kdjebr.onrender.com";
+
+
+/* =====================================================
+   TELEGRAM
+===================================================== */
 
 if (tg) {
 
@@ -2194,29 +2011,28 @@ if (tg) {
 
     try {
 
-        tg.setHeaderColor("#050507");
+        tg.setHeaderColor(
+            "#050507"
+        );
 
-        tg.setBackgroundColor("#050507");
+        tg.setBackgroundColor(
+            "#050507"
+        );
 
         if (
             typeof tg.setBottomBarColor ===
             "function"
         ) {
 
-            tg.setBottomBarColor("#050507");
+            tg.setBottomBarColor(
+                "#050507"
+            );
 
         }
 
     } catch (e) {}
 
 }
-
-
-/* =====================================================
-   OWNER
-===================================================== */
-
-const OWNER_ID = 8958072114;
 
 
 /* =====================================================
@@ -2243,42 +2059,15 @@ function openBot() {
 
     } else {
 
-        window.location.href = url;
+        window.location.href =
+            url;
 
     }
-
-}
-
-
-function getTelegramUser() {
-
-    if (
-        !tg ||
-        !tg.initDataUnsafe ||
-        !tg.initDataUnsafe.user
-    ) {
-
-        return null;
-
-    }
-
-    return tg.initDataUnsafe.user;
 
 }
 
 
 async function checkAccess() {
-
-    /*
-       =====================================================
-       ВАЖНО:
-
-       OWNER проверяется ПЕРЕД запросом /api/access.
-
-       Поэтому владелец с ID 8958072114
-       никогда не попадёт на Premium Screen.
-       =====================================================
-    */
 
     if (!tg) {
 
@@ -2287,25 +2076,6 @@ async function checkAccess() {
         );
 
         return false;
-
-    }
-
-
-    const user =
-        getTelegramUser();
-
-
-    if (
-        user &&
-        Number(user.id) === OWNER_ID
-    ) {
-
-        console.log(
-            "SAVE SNOSER | OWNER ACCESS:",
-            user.id
-        );
-
-        return true;
 
     }
 
@@ -2325,18 +2095,11 @@ async function checkAccess() {
     }
 
 
-    /*
-       =====================================================
-       Обычные пользователи:
-
-       Проверяем Premium через backend.
-       =====================================================
-    */
-
     try {
 
         const response =
             await fetch(
+                API_URL +
                 "/api/access",
                 {
                     method:"POST",
@@ -2357,6 +2120,14 @@ async function checkAccess() {
             await response.json();
 
 
+        /*
+           ВАЖНО:
+
+           OWNER получает доступ
+           от backend независимо
+           от Premium.
+        */
+
         if (
             response.ok &&
             data.ok &&
@@ -2370,7 +2141,7 @@ async function checkAccess() {
 
         showAccessScreen(
             data.message ||
-            "Для доступа необходимо оплатить Premium."
+            "Для доступа необходимо активировать Premium."
         );
 
 
@@ -2385,7 +2156,7 @@ async function checkAccess() {
 
 
         showAccessScreen(
-            "Не удалось проверить доступ. Попробуйте открыть Mini App ещё раз."
+            "Не удалось связаться с сервером. Попробуйте открыть Mini App ещё раз."
         );
 
 
@@ -2396,12 +2167,15 @@ async function checkAccess() {
 }
 
 
-function showAccessScreen(message) {
+function showAccessScreen(
+    message
+) {
 
     const screen =
         document.getElementById(
             "accessScreen"
         );
+
 
     const description =
         document.getElementById(
@@ -2437,15 +2211,15 @@ function haptic() {
         !tg ||
         !tg.HapticFeedback
     ) {
-
         return;
-
     }
 
     try {
 
         tg.HapticFeedback
-            .impactOccurred("light");
+            .impactOccurred(
+                "light"
+            );
 
     } catch (e) {}
 
@@ -2459,13 +2233,15 @@ function haptic() {
 function loadTelegramUser() {
 
     const user =
-        getTelegramUser();
+        tg &&
+        tg.initDataUnsafe &&
+        tg.initDataUnsafe.user
+            ? tg.initDataUnsafe.user
+            : null;
 
 
     if (!user) {
-
         return;
-
     }
 
 
@@ -2483,7 +2259,8 @@ function loadTelegramUser() {
             " " +
             last
         ).trim()
-        || "Пользователь";
+        ||
+        "Пользователь";
 
 
     const username =
@@ -2602,12 +2379,17 @@ function setAvatar(
 
 
     const image =
-        document.createElement("img");
+        document.createElement(
+            "img"
+        );
 
 
-    image.src = url;
+    image.src =
+        url;
 
-    image.alt = fallback;
+
+    image.alt =
+        fallback;
 
 
     image.onerror = () => {
@@ -2673,27 +2455,28 @@ function setTheme(name) {
 
 
     if (!theme) {
-
         return;
-
     }
 
 
-    document.documentElement.style
+    document.documentElement
+        .style
         .setProperty(
             "--accent",
             theme.accent
         );
 
 
-    document.documentElement.style
+    document.documentElement
+        .style
         .setProperty(
             "--accent2",
             theme.accent2
         );
 
 
-    document.documentElement.style
+    document.documentElement
+        .style
         .setProperty(
             "--accentRGB",
             theme.rgb
@@ -2707,12 +2490,15 @@ function setTheme(name) {
 
 
     document
-        .querySelectorAll(".theme")
+        .querySelectorAll(
+            ".theme"
+        )
         .forEach(button => {
 
             button.classList.toggle(
                 "active",
-                button.dataset.theme === name
+                button.dataset.theme ===
+                name
             );
 
         });
@@ -2721,7 +2507,9 @@ function setTheme(name) {
 
 
 document
-    .querySelectorAll(".theme")
+    .querySelectorAll(
+        ".theme"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -2751,7 +2539,9 @@ if (
     themes[savedTheme]
 ) {
 
-    setTheme(savedTheme);
+    setTheme(
+        savedTheme
+    );
 
 }
 
@@ -2761,7 +2551,9 @@ if (
 ===================================================== */
 
 document
-    .querySelectorAll(".nav-button")
+    .querySelectorAll(
+        ".nav-button"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -2772,7 +2564,9 @@ document
 
 
                 document
-                    .querySelectorAll(".nav-button")
+                    .querySelectorAll(
+                        ".nav-button"
+                    )
                     .forEach(item => {
 
                         item.classList.remove(
@@ -2788,7 +2582,9 @@ document
 
 
                 document
-                    .querySelectorAll(".page")
+                    .querySelectorAll(
+                        ".page"
+                    )
                     .forEach(page => {
 
                         page.classList.remove(
@@ -2837,7 +2633,9 @@ const modeLabels = {
 
 
 document
-    .querySelectorAll(".mode")
+    .querySelectorAll(
+        ".mode"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -2848,7 +2646,9 @@ document
 
 
                 document
-                    .querySelectorAll(".mode")
+                    .querySelectorAll(
+                        ".mode"
+                    )
                     .forEach(item => {
 
                         item.classList.remove(
@@ -2921,9 +2721,7 @@ vibrationToggle.addEventListener(
 
 
         if (vibrationEnabled) {
-
             haptic();
-
         }
 
     }
@@ -3096,9 +2894,7 @@ launchButton.addEventListener(
 
 
                     if (value >= 100) {
-
                         value = 100;
-
                     }
 
 
@@ -3155,7 +2951,9 @@ launchButton.addEventListener(
    ACTIVITY
 ===================================================== */
 
-function addActivity(username) {
+function addActivity(
+    username
+) {
 
     const list =
         document.getElementById(
@@ -3182,7 +2980,10 @@ function addActivity(username) {
         <div class="activity-main">
 
             <b>
-                @${username.replace(/^@/, "")}
+                @${username.replace(
+                    /^@/,
+                    ""
+                )}
             </b>
 
             <span>
@@ -3198,7 +2999,9 @@ function addActivity(username) {
     `;
 
 
-    list.prepend(item);
+    list.prepend(
+        item
+    );
 
 }
 
@@ -3208,7 +3011,9 @@ function addActivity(username) {
 ===================================================== */
 
 document
-    .querySelectorAll(".language")
+    .querySelectorAll(
+        ".language"
+    )
     .forEach(button => {
 
         button.addEventListener(
@@ -3219,7 +3024,9 @@ document
 
 
                 document
-                    .querySelectorAll(".language")
+                    .querySelectorAll(
+                        ".language"
+                    )
                     .forEach(item => {
 
                         item.classList.remove(
@@ -3263,22 +3070,12 @@ document.getElementById(
 
 (async function() {
 
-    /*
-       OWNER:
-       8958072114
-
-       Для OWNER проверка Premium
-       полностью обходится.
-    */
-
     const allowed =
         await checkAccess();
 
 
     if (!allowed) {
-
         return;
-
     }
 
 
