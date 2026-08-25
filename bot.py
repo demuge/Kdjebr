@@ -20,25 +20,23 @@ from aiogram.types import (
 )
 
 # =====================================================
-# ENV
+# CONFIG
 # =====================================================
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 PORT = int(os.getenv("PORT", "10000"))
 
-# =====================================================
-# URL
-# =====================================================
-
+# GitHub Pages
 WEB_APP_URL = "https://demuge.github.io/Kdjebr/"
 
+# Render backend
 RENDER_URL = os.getenv(
     "RENDER_EXTERNAL_URL",
     "https://kdjebr.onrender.com"
 ).rstrip("/")
 
 # =====================================================
-# OWNERS
+# FREE OWNERS
 # =====================================================
 
 OWNER_IDS = {
@@ -46,31 +44,9 @@ OWNER_IDS = {
     8140798671,
 }
 
-BOT_USERNAME = "savesnoser_bot"
-
 DB_FILE = "users.db"
 
 dp = Dispatcher()
-
-
-# =====================================================
-# CORS
-# =====================================================
-
-ALLOWED_ORIGIN = "https://demuge.github.io"
-
-
-def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = ALLOWED_ORIGIN
-    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
-    response.headers["Access-Control-Max-Age"] = "86400"
-    return response
-
-
-async def options_access(request):
-    response = web.Response(status=204)
-    return add_cors_headers(response)
 
 
 # =====================================================
@@ -82,6 +58,7 @@ def db_connect():
 
 
 def init_db():
+
     conn = db_connect()
 
     conn.execute("""
@@ -105,6 +82,7 @@ def save_access(
     expires_at,
     payment_id
 ):
+
     conn = db_connect()
 
     conn.execute("""
@@ -165,14 +143,13 @@ def is_owner(user_id):
 
     try:
         return int(user_id) in OWNER_IDS
-
     except Exception:
         return False
 
 
 def has_access(user_id):
 
-    # Два владельца всегда имеют доступ
+    # ДВА ВЛАДЕЛЬЦА — ВСЕГДА БЕСПЛАТНО
     if is_owner(user_id):
         return True
 
@@ -191,17 +168,17 @@ def has_access(user_id):
 
 
 # =====================================================
-# TELEGRAM INIT DATA
+# TELEGRAM INIT DATA VALIDATION
 # =====================================================
 
 def validate_init_data(init_data):
 
     if not init_data:
-        print("InitData: empty")
+        print("INIT DATA EMPTY")
         return None
 
     if not BOT_TOKEN:
-        print("InitData: BOT_TOKEN missing")
+        print("BOT_TOKEN EMPTY")
         return None
 
     try:
@@ -219,23 +196,27 @@ def validate_init_data(init_data):
         )
 
         if not received_hash:
-            print("InitData: hash missing")
+
+            print("HASH NOT FOUND")
+
             return None
 
         data_check_string = "\n".join(
             f"{key}={value}"
-            for key, value in sorted(data.items())
+            for key, value in sorted(
+                data.items()
+            )
         )
 
         secret_key = hmac.new(
             b"WebAppData",
-            BOT_TOKEN.encode("utf-8"),
+            BOT_TOKEN.encode(),
             hashlib.sha256
         ).digest()
 
         calculated_hash = hmac.new(
             secret_key,
-            data_check_string.encode("utf-8"),
+            data_check_string.encode(),
             hashlib.sha256
         ).hexdigest()
 
@@ -243,7 +224,9 @@ def validate_init_data(init_data):
             calculated_hash,
             received_hash
         ):
-            print("InitData: invalid hash")
+
+            print("INVALID TELEGRAM HASH")
+
             return None
 
         auth_date = int(
@@ -253,20 +236,28 @@ def validate_init_data(init_data):
             )
         )
 
-        # initData не старше 24 часов
-        if int(time.time()) - auth_date > 86400:
-            print("InitData: expired")
+        # 24 часа
+        if (
+            auth_date <= 0 or
+            int(time.time()) - auth_date > 86400
+        ):
+
+            print("INIT DATA EXPIRED")
+
+            return None
+
+        user_raw = data.get(
+            "user"
+        )
+
+        if not user_raw:
             return None
 
         user = json.loads(
-            data.get(
-                "user",
-                "{}"
-            )
+            user_raw
         )
 
         if not user.get("id"):
-            print("InitData: user id missing")
             return None
 
         return user
@@ -274,8 +265,8 @@ def validate_init_data(init_data):
     except Exception as e:
 
         print(
-            "InitData error:",
-            e
+            "InitData validation error:",
+            repr(e)
         )
 
         return None
@@ -289,21 +280,24 @@ PLANS = {
 
     "plan_day": {
         "name": "Premium — 1 день",
-        "description": "Доступ к Mini App на 24 часа.",
+        "description":
+            "Доступ к SAVE SNOSER на 24 часа.",
         "price": 50,
         "duration": 86400,
     },
 
     "plan_week": {
         "name": "Premium — 7 дней",
-        "description": "Доступ к Mini App на 7 дней.",
+        "description":
+            "Доступ к SAVE SNOSER на 7 дней.",
         "price": 100,
         "duration": 604800,
     },
 
     "plan_forever": {
         "name": "Premium — навсегда",
-        "description": "Пожизненный доступ к Mini App.",
+        "description":
+            "Пожизненный доступ к SAVE SNOSER.",
         "price": 200,
         "duration": 0,
     },
@@ -312,7 +306,7 @@ PLANS = {
 
 
 # =====================================================
-# KEYBOARDS
+# PREMIUM KEYBOARD
 # =====================================================
 
 def premium_keyboard():
@@ -345,6 +339,10 @@ def premium_keyboard():
     )
 
 
+# =====================================================
+# MINI APP BUTTON
+# =====================================================
+
 def mini_app_keyboard():
 
     return InlineKeyboardMarkup(
@@ -364,7 +362,7 @@ def mini_app_keyboard():
 
 
 # =====================================================
-# /START
+# START
 # =====================================================
 
 @dp.message(CommandStart())
@@ -372,14 +370,24 @@ async def start(message: Message):
 
     user_id = message.from_user.id
 
+    print(
+        "START:",
+        user_id,
+        message.from_user.username
+    )
+
+    # =================================================
+    # ВЛАДЕЛЕЦ
+    # =================================================
+
     if is_owner(user_id):
 
         await message.answer(
 
             "👑 <b>SAVE SNOSER</b>\n\n"
-            "Ты владелец бота.\n"
-            "Доступ к Mini App всегда бесплатный.\n\n"
-            "🚀 Нажми кнопку ниже.",
+            "Тебе доступ разрешён бесплатно.\n"
+            "Оплата не требуется.\n\n"
+            "🚀 Открывай Mini App:",
 
             reply_markup=mini_app_keyboard(),
 
@@ -387,13 +395,17 @@ async def start(message: Message):
         )
 
         return
+
+    # =================================================
+    # ОБЫЧНЫЙ ПОЛЬЗОВАТЕЛЬ
+    # =================================================
 
     if has_access(user_id):
 
         await message.answer(
 
-            "✅ <b>Premium активен.</b>\n\n"
-            "Ты можешь открыть SAVE SNOSER.",
+            "✅ <b>Premium активен!</b>\n\n"
+            "Можешь открыть SAVE SNOSER.",
 
             reply_markup=mini_app_keyboard(),
 
@@ -402,10 +414,14 @@ async def start(message: Message):
 
         return
 
+    # =================================================
+    # НЕТ ДОСТУПА
+    # =================================================
+
     await message.answer(
 
-        "✨ <b>SAVE SNOSER — PREMIUM ACCESS</b>\n\n"
-        "Для открытия Mini App необходимо "
+        "✨ <b>SAVE SNOSER — PREMIUM</b>\n\n"
+        "Для доступа к Mini App необходимо "
         "активировать Premium.\n\n"
         "Выбери тариф:",
 
@@ -424,7 +440,9 @@ async def start(message: Message):
 )
 async def select_plan(callback):
 
-    plan = PLANS[callback.data]
+    plan = PLANS[
+        callback.data
+    ]
 
     await callback.message.answer_invoice(
 
@@ -432,7 +450,8 @@ async def select_plan(callback):
 
         description=plan["description"],
 
-        payload=f"premium:{callback.data}",
+        payload=
+            f"premium:{callback.data}",
 
         currency="XTR",
 
@@ -449,6 +468,10 @@ async def select_plan(callback):
     await callback.answer()
 
 
+# =====================================================
+# PRE CHECKOUT
+# =====================================================
+
 @dp.pre_checkout_query()
 async def pre_checkout(
     query: PreCheckoutQuery
@@ -459,16 +482,28 @@ async def pre_checkout(
     )
 
 
-@dp.message(F.successful_payment)
+# =====================================================
+# SUCCESSFUL PAYMENT
+# =====================================================
+
+@dp.message(
+    F.successful_payment
+)
 async def successful_payment(
     message: Message
 ):
 
-    payment = message.successful_payment
+    payment = (
+        message.successful_payment
+    )
 
-    payload = payment.invoice_payload
+    payload = (
+        payment.invoice_payload
+    )
 
-    if not payload.startswith("premium:"):
+    if not payload.startswith(
+        "premium:"
+    ):
         return
 
     plan_id = payload.split(
@@ -479,9 +514,13 @@ async def successful_payment(
     if plan_id not in PLANS:
         return
 
-    plan = PLANS[plan_id]
+    plan = PLANS[
+        plan_id
+    ]
 
-    user_id = message.from_user.id
+    user_id = (
+        message.from_user.id
+    )
 
     username = (
         message.from_user.username
@@ -502,6 +541,7 @@ async def successful_payment(
         else 0
     )
 
+    # Навсегда
     if plan["duration"] == 0:
 
         expires_at = 0
@@ -520,16 +560,27 @@ async def successful_payment(
         )
 
     save_access(
+
         user_id,
+
         username,
+
         plan_id,
+
         expires_at,
+
         payment.telegram_payment_charge_id
+
     )
+
+    # =================================================
+    # ПОСЛЕ ОПЛАТЫ СРАЗУ ОТПРАВЛЯЕМ MINI APP
+    # =================================================
 
     await message.answer(
 
         "🎉 <b>Оплата прошла успешно!</b>\n\n"
+        "Premium активирован.\n"
         "Теперь тебе доступен SAVE SNOSER.",
 
         reply_markup=mini_app_keyboard(),
@@ -539,16 +590,10 @@ async def successful_payment(
 
 
 # =====================================================
-# MINI APP ACCESS
+# MINI APP ACCESS API
 # =====================================================
 
 async def check_access(request):
-
-    if request.method == "OPTIONS":
-
-        return await options_access(
-            request
-        )
 
     try:
 
@@ -558,49 +603,66 @@ async def check_access(request):
             "initData"
         )
 
+        if not init_data:
+
+            return web.json_response(
+                {
+                    "ok": False,
+                    "access": False,
+                    "message":
+                        "Telegram authorization data missing."
+                },
+                status=401
+            )
+
+        # =================================================
+        # ПРОВЕРЯЕМ TELEGRAM ПОДПИСЬ
+        # =================================================
+
         user = validate_init_data(
             init_data
         )
 
         if not user:
 
-            response = web.json_response(
+            return web.json_response(
                 {
                     "ok": False,
                     "access": False,
                     "message":
-                        "Недействительная "
-                        "авторизация Telegram."
+                        "Недействительная авторизация Telegram."
                 },
                 status=401
-            )
-
-            return add_cors_headers(
-                response
             )
 
         user_id = int(
             user["id"]
         )
 
+        print(
+            "MINI APP ACCESS:",
+            user_id,
+            user.get("username")
+        )
+
         # =================================================
-        # OWNER
+        # ДВА ВЛАДЕЛЬЦА
         # =================================================
 
         if is_owner(user_id):
 
-            response = web.json_response(
+            print(
+                "OWNER ACCESS ALLOWED:",
+                user_id
+            )
+
+            return web.json_response(
                 {
                     "ok": True,
                     "access": True,
                     "owner": True,
-                    "telegram_id": user_id,
                     "expires_at": 0
                 }
-            )
-
-            return add_cors_headers(
-                response
             )
 
         # =================================================
@@ -609,21 +671,20 @@ async def check_access(request):
 
         if not has_access(user_id):
 
-            response = web.json_response(
+            print(
+                "ACCESS DENIED:",
+                user_id
+            )
+
+            return web.json_response(
                 {
                     "ok": True,
                     "access": False,
                     "owner": False,
-                    "telegram_id": user_id,
                     "message":
-                        "Для использования "
-                        "SAVE SNOSER необходимо "
-                        "активировать Premium."
+                        "Для использования SAVE SNOSER "
+                        "необходимо активировать Premium."
                 }
-            )
-
-            return add_cors_headers(
-                response
             )
 
         user_db = get_user(
@@ -636,28 +697,23 @@ async def check_access(request):
             else 0
         )
 
-        response = web.json_response(
+        return web.json_response(
             {
                 "ok": True,
                 "access": True,
                 "owner": False,
-                "telegram_id": user_id,
                 "expires_at": expires_at
             }
-        )
-
-        return add_cors_headers(
-            response
         )
 
     except Exception as e:
 
         print(
-            "Access error:",
-            e
+            "Access API error:",
+            repr(e)
         )
 
-        response = web.json_response(
+        return web.json_response(
             {
                 "ok": False,
                 "access": False,
@@ -665,10 +721,6 @@ async def check_access(request):
                     "Ошибка проверки доступа."
             },
             status=500
-        )
-
-        return add_cors_headers(
-            response
         )
 
 
@@ -686,7 +738,9 @@ async def webhook(request):
             data
         )
 
-        bot = request.app["bot"]
+        bot = request.app[
+            "bot"
+        ]
 
         await dp.feed_update(
             bot,
@@ -701,7 +755,7 @@ async def webhook(request):
 
         print(
             "Webhook error:",
-            e
+            repr(e)
         )
 
         return web.Response(
@@ -727,7 +781,9 @@ async def health(request):
 
 async def on_startup(app):
 
-    bot = app["bot"]
+    bot = app[
+        "bot"
+    ]
 
     render_url = os.getenv(
         "RENDER_EXTERNAL_URL"
@@ -748,11 +804,11 @@ async def on_startup(app):
     )
 
     print(
-        "================================"
+        "================================="
     )
 
     print(
-        "SAVE SNOSER BACKEND STARTED"
+        "SAVE SNOSER STARTED"
     )
 
     print(
@@ -766,18 +822,34 @@ async def on_startup(app):
     )
 
     print(
-        "Owners:",
-        OWNER_IDS
+        "Render:",
+        render_url
     )
 
     print(
-        "================================"
+        "FREE OWNER 1:",
+        8958072114
+    )
+
+    print(
+        "FREE OWNER 2:",
+        8140798671
+    )
+
+    print(
+        "================================="
     )
 
 
+# =====================================================
+# CLEANUP
+# =====================================================
+
 async def on_cleanup(app):
 
-    bot = app["bot"]
+    bot = app[
+        "bot"
+    ]
 
     try:
 
@@ -810,22 +882,14 @@ async def main():
 
     app["bot"] = bot
 
-    # Health
     app.router.add_get(
         "/health",
         health
     )
 
-    # Telegram webhook
     app.router.add_post(
         "/telegram-webhook",
         webhook
-    )
-
-    # Mini App access
-    app.router.add_options(
-        "/api/access",
-        options_access
     )
 
     app.router.add_post(
@@ -849,4 +913,7 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+
+    asyncio.run(
+        main()
+    )
