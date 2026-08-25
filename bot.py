@@ -19,27 +19,26 @@ from aiogram.types import (
     Update,
 )
 
+# =====================================================
+# ENV
+# =====================================================
+
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 PORT = int(os.getenv("PORT", "10000"))
 
 # =====================================================
-# НАСТРОЙКИ
+# URL
 # =====================================================
 
-# ВАЖНО:
-# Это GitHub Pages, а НЕ Render.
 WEB_APP_URL = "https://demuge.github.io/Kdjebr/"
 
-# Render URL для API Mini App.
-# Если адрес твоего Render-сервиса другой —
-# поменяй только эту строку.
 RENDER_URL = os.getenv(
     "RENDER_EXTERNAL_URL",
     "https://kdjebr.onrender.com"
 ).rstrip("/")
 
 # =====================================================
-# ВЛАДЕЛЬЦЫ
+# OWNERS
 # =====================================================
 
 OWNER_IDS = {
@@ -47,9 +46,31 @@ OWNER_IDS = {
     8140798671,
 }
 
+BOT_USERNAME = "savesnoser_bot"
+
 DB_FILE = "users.db"
 
 dp = Dispatcher()
+
+
+# =====================================================
+# CORS
+# =====================================================
+
+ALLOWED_ORIGIN = "https://demuge.github.io"
+
+
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = ALLOWED_ORIGIN
+    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    response.headers["Access-Control-Max-Age"] = "86400"
+    return response
+
+
+async def options_access(request):
+    response = web.Response(status=204)
+    return add_cors_headers(response)
 
 
 # =====================================================
@@ -88,7 +109,13 @@ def save_access(
 
     conn.execute("""
         INSERT INTO users
-        (telegram_id, username, plan, expires_at, payment_id)
+        (
+            telegram_id,
+            username,
+            plan,
+            expires_at,
+            payment_id
+        )
         VALUES (?, ?, ?, ?, ?)
 
         ON CONFLICT(telegram_id)
@@ -110,6 +137,7 @@ def save_access(
 
 
 def get_user(user_id):
+
     conn = db_connect()
 
     row = conn.execute("""
@@ -120,7 +148,9 @@ def get_user(user_id):
             expires_at
         FROM users
         WHERE telegram_id = ?
-    """, (user_id,)).fetchone()
+    """, (
+        user_id,
+    )).fetchone()
 
     conn.close()
 
@@ -132,14 +162,17 @@ def get_user(user_id):
 # =====================================================
 
 def is_owner(user_id):
+
     try:
         return int(user_id) in OWNER_IDS
+
     except Exception:
         return False
 
 
 def has_access(user_id):
 
+    # Два владельца всегда имеют доступ
     if is_owner(user_id):
         return True
 
@@ -150,6 +183,7 @@ def has_access(user_id):
 
     expires_at = user[3]
 
+    # 0 = навсегда
     if expires_at == 0:
         return True
 
@@ -162,7 +196,12 @@ def has_access(user_id):
 
 def validate_init_data(init_data):
 
-    if not init_data or not BOT_TOKEN:
+    if not init_data:
+        print("InitData: empty")
+        return None
+
+    if not BOT_TOKEN:
+        print("InitData: BOT_TOKEN missing")
         return None
 
     try:
@@ -180,6 +219,7 @@ def validate_init_data(init_data):
         )
 
         if not received_hash:
+            print("InitData: hash missing")
             return None
 
         data_check_string = "\n".join(
@@ -189,13 +229,13 @@ def validate_init_data(init_data):
 
         secret_key = hmac.new(
             b"WebAppData",
-            BOT_TOKEN.encode(),
+            BOT_TOKEN.encode("utf-8"),
             hashlib.sha256
         ).digest()
 
         calculated_hash = hmac.new(
             secret_key,
-            data_check_string.encode(),
+            data_check_string.encode("utf-8"),
             hashlib.sha256
         ).hexdigest()
 
@@ -203,20 +243,30 @@ def validate_init_data(init_data):
             calculated_hash,
             received_hash
         ):
+            print("InitData: invalid hash")
             return None
 
         auth_date = int(
-            data.get("auth_date", "0")
+            data.get(
+                "auth_date",
+                "0"
+            )
         )
 
+        # initData не старше 24 часов
         if int(time.time()) - auth_date > 86400:
+            print("InitData: expired")
             return None
 
         user = json.loads(
-            data.get("user", "{}")
+            data.get(
+                "user",
+                "{}"
+            )
         )
 
         if not user.get("id"):
+            print("InitData: user id missing")
             return None
 
         return user
@@ -232,7 +282,7 @@ def validate_init_data(init_data):
 
 
 # =====================================================
-# TARIFFS
+# PLANS
 # =====================================================
 
 PLANS = {
@@ -260,6 +310,10 @@ PLANS = {
 
 }
 
+
+# =====================================================
+# KEYBOARDS
+# =====================================================
 
 def premium_keyboard():
 
@@ -310,7 +364,7 @@ def mini_app_keyboard():
 
 
 # =====================================================
-# START
+# /START
 # =====================================================
 
 @dp.message(CommandStart())
@@ -334,10 +388,26 @@ async def start(message: Message):
 
         return
 
+    if has_access(user_id):
+
+        await message.answer(
+
+            "✅ <b>Premium активен.</b>\n\n"
+            "Ты можешь открыть SAVE SNOSER.",
+
+            reply_markup=mini_app_keyboard(),
+
+            parse_mode="HTML"
+        )
+
+        return
+
     await message.answer(
 
         "✨ <b>SAVE SNOSER — PREMIUM ACCESS</b>\n\n"
-        "Выбери тариф для доступа:",
+        "Для открытия Mini App необходимо "
+        "активировать Premium.\n\n"
+        "Выбери тариф:",
 
         reply_markup=premium_keyboard(),
 
@@ -384,7 +454,9 @@ async def pre_checkout(
     query: PreCheckoutQuery
 ):
 
-    await query.answer(ok=True)
+    await query.answer(
+        ok=True
+    )
 
 
 @dp.message(F.successful_payment)
@@ -416,9 +488,13 @@ async def successful_payment(
         or ""
     )
 
-    now = int(time.time())
+    now = int(
+        time.time()
+    )
 
-    old_user = get_user(user_id)
+    old_user = get_user(
+        user_id
+    )
 
     old_expiration = (
         old_user[3]
@@ -468,6 +544,12 @@ async def successful_payment(
 
 async def check_access(request):
 
+    if request.method == "OPTIONS":
+
+        return await options_access(
+            request
+        )
+
     try:
 
         data = await request.json()
@@ -482,7 +564,7 @@ async def check_access(request):
 
         if not user:
 
-            return web.json_response(
+            response = web.json_response(
                 {
                     "ok": False,
                     "access": False,
@@ -493,30 +575,46 @@ async def check_access(request):
                 status=401
             )
 
+            return add_cors_headers(
+                response
+            )
+
         user_id = int(
             user["id"]
         )
 
-        # ВЛАДЕЛЕЦ — ВСЕГДА ДОСТУП
+        # =================================================
+        # OWNER
+        # =================================================
+
         if is_owner(user_id):
 
-            return web.json_response(
+            response = web.json_response(
                 {
                     "ok": True,
                     "access": True,
                     "owner": True,
+                    "telegram_id": user_id,
                     "expires_at": 0
                 }
             )
 
+            return add_cors_headers(
+                response
+            )
+
+        # =================================================
         # PREMIUM
+        # =================================================
+
         if not has_access(user_id):
 
-            return web.json_response(
+            response = web.json_response(
                 {
                     "ok": True,
                     "access": False,
                     "owner": False,
+                    "telegram_id": user_id,
                     "message":
                         "Для использования "
                         "SAVE SNOSER необходимо "
@@ -524,15 +622,32 @@ async def check_access(request):
                 }
             )
 
-        user_db = get_user(user_id)
+            return add_cors_headers(
+                response
+            )
 
-        return web.json_response(
+        user_db = get_user(
+            user_id
+        )
+
+        expires_at = (
+            user_db[3]
+            if user_db
+            else 0
+        )
+
+        response = web.json_response(
             {
                 "ok": True,
                 "access": True,
                 "owner": False,
-                "expires_at": user_db[3]
+                "telegram_id": user_id,
+                "expires_at": expires_at
             }
+        )
+
+        return add_cors_headers(
+            response
         )
 
     except Exception as e:
@@ -542,7 +657,7 @@ async def check_access(request):
             e
         )
 
-        return web.json_response(
+        response = web.json_response(
             {
                 "ok": False,
                 "access": False,
@@ -550,6 +665,10 @@ async def check_access(request):
                     "Ошибка проверки доступа."
             },
             status=500
+        )
+
+        return add_cors_headers(
+            response
         )
 
 
@@ -629,6 +748,14 @@ async def on_startup(app):
     )
 
     print(
+        "================================"
+    )
+
+    print(
+        "SAVE SNOSER BACKEND STARTED"
+    )
+
+    print(
         "Webhook:",
         webhook_url
     )
@@ -641,6 +768,10 @@ async def on_startup(app):
     print(
         "Owners:",
         OWNER_IDS
+    )
+
+    print(
+        "================================"
     )
 
 
@@ -679,14 +810,22 @@ async def main():
 
     app["bot"] = bot
 
+    # Health
     app.router.add_get(
         "/health",
         health
     )
 
+    # Telegram webhook
     app.router.add_post(
         "/telegram-webhook",
         webhook
+    )
+
+    # Mini App access
+    app.router.add_options(
+        "/api/access",
+        options_access
     )
 
     app.router.add_post(
