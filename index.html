@@ -1287,6 +1287,7 @@ input::placeholder {
 
 <body>
 
+
 <div class="background">
 
     <div class="orb one"></div>
@@ -2028,25 +2029,6 @@ const tg =
         : null;
 
 
-/* =====================================================
-   BACKEND
-===================================================== */
-
-/*
-    GitHub Pages не имеет /api/access.
-
-    Поэтому запрос отправляется
-    непосредственно на Render.
-*/
-
-const API_URL =
-    "https://kdjebr.onrender.com";
-
-
-/* =====================================================
-   TELEGRAM START
-===================================================== */
-
 if (tg) {
 
     tg.ready();
@@ -2080,67 +2062,35 @@ if (tg) {
 
 
 /* =====================================================
-   OPEN BOT
+   API
 ===================================================== */
 
-const BOT_USERNAME =
-    "savesnoser_bot";
-
-
-function openBot() {
-
-    const url =
-        "https://t.me/" +
-        BOT_USERNAME;
-
-    if (
-        tg &&
-        typeof tg.openTelegramLink ===
-        "function"
-    ) {
-
-        try {
-
-            tg.openTelegramLink(url);
-
-        } catch (e) {
-
-            window.location.href = url;
-
-        }
-
-    } else {
-
-        window.location.href = url;
-
-    }
-
-}
+const API_URL =
+    "https://kdjebr.onrender.com";
 
 
 /* =====================================================
-   ACCESS CHECK
+   ACCESS
 ===================================================== */
 
 /*
-    НИКАКОЙ ПЛАШКИ БОЛЬШЕ НЕТ.
+    ВАЖНО:
 
-    Если пользователь не имеет Premium:
-    1. открывается бот;
-    2. Mini App закрывается.
+    Здесь НЕТ accessScreen.
 
-    Владельцы:
-    8958072114
-    8140798671
+    Mini App всегда показывает интерфейс.
 
-    получают доступ бесплатно.
+    Проверка доступа выполняется в фоне.
 */
 
 async function checkAccess() {
 
     if (!tg) {
 
-        return false;
+        return {
+            ok:false,
+            access:false
+        };
 
     }
 
@@ -2151,7 +2101,10 @@ async function checkAccess() {
 
     if (!initData) {
 
-        return false;
+        return {
+            ok:false,
+            access:false
+        };
 
     }
 
@@ -2160,8 +2113,7 @@ async function checkAccess() {
 
         const response =
             await fetch(
-                API_URL +
-                "/api/access",
+                API_URL + "/api/access",
                 {
                     method:"POST",
 
@@ -2181,55 +2133,13 @@ async function checkAccess() {
             await response.json();
 
 
-        /*
-            ДОСТУП ЕСТЬ
-        */
-
-        if (
-            response.ok &&
-            data.ok &&
-            data.access
-        ) {
-
-            return true;
-
-        }
-
-
-        /*
-            ДОСТУПА НЕТ.
-
-            Никакой плашки.
-            Просто открываем бота
-            и закрываем Mini App.
-        */
-
-        openBot();
-
-
-        setTimeout(
-            () => {
-
-                try {
-
-                    if (
-                        tg &&
-                        typeof tg.close ===
-                        "function"
-                    ) {
-
-                        tg.close();
-
-                    }
-
-                } catch (e) {}
-
-            },
-            300
+        console.log(
+            "SAVE SNOSER ACCESS:",
+            data
         );
 
 
-        return false;
+        return data;
 
 
     } catch (error) {
@@ -2239,38 +2149,11 @@ async function checkAccess() {
             error
         );
 
-        /*
-            При ошибке проверки
-            тоже не показываем
-            интерфейс.
-        */
 
-        openBot();
-
-
-        setTimeout(
-            () => {
-
-                try {
-
-                    if (
-                        tg &&
-                        typeof tg.close ===
-                        "function"
-                    ) {
-
-                        tg.close();
-
-                    }
-
-                } catch (e) {}
-
-            },
-            300
-        );
-
-
-        return false;
+        return {
+            ok:false,
+            access:false
+        };
 
     }
 
@@ -2874,7 +2757,7 @@ const launchButton =
 
 launchButton.addEventListener(
     "click",
-    () => {
+    async () => {
 
         haptic();
 
@@ -3130,32 +3013,30 @@ document
 (async function() {
 
     /*
-        Сначала проверяем Telegram
-        и Premium-доступ.
+       Интерфейс уже доступен.
+       Никакой Premium-плашки нет.
 
-        8958072114 — бесплатно
-        8140798671 — бесплатно
-
-        Все остальные:
-        бот -> оплата -> Mini App
-    */
-
-    const allowed =
-        await checkAccess();
-
-
-    if (!allowed) {
-        return;
-    }
-
-
-    /*
-        Только после успешной
-        проверки показываем
-        данные пользователя.
+       Сначала загружаем Telegram-профиль.
     */
 
     loadTelegramUser();
+
+
+    /*
+       Затем тихо проверяем доступ
+       через Render API.
+
+       Результат не блокирует интерфейс.
+    */
+
+    const access =
+        await checkAccess();
+
+
+    console.log(
+        "ACCESS RESULT:",
+        access
+    );
 
 })();
 
