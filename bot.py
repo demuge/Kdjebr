@@ -18,30 +18,24 @@ from aiogram.types import (
     PreCheckoutQuery,
     InlineKeyboardMarkup,
     InlineKeyboardButton,
-    Update,
 )
 
 
 # ============================================================
-# НАСТРОЙКИ
+# CONFIG
 # ============================================================
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 PORT = int(os.getenv("PORT", "10000"))
 
-# GitHub Pages Mini App
 WEB_APP_URL = "https://demuge.github.io/Kdjebr/"
 
-# Render
-RENDER_URL = os.getenv(
-    "RENDER_EXTERNAL_URL",
-    "https://kdjebr.onrender.com"
-).rstrip("/")
+DB_FILE = "users.db"
 
 
 # ============================================================
-# БЕСПЛАТНЫЕ АККАУНТЫ
+# ТВОИ 2 БЕСПЛАТНЫХ АККАУНТА
 # ============================================================
 
 OWNER_IDS = {
@@ -51,13 +45,18 @@ OWNER_IDS = {
 
 
 # ============================================================
+# DISPATCHER
+# ============================================================
+
+dp = Dispatcher()
+
+
+# ============================================================
 # DATABASE
 # ============================================================
 
-DB_FILE = "users.db"
-
-
 def db_connect():
+
     return sqlite3.connect(DB_FILE)
 
 
@@ -79,6 +78,29 @@ def init_db():
     conn.close()
 
 
+def get_user(user_id):
+
+    conn = db_connect()
+
+    row = conn.execute(
+        """
+        SELECT
+            telegram_id,
+            username,
+            plan,
+            expires_at,
+            payment_id
+        FROM users
+        WHERE telegram_id = ?
+        """,
+        (user_id,)
+    ).fetchone()
+
+    conn.close()
+
+    return row
+
+
 def save_access(
     user_id,
     username,
@@ -89,7 +111,8 @@ def save_access(
 
     conn = db_connect()
 
-    conn.execute("""
+    conn.execute(
+        """
         INSERT INTO users (
             telegram_id,
             username,
@@ -105,36 +128,18 @@ def save_access(
             plan = excluded.plan,
             expires_at = excluded.expires_at,
             payment_id = excluded.payment_id
-    """, (
-        user_id,
-        username,
-        plan,
-        expires_at,
-        payment_id
-    ))
-
-    conn.commit()
-    conn.close()
-
-
-def get_user(user_id):
-
-    conn = db_connect()
-
-    row = conn.execute("""
-        SELECT
-            telegram_id,
+        """,
+        (
+            user_id,
             username,
             plan,
             expires_at,
             payment_id
-        FROM users
-        WHERE telegram_id = ?
-    """, (user_id,)).fetchone()
+        )
+    )
 
+    conn.commit()
     conn.close()
-
-    return row
 
 
 # ============================================================
@@ -144,43 +149,53 @@ def get_user(user_id):
 def is_owner(user_id):
 
     try:
+
         return int(user_id) in OWNER_IDS
+
     except Exception:
+
         return False
 
 
 def has_access(user_id):
 
-    # Два твоих аккаунта всегда имеют доступ
+    # Твои аккаунты всегда имеют доступ
     if is_owner(user_id):
+
         return True
 
     user = get_user(user_id)
 
     if not user:
+
         return False
 
     expires_at = user[3]
 
     # 0 = навсегда
     if expires_at == 0:
+
         return True
 
     return expires_at > int(time.time())
 
 
 # ============================================================
-# TELEGRAM MINI APP INIT DATA
+# MINI APP INIT DATA
 # ============================================================
 
 def validate_init_data(init_data):
 
     if not init_data:
-        print("INIT DATA: empty")
+
+        print("Mini App: initData отсутствует")
+
         return None
 
     if not BOT_TOKEN:
-        print("BOT_TOKEN is missing")
+
+        print("Mini App: BOT_TOKEN отсутствует")
+
         return None
 
     try:
@@ -198,7 +213,9 @@ def validate_init_data(init_data):
         )
 
         if not received_hash:
-            print("INIT DATA: hash missing")
+
+            print("Mini App: hash отсутствует")
+
             return None
 
         data_check_string = "\n".join(
@@ -222,27 +239,36 @@ def validate_init_data(init_data):
             calculated_hash,
             received_hash
         ):
-            print("INIT DATA: invalid hash")
+
+            print("Mini App: неправильный hash")
+
             return None
 
         auth_date = int(
-            data.get("auth_date", "0")
+            data.get(
+                "auth_date",
+                "0"
+            )
         )
 
-        # InitData действительна 24 часа
+        # InitData не старше 24 часов
         if int(time.time()) - auth_date > 86400:
-            print("INIT DATA: expired")
+
+            print("Mini App: initData устарела")
+
             return None
 
-        user_json = data.get(
-            "user",
-            "{}"
+        user = json.loads(
+            data.get(
+                "user",
+                "{}"
+            )
         )
 
-        user = json.loads(user_json)
-
         if not user.get("id"):
-            print("INIT DATA: user id missing")
+
+            print("Mini App: ID пользователя отсутствует")
+
             return None
 
         return user
@@ -250,7 +276,7 @@ def validate_init_data(init_data):
     except Exception as e:
 
         print(
-            "InitData validation error:",
+            "Mini App validation error:",
             repr(e)
         )
 
@@ -258,7 +284,7 @@ def validate_init_data(init_data):
 
 
 # ============================================================
-# ТАРИФЫ
+# TARIFFS
 # ============================================================
 
 PLANS = {
@@ -288,7 +314,7 @@ PLANS = {
 
 
 # ============================================================
-# КНОПКА MINI APP
+# MINI APP BUTTON
 # ============================================================
 
 def mini_app_keyboard():
@@ -308,7 +334,7 @@ def mini_app_keyboard():
 
 
 # ============================================================
-# КНОПКИ ОПЛАТЫ
+# PAYMENT BUTTONS
 # ============================================================
 
 def premium_keyboard():
@@ -335,23 +361,23 @@ def premium_keyboard():
                     text="👑 200 — НАВСЕГДА",
                     callback_data="plan_forever"
                 )
-            ],
+            ]
 
         ]
     )
 
 
 # ============================================================
-# START
+# /START
 # ============================================================
 
 @dp.message(CommandStart())
-async def start(message: Message):
+async def start_handler(message: Message):
 
     user_id = message.from_user.id
 
     print(
-        f"/start from user {user_id}"
+        f"/start получен от пользователя: {user_id}"
     )
 
     # ========================================================
@@ -362,9 +388,8 @@ async def start(message: Message):
 
         await message.answer(
             "👑 <b>SAVE SNOSER</b>\n\n"
-            "Твой аккаунт имеет бесплатный доступ.\n"
-            "Оплата не требуется.\n\n"
-            "🚀 Можешь открыть Mini App:",
+            "Твой аккаунт имеет бесплатный доступ.\n\n"
+            "🚀 Открывай Mini App:",
             reply_markup=mini_app_keyboard(),
             parse_mode="HTML"
         )
@@ -372,14 +397,14 @@ async def start(message: Message):
         return
 
     # ========================================================
-    # ВСЕ ОСТАЛЬНЫЕ
+    # ЕСЛИ УЖЕ ОПЛАЧИВАЛ
     # ========================================================
 
     if has_access(user_id):
 
         await message.answer(
-            "✅ <b>У тебя уже есть активный Premium.</b>\n\n"
-            "Можешь открыть SAVE SNOSER:",
+            "✅ <b>Premium активен.</b>\n\n"
+            "🚀 Открывай SAVE SNOSER:",
             reply_markup=mini_app_keyboard(),
             parse_mode="HTML"
         )
@@ -393,14 +418,14 @@ async def start(message: Message):
     await message.answer(
         "✨ <b>SAVE SNOSER</b>\n\n"
         "Для доступа к Mini App необходимо приобрести Premium.\n\n"
-        "Выбери подходящий тариф:",
+        "Выбери тариф:",
         reply_markup=premium_keyboard(),
         parse_mode="HTML"
     )
 
 
 # ============================================================
-# ВЫБОР ТАРИФА
+# PAYMENT
 # ============================================================
 
 @dp.callback_query(
@@ -408,20 +433,20 @@ async def start(message: Message):
 )
 async def select_plan(callback):
 
+    plan_id = callback.data
+
+    plan = PLANS.get(plan_id)
+
+    if not plan:
+
+        await callback.answer(
+            "Тариф не найден.",
+            show_alert=True
+        )
+
+        return
+
     try:
-
-        plan_id = callback.data
-
-        plan = PLANS.get(plan_id)
-
-        if not plan:
-
-            await callback.answer(
-                "Тариф не найден.",
-                show_alert=True
-            )
-
-            return
 
         await callback.message.answer_invoice(
 
@@ -448,22 +473,22 @@ async def select_plan(callback):
     except Exception as e:
 
         print(
-            "Invoice error:",
+            "Ошибка создания invoice:",
             repr(e)
         )
 
         await callback.answer(
-            "Ошибка создания оплаты.",
+            "Не удалось создать оплату.",
             show_alert=True
         )
 
 
 # ============================================================
-# PRE-CHECKOUT
+# PRE CHECKOUT
 # ============================================================
 
 @dp.pre_checkout_query()
-async def pre_checkout(
+async def pre_checkout_handler(
     query: PreCheckoutQuery
 ):
 
@@ -488,13 +513,13 @@ async def pre_checkout(
 
 
 # ============================================================
-# УСПЕШНАЯ ОПЛАТА
+# SUCCESSFUL PAYMENT
 # ============================================================
 
 @dp.message(
     F.successful_payment
 )
-async def successful_payment(
+async def successful_payment_handler(
     message: Message
 ):
 
@@ -503,12 +528,13 @@ async def successful_payment(
         payment = message.successful_payment
 
         if not payment:
+
             return
 
         payload = payment.invoice_payload
 
         print(
-            "Successful payment:",
+            "УСПЕШНАЯ ОПЛАТА:",
             message.from_user.id,
             payload
         )
@@ -516,6 +542,7 @@ async def successful_payment(
         if not payload.startswith(
             "premium:"
         ):
+
             return
 
         plan_id = payload.split(
@@ -526,7 +553,7 @@ async def successful_payment(
         if plan_id not in PLANS:
 
             print(
-                "Unknown plan:",
+                "Неизвестный тариф:",
                 plan_id
             )
 
@@ -555,20 +582,20 @@ async def successful_payment(
             else 0
         )
 
-        # Навсегда
+        # НАВСЕГДА
         if plan["duration"] == 0:
 
             expires_at = 0
 
         else:
 
-            # Если старый Premium ещё действует,
-            # добавляем новый срок к нему.
-            start = (
-                old_expiration
-                if old_expiration > now
-                else now
-            )
+            if old_expiration > now:
+
+                start = old_expiration
+
+            else:
+
+                start = now
 
             expires_at = (
                 start +
@@ -576,36 +603,38 @@ async def successful_payment(
             )
 
         save_access(
-            user_id=user_id,
-            username=username,
-            plan=plan_id,
-            expires_at=expires_at,
-            payment_id=payment.telegram_payment_charge_id
+            user_id,
+            username,
+            plan_id,
+            expires_at,
+            payment.telegram_payment_charge_id
         )
 
         await message.answer(
             "🎉 <b>Оплата прошла успешно!</b>\n\n"
             "✅ Premium активирован.\n\n"
-            "Теперь можешь открыть SAVE SNOSER:",
+            "Теперь тебе доступен SAVE SNOSER:",
             reply_markup=mini_app_keyboard(),
             parse_mode="HTML"
+        )
+
+        print(
+            "Доступ выдан:",
+            user_id,
+            "до:",
+            expires_at
         )
 
     except Exception as e:
 
         print(
-            "Successful payment error:",
+            "Payment handler error:",
             repr(e)
-        )
-
-        await message.answer(
-            "Оплата получена, но произошла ошибка "
-            "при выдаче доступа. Обратись к владельцу."
         )
 
 
 # ============================================================
-# MINI APP ACCESS API
+# MINI APP ACCESS
 # ============================================================
 
 async def check_access(request):
@@ -630,8 +659,7 @@ async def check_access(request):
                     "access": False,
                     "owner": False,
                     "message":
-                        "Недействительная "
-                        "авторизация Telegram."
+                        "Недействительная авторизация Telegram."
                 },
                 status=401
             )
@@ -641,13 +669,11 @@ async def check_access(request):
         )
 
         print(
-            f"Mini App access check: {user_id}"
+            "Mini App access:",
+            user_id
         )
 
-        # ====================================================
         # ТВОИ ДВА АККАУНТА
-        # ====================================================
-
         if is_owner(user_id):
 
             return web.json_response(
@@ -659,10 +685,7 @@ async def check_access(request):
                 }
             )
 
-        # ====================================================
-        # ОСТАЛЬНЫЕ
-        # ====================================================
-
+        # ОПЛАТА
         if not has_access(user_id):
 
             return web.json_response(
@@ -671,9 +694,7 @@ async def check_access(request):
                     "access": False,
                     "owner": False,
                     "message":
-                        "Для использования "
-                        "SAVE SNOSER необходимо "
-                        "приобрести Premium."
+                        "Необходимо приобрести Premium."
                 }
             )
 
@@ -708,47 +729,9 @@ async def check_access(request):
                 "ok": False,
                 "access": False,
                 "message":
-                    "Ошибка проверки доступа."
+                    "Ошибка сервера."
             },
             status=500
-        )
-
-
-# ============================================================
-# WEBHOOK TELEGRAM
-# ============================================================
-
-async def webhook(request):
-
-    try:
-
-        data = await request.json()
-
-        update = Update.model_validate(
-            data
-        )
-
-        bot = request.app["bot"]
-
-        await dp.feed_update(
-            bot,
-            update
-        )
-
-        return web.Response(
-            text="OK"
-        )
-
-    except Exception as e:
-
-        print(
-            "Webhook error:",
-            repr(e)
-        )
-
-        return web.Response(
-            status=500,
-            text="ERROR"
         )
 
 
@@ -761,153 +744,19 @@ async def health(request):
     return web.json_response(
         {
             "ok": True,
-            "service":
-                "SAVE SNOSER backend"
+            "service": "SAVE SNOSER backend",
+            "bot": "polling"
         }
     )
 
 
 # ============================================================
-# STARTUP
+# WEB SERVER
 # ============================================================
 
-async def on_startup(app):
-
-    bot = app["bot"]
-
-    render_url = os.getenv(
-        "RENDER_EXTERNAL_URL"
-    )
-
-    if not render_url:
-        render_url = RENDER_URL
-
-    webhook_url = (
-        render_url.rstrip("/")
-        + "/telegram-webhook"
-    )
-
-    print(
-        "======================================"
-    )
-
-    print(
-        "SAVE SNOSER STARTING"
-    )
-
-    print(
-        "Webhook:",
-        webhook_url
-    )
-
-    print(
-        "Mini App:",
-        WEB_APP_URL
-    )
-
-    print(
-        "Owners:",
-        OWNER_IDS
-    )
-
-    print(
-        "======================================"
-    )
-
-    try:
-
-        await bot.set_webhook(
-            webhook_url,
-            drop_pending_updates=True
-        )
-
-        print(
-            "Telegram webhook successfully set."
-        )
-
-    except Exception as e:
-
-        print(
-            "Webhook setup error:",
-            repr(e)
-        )
-
-        raise
-
-
-# ============================================================
-# CLEANUP
-# ============================================================
-
-async def on_cleanup(app):
-
-    bot = app["bot"]
-
-    try:
-
-        await bot.delete_webhook()
-
-    except Exception as e:
-
-        print(
-            "Delete webhook error:",
-            repr(e)
-        )
-
-    try:
-
-        await bot.session.close()
-
-    except Exception as e:
-
-        print(
-            "Bot session close error:",
-            repr(e)
-        )
-
-
-# ============================================================
-# MAIN
-# ============================================================
-
-async def main():
-
-    # ========================================================
-    # ПРОВЕРКА BOT_TOKEN
-    # ========================================================
-
-    if not BOT_TOKEN:
-
-        raise RuntimeError(
-            "BOT_TOKEN не найден. "
-            "Добавь BOT_TOKEN в Render Environment Variables."
-        )
-
-    # ========================================================
-    # DATABASE
-    # ========================================================
-
-    init_db()
-
-    # ========================================================
-    # BOT
-    # ========================================================
-
-    bot = Bot(
-        token=BOT_TOKEN
-    )
-
-    # ========================================================
-    # WEB APP
-    # ========================================================
+async def start_web_server():
 
     app = web.Application()
-
-    app["bot"] = bot
-
-    # ========================================================
-    # ROUTES
-    # ========================================================
 
     app.router.add_get(
         "/",
@@ -920,40 +769,143 @@ async def main():
     )
 
     app.router.add_post(
-        "/telegram-webhook",
-        webhook
-    )
-
-    app.router.add_post(
         "/api/access",
         check_access
     )
 
-    # ========================================================
-    # EVENTS
-    # ========================================================
-
-    app.on_startup.append(
-        on_startup
+    runner = web.AppRunner(
+        app
     )
 
-    app.on_cleanup.append(
-        on_cleanup
+    await runner.setup()
+
+    site = web.TCPSite(
+        runner,
+        "0.0.0.0",
+        PORT
     )
 
-    # ========================================================
-    # START SERVER
-    # ========================================================
+    await site.start()
 
     print(
-        f"Starting server on port {PORT}"
+        f"HTTP server started on port {PORT}"
     )
 
-    await web._run_app(
-        app,
-        host="0.0.0.0",
-        port=PORT
+    return runner
+
+
+# ============================================================
+# BOT POLLING
+# ============================================================
+
+async def start_bot():
+
+    if not BOT_TOKEN:
+
+        raise RuntimeError(
+            "BOT_TOKEN не найден в Render Environment."
+        )
+
+    bot = Bot(
+        token=BOT_TOKEN
     )
+
+    # --------------------------------------------------------
+    # УДАЛЯЕМ СТАРЫЙ WEBHOOK
+    # --------------------------------------------------------
+    #
+    # Это очень важно.
+    #
+    # Если раньше у бота был webhook,
+    # Telegram не даст нормально использовать polling.
+    #
+
+    print(
+        "Удаляем старый webhook..."
+    )
+
+    await bot.delete_webhook(
+        drop_pending_updates=False
+    )
+
+    print(
+        "Webhook удалён."
+    )
+
+    # --------------------------------------------------------
+    # Проверяем бота
+    # --------------------------------------------------------
+
+    me = await bot.get_me()
+
+    print(
+        "===================================="
+    )
+
+    print(
+        "SAVE SNOSER BOT STARTED"
+    )
+
+    print(
+        "Bot:",
+        me.username
+    )
+
+    print(
+        "Bot ID:",
+        me.id
+    )
+
+    print(
+        "Owners:",
+        OWNER_IDS
+    )
+
+    print(
+        "Mini App:",
+        WEB_APP_URL
+    )
+
+    print(
+        "===================================="
+    )
+
+    # --------------------------------------------------------
+    # POLLING
+    # --------------------------------------------------------
+
+    try:
+
+        await dp.start_polling(
+            bot,
+            allowed_updates=dp.resolve_used_update_types()
+        )
+
+    finally:
+
+        await bot.session.close()
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+async def main():
+
+    # Database
+    init_db()
+
+    # HTTP server
+    web_runner = await start_web_server()
+
+    try:
+
+        # Telegram polling
+        await start_bot()
+
+    finally:
+
+        await web_runner.cleanup()
 
 
 # ============================================================
@@ -963,6 +915,7 @@ async def main():
 if __name__ == "__main__":
 
     try:
+
         asyncio.run(
             main()
         )
@@ -970,5 +923,5 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
 
         print(
-            "Bot stopped."
+            "SAVE SNOSER stopped."
         )
